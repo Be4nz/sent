@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "nodemon src/index.ts"
+    "dev": "nodemon src/index.ts",
+    "build-dev": "tsc && copyfiles -f .\\src\\.env dist && cd dist && node index.js"
   },
   "keywords": [],
   "author": "",
@@ -18,8 +19,11 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "copyfiles": "^2.4.1",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.4",
     "express": "^4.18.2",
+    "express-oauth2-jwt-bearer": "^1.6.0",
     "my-sql": "^1.2.15"
   }
 }
