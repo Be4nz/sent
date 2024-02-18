@@ -7,6 +7,7 @@ interface UserContextProps {
     name: string;
     email: string;
     picture: string;
+    role: string;
     token: string;
 };
 
@@ -16,6 +17,7 @@ const UserContext = createContext<UserContextProps>({
     name: '',
     email: '',
     picture: '',
+    role: '',
     token: '',
 });
 
@@ -33,6 +35,7 @@ export const UserContextProvider: React.FC<Props> = ({children}) => {
     const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [picture, setPicture] = useState<string>('');
+    const [role, setRole] = useState<string>('');
     const [token, setToken] = useState<string>('');
 
     useEffect(() => {
@@ -45,6 +48,7 @@ export const UserContextProvider: React.FC<Props> = ({children}) => {
                     setName(claims.name ?? '');
                     setEmail(claims.email ?? '');
                     setPicture(claims.picture ?? '');
+                    setRole(claims.role ?? '');
                 }
             } catch (error) {
                 loginWithRedirect();
@@ -72,6 +76,7 @@ export const UserContextProvider: React.FC<Props> = ({children}) => {
         name,
         email,
         picture,
+        role,
         token,
     };
     

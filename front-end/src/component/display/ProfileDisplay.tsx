@@ -13,6 +13,7 @@ const Profile = () => {
                 <Typography>Username: {UserContext.username}</Typography>
                 <Typography>Name: {UserContext.name}</Typography>
                 <Typography>Email: {UserContext.email}</Typography>
+                <Typography>Role: {UserContext.role}</Typography>
                 <Box sx={{ width: 300, height: 200, my: 2 }}>
                     <Typography sx={{ overflow: 'auto', whiteSpace: 'pre' }}>Token: {UserContext.token}</Typography>
                 </Box>
