@@ -1,12 +1,9 @@
 import express from "express";
 import cors from "cors";
-import { createTables } from "./database/createTables";
 import router from "./APIs/posts/routes";
 import { errorHandler, requestLogger, verifyJwt } from "./middlewares";
 
 const app = express();
-
-createTables();
 
 app.use(cors());
 app.use(express.json());
