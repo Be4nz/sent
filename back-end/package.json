@@ -5,6 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"build": "tsc",
+		"clean": "tsc --build --clean",
 		"dev": "npm run migrate && npm run seed && nodemon src/index.ts",
 		"build-dev": "npm run build && npm run migrate && npm run seed && copyfiles -f .\\.env dist && cd dist && node index.js",
 		"knex": "knex --knexfile src/database/knexfile.ts",
