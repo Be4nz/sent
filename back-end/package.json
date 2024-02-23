@@ -5,8 +5,13 @@
 	"main": "index.js",
 	"scripts": {
 		"build": "tsc",
-		"dev": "nodemon src/index.ts",
-		"build-dev": "tsc && copyfiles -f .\\.env dist && cd dist && node index.js"
+		"clean": "tsc --build --clean",
+		"dev": "npm run migrate && npm run seed && nodemon src/index.ts",
+		"build-dev": "npm run build && npm run migrate && npm run seed && copyfiles -f .\\.env dist && cd dist && node index.js",
+		"knex": "knex --knexfile src/database/knexfile.ts",
+		"migrate": "knex --knexfile src/database/knexfile.ts migrate:latest",
+		"rollback": "knex --knexfile src/database/knexfile.ts migrate:rollback",
+		"seed": "knex --knexfile src/database/knexfile.ts seed:run"
 	},
 	"keywords": [],
 	"author": "",
@@ -24,6 +29,8 @@
 		"dotenv": "^16.4.4",
 		"express": "^4.18.2",
 		"express-oauth2-jwt-bearer": "^1.6.0",
-		"my-sql": "^1.2.15"
+		"knex": "^3.1.0",
+		"my-sql": "^1.2.15",
+		"ts-node": "^10.9.2"
 	}
 }
