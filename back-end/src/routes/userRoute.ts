@@ -1,6 +1,6 @@
-import { Router } from "express";
-import { createUser, deleteUser, readUser, readUsers, updateUser } from "../APIs/controllers";
-import { checkAdminOrOwn, checkRole } from "../middlewares/authentication";
+import { Router } from 'express';
+import { createUser, deleteUser, readUser, readUserAuth0, readUsers, updateUser } from '../APIs/controllers';
+import { checkAdminOrOwn, checkRole } from '../middlewares/authentication';
 
 export const userRouter = Router();
 
@@ -41,6 +41,37 @@ userRouter.post('/', checkAdminOrOwn(), createUser);
 
 /**
  * @swagger
+ * /users/auth0/{auth0_id}:
+ *   get:
+ *     tags:
+ *      - Users
+ *     summary: Get user by ID
+ *     description: Retrieve user information by ID. This endpoint is only accessible to administrators or the users themselves.
+ *     parameters:
+ *       - in: path
+ *         name: auth0_id
+ *         required: true
+ *         description: auth0_id of the user to retrieve.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: User found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       '403':
+ *         description: Unauthorized access. You do not have permission to get this user.
+ *       '404':
+ *         description: User not found
+ *       '500':
+ *         description: Internal server error
+ */
+userRouter.get('/auth0/:auth0_id', checkAdminOrOwn(), readUserAuth0);
+
+/**
+ * @swagger
  * /users/{id}:
  *   get:
  *     tags:
@@ -68,7 +99,7 @@ userRouter.post('/', checkAdminOrOwn(), createUser);
  *       '500':
  *         description: Internal server error
  */
-userRouter.get('/:id',checkAdminOrOwn(), readUser);
+userRouter.get('/:id', checkAdminOrOwn(), readUser);
 
 /**
  * @swagger
@@ -94,7 +125,7 @@ userRouter.get('/:id',checkAdminOrOwn(), readUser);
  *       '500':
  *         description: Internal server error
  */
-userRouter.get('/', checkRole("admin"), readUsers);
+userRouter.get('/', checkRole('admin'), readUsers);
 
 /**
  * @swagger

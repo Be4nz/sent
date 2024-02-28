@@ -1,15 +1,16 @@
 export interface User {
-    id?: string;
-    auth0_id: string;
-    username: string;
-    name: string;
-    email: string;
-    role?: string;
-    picture?: string;
-    created_at?: Date;
-    followers?: number;
-    following?: number;
-};
+	id?: string;
+	auth0_id: string;
+	username: string;
+	name: string;
+	email: string;
+	description?: string;
+	role?: string;
+	picture?: string;
+	created_at?: Date;
+	followers?: number;
+	following?: number;
+}
 
 /**
  * @swagger
@@ -38,6 +39,9 @@ export interface User {
  *         email:
  *           type: string
  *           description: The email address of the user.
+ *         description:
+ *           type: string
+ *           description: The description of the user profile.
  *         role:
  *           type: string
  *           description: The role of the user.
@@ -60,6 +64,7 @@ export interface User {
  *         username: JohnDoe
  *         name: John Doe
  *         email: johndoe@gmail.com
+ *         description: This is John Doe personal profile.
  *         role: user
  *         picture: https://example.com/picture.jpg
  *         created_at: "2024-01-01T00:00:00.000Z"
