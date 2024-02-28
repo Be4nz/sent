@@ -1,6 +1,6 @@
-import { Router } from "express";
-import { createUser, deleteUser, readUser, readUsers, updateUser } from "../APIs/controllers";
-import { checkAdminOrOwn, checkRole } from "../middlewares/authentication";
+import { Router } from 'express';
+import { createUser, deleteUser, readUser, readUserAuth0, readUsers, updateUser } from '../APIs/controllers';
+import { checkAdminOrOwn, checkRole } from '../middlewares/authentication';
 
 export const userRouter = Router();
 
@@ -39,6 +39,8 @@ export const userRouter = Router();
  */
 userRouter.post('/', checkAdminOrOwn(), createUser);
 
+userRouter.get('/auth0/:auth0_id', checkAdminOrOwn(), readUserAuth0);
+
 /**
  * @swagger
  * /users/{id}:
@@ -68,7 +70,7 @@ userRouter.post('/', checkAdminOrOwn(), createUser);
  *       '500':
  *         description: Internal server error
  */
-userRouter.get('/:id',checkAdminOrOwn(), readUser);
+userRouter.get('/:id', checkAdminOrOwn(), readUser);
 
 /**
  * @swagger
@@ -94,7 +96,7 @@ userRouter.get('/:id',checkAdminOrOwn(), readUser);
  *       '500':
  *         description: Internal server error
  */
-userRouter.get('/', checkRole("admin"), readUsers);
+userRouter.get('/', checkRole('admin'), readUsers);
 
 /**
  * @swagger
