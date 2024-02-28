@@ -5,25 +5,38 @@ import { Button, TextField } from '@mui/material';
 import { post } from '../../api/Api';
 import { useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../type/AppRoute';
+import { ZodType, z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 
 const SignupForm = () => {
 	const User = useUserContext();
 	const Navigate = useNavigate();
 
-	const [name, setName] = useState<string>('');
-	const [description, setDescription] = useState<string>('');
-	const [picture, setPicture] = useState<string>('');
-
 	const [submited, setSubmited] = useState<boolean>(false);
 
-	const handleSubmit = async () => {
+	type FormData = {
+		name: string;
+		description?: string;
+		picture?: string;
+	}
+
+	const schema: ZodType<FormData> = z.object({
+		name: z.string().min(2).max(64),
+		description: z.string().max(255).optional(),
+		picture: z.string().max(255).optional(),
+	})
+
+	const { handleSubmit, register, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(schema) });
+
+	const submit = async (data: FormData) => {
 		const newUser: User = {
 			auth0_id: User.auth0_id,
 			username: User.username,
-			name: name,
+			name: data.name,
 			email: User.email,
-			description: description !== '' ? description : undefined,
-			picture: picture !== '' ? picture : undefined,
+			description: data.description,
+			picture: data.picture,
 		};
 
 		try {
@@ -43,28 +56,34 @@ const SignupForm = () => {
 
 	return (
 		<>
-			<TextField
-				label='Name'
-				onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-					setName(event.target.value);
-				}}
-			/>
-			<br/>
-			<TextField
-				label='Description'
-				onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-					setDescription(event.target.value);
-				}}
-			/>
-			<br/>
-			<TextField
-				label='Picture'
-				onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-					setPicture(event.target.value);
-				}}
-			/>
-			<br/>
-			<Button onClick={handleSubmit}>Submit</Button>
+			<form onSubmit={handleSubmit(submit)}>
+				<TextField
+					type='text'
+					label='Name'
+					{...register('name')}
+					required
+					error={errors.name ? true : false}
+					helperText={errors.name?.message}
+				/>
+				<br/>
+				<TextField
+					type='text'
+					label='Description'
+					{...register('description')}
+					error={errors.description ? true : false}
+					helperText={errors.description?.message}
+				/>
+				<br/>
+				<TextField
+					type='text'
+					label='Picture'
+					{...register('picture')}
+					error={errors.picture ? true : false}
+					helperText={errors.picture?.message}
+				/>
+				<br/>
+				<Button type='submit'>Submit</Button>
+			</form>
 		</>
 	);
 };
