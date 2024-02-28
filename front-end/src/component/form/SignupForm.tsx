@@ -35,8 +35,8 @@ const SignupForm = () => {
 			username: User.username,
 			name: data.name,
 			email: User.email,
-			description: data.description,
-			picture: data.picture,
+			description: data.description !== '' ? data.description : undefined,
+			picture: data.picture !== '' ? data.picture : undefined,
 		};
 
 		try {
