@@ -18,6 +18,7 @@ interface UserContextProps {
 	token: string;
 	isNewUser: boolean;
 	isLoading: boolean;
+    update: () => Promise<void>;
 }
 
 const UserContext = createContext<UserContextProps>({
@@ -34,6 +35,7 @@ const UserContext = createContext<UserContextProps>({
 	token: '',
 	isNewUser: false,
 	isLoading: true,
+    update: async () => {},
 });
 
 export const useUserContext = () => useContext(UserContext);
@@ -56,36 +58,37 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 	const [followers, setFollowers] = useState<number>(0);
 	const [following, setFollowing] = useState<number>(0);
 	const tokenRef = useRef<string>('');
-	const [isNewUser, setIsNewUser] = useState<boolean>(false);
+
+    const [isNewUser, setIsNewUser] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [contextUpdate, setContextUpdate] = useState<boolean>(false);
+
+    const update = async () => {
+        setContextUpdate(!contextUpdate);
+    };
 
 	useEffect(() => {
-		const getClaims = async () => {
-			try {
-				const claims = await getIdTokenClaims();
-				if (claims) {
-					auth0_idRef.current = claims.sub;
-					setUsername(claims.nickname ?? '');
-					setEmail(claims.email ?? '');
-				}
-			} catch (error) {
-				loginWithRedirect();
-			}
-		};
-
-		const getToken = async () => {
-			try {
-				const token = await getAccessTokenSilently();
-				if (token) tokenRef.current = token;
-			} catch (error) {
-				loginWithRedirect();
-			}
-		};
 
 		const getUserData = async () => {
-			setIsLoading(true);
-			await getClaims();
-			await getToken();
+            setIsLoading(true);
+
+            const getAuth0 = async () => {
+                try {
+                    const token = await getAccessTokenSilently();
+                    if (token) tokenRef.current = token;
+
+                    const claims = await getIdTokenClaims();
+                    if (claims) {
+                        auth0_idRef.current = claims.sub;
+                        setUsername(claims.nickname ?? '');
+                        setEmail(claims.email ?? '');
+                    }
+                } catch (error) {
+                    loginWithRedirect();
+                }
+            };
+
+			await getAuth0();
 
 			try {
 				const response = await get<User>(`/users/auth0/${auth0_idRef.current}`, tokenRef.current);
@@ -98,7 +101,8 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 				if (response.created_at) setCreated_at(response.created_at);
 				if (response.followers) setFollowers(response.followers);
 				if (response.following) setFollowing(response.following);
-				setIsLoading(false);
+                setIsNewUser(false);
+                setIsLoading(false);
 			} catch (error) {
 				if (error instanceof AxiosError) {
 					if (error.response?.status === 404) {
@@ -107,14 +111,13 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 				} else {
 					console.log(error);
 				}
-				setIsLoading(false);
+                setIsLoading(false);
 			}
 		};
 
-		if (isAuthenticated) {
-			getUserData();
-		}
-	}, [getAccessTokenSilently, getIdTokenClaims, isAuthenticated, loginWithRedirect, user]);
+		if (isAuthenticated) getUserData();
+        
+	}, [getAccessTokenSilently, getIdTokenClaims, isAuthenticated, loginWithRedirect, user, contextUpdate]);
 
 	const UserContextValue: UserContextProps = {
 		id,
@@ -130,6 +133,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 		token: tokenRef.current,
 		isNewUser,
 		isLoading,
+        update,
 	};
 
 	return <UserContext.Provider value={UserContextValue}>{children}</UserContext.Provider>;
