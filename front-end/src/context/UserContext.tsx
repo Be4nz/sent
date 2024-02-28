@@ -10,6 +10,7 @@ interface UserContextProps {
 	username: string;
 	name: string;
 	email: string;
+    description: string;
 	role: string;
 	picture: string;
 	created_at: Date;
@@ -27,6 +28,7 @@ const UserContext = createContext<UserContextProps>({
 	username: '',
 	name: '',
 	email: '',
+    description: '',
 	role: '',
 	picture: '',
 	created_at: new Date(),
@@ -52,6 +54,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 	const [username, setUsername] = useState<string>('');
 	const [name, setName] = useState<string>('');
 	const [email, setEmail] = useState<string>('');
+    const [description, setDescription] = useState<string>('');
 	const [role, setRole] = useState<string>('');
 	const [picture, setPicture] = useState<string>('');
 	const [created_at, setCreated_at] = useState<Date>(new Date());
@@ -92,15 +95,20 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 
 			try {
 				const response = await get<User>(`/users/auth0/${auth0_idRef.current}`, tokenRef.current);
-				if (response.id) setId(response.id);
-				if (response.username) setUsername(response.username);
-				if (response.name) setName(response.name);
-				if (response.email) setEmail(response.email);
-				if (response.role) setRole(response.role);
-				if (response.picture) setPicture(response.picture);
-				if (response.created_at) setCreated_at(response.created_at);
-				if (response.followers) setFollowers(response.followers);
-				if (response.following) setFollowing(response.following);
+                if (response.status === 200) {
+                    const data = response.data;
+                    if (data.id) setId(data.id);
+                    if (data.username) setUsername(data.username);
+                    if (data.name) setName(data.name);
+                    if (data.email) setEmail(data.email);
+                    if (data.description) setDescription(data.description);
+                    if (data.role) setRole(data.role);
+                    if (data.picture) setPicture(data.picture);
+                    if (data.created_at) setCreated_at(data.created_at);
+                    if (data.followers) setFollowers(data.followers);
+                    if (data.following) setFollowing(data.following);
+                }
+
                 setIsNewUser(false);
                 setIsLoading(false);
 			} catch (error) {
@@ -125,6 +133,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 		username,
 		name,
 		email,
+        description,
 		role,
 		picture,
 		created_at,

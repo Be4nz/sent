@@ -16,6 +16,7 @@ const Profile = () => {
 						<Typography>Username: {User.username}</Typography>
 						<Typography>Name: {User.name}</Typography>
 						<Typography>Email: {User.email}</Typography>
+						<Typography>Description: {User.description}</Typography>
 						<Typography>Role: {User.role}</Typography>
 						<Typography>Created at: {User.created_at.toString()}</Typography>
 						<Typography>Followers: {User.followers}</Typography>
