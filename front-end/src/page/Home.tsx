@@ -16,9 +16,7 @@ const Home = () => {
 	if (User.isLoading || User.isNewUser) return (<CircularProgress />);
 
 	return (
-		<Grid>
-			<ProfileDisplay />
-		</Grid>
+		<ProfileDisplay />
 	);
 };
 

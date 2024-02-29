@@ -27,6 +27,17 @@
     <title>sent</title>
   </head>
   <body>
+    <script>
+      // Retrieve color mode from localStorage
+      const colorMode = localStorage.getItem('color-mode');
+      
+      // Set background color based on the color mode
+      if (colorMode === 'dark') {
+          document.body.style.backgroundColor = '#1E1E1E'; // Dark background color
+      } else {
+          document.body.style.backgroundColor = '#FFFFFF'; // Light background color
+      }
+  </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--
