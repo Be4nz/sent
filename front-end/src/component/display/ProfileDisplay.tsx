@@ -1,8 +1,10 @@
-import { Typography, Box, Avatar } from '@mui/material';
+import { Typography, Box, Avatar, Button } from '@mui/material';
 import { useUserContext } from '../../context/UserContext';
+import { useThemeContext } from '../../context/ThemeContext';
 
 const Profile = () => {
 	const User = useUserContext();
+	const { update } = useThemeContext();
 
 	return (
 		<>
@@ -25,6 +27,7 @@ const Profile = () => {
 						<Box sx={{ width: 300, height: 200, my: 2 }}>
 							<Typography sx={{ overflow: 'auto', whiteSpace: 'pre' }}>Token: {User.token}</Typography>
 						</Box>
+						<Button onClick={() => {update()}}>Change color mode</Button>
 					</Box>
 				</div>
 			)}
