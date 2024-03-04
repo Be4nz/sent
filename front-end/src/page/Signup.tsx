@@ -1,4 +1,4 @@
-import { CircularProgress, Grid, Typography } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import { useUserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { AppRoute } from '../type/AppRoute';
@@ -16,9 +16,7 @@ const Signup = () => {
 	if (User.isLoading || !User.isNewUser) return (<CircularProgress />);
 
 	return (
-		<Grid>
-			<SignupForm />
-		</Grid>
+		<SignupForm />
 	);
 };
 

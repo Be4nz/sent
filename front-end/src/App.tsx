@@ -5,6 +5,8 @@ import { AppRoute } from "./type/AppRoute";
 import Home from "./page/Home";
 import { CircularProgress } from "@mui/material";
 import Signup from "./page/Signup";
+import { ThemeContextProvider } from "./context/ThemeContext";
+import BaseLayout from "./component/layout/BaseLayout";
 
 const App = () => {
   const { isLoading, isAuthenticated, loginWithRedirect } = useAuth0();
@@ -19,14 +21,18 @@ const App = () => {
   }
 
   return (
-    <UserContextProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path={AppRoute.HOME} element={<Home />} />
-          <Route path={AppRoute.SIGNUP} element={<Signup/>} />
-        </Routes>
-      </BrowserRouter>
-    </UserContextProvider>
+    <ThemeContextProvider>
+      <UserContextProvider>
+        <BaseLayout>
+          <BrowserRouter>
+            <Routes>
+              <Route path={AppRoute.HOME} element={<Home />} />
+              <Route path={AppRoute.SIGNUP} element={<Signup/>} />
+            </Routes>
+          </BrowserRouter>
+          </BaseLayout>
+        </UserContextProvider>
+    </ThemeContextProvider>
   );
 }
 
