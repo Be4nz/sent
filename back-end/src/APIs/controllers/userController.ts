@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { User } from '../../models';
+import { UserModel } from '../../models';
 import {
 	createUserRepository,
 	deleteUserRepository,
@@ -10,7 +10,7 @@ import {
 } from '../repositories';
 
 export const createUser = async (req: Request, res: Response) => {
-	const user = req.body as User;
+	const user = req.body as UserModel;
 	try {
 		let response = await readUserAuth0Repository(user.auth0_id);
 		if (response) {
@@ -59,6 +59,26 @@ export const readUser = async (req: Request, res: Response) => {
 	}
 };
 
+export const readUserProfile = async (req: Request, res: Response) => {
+	const id = req.params.id;
+	try {
+		const response = await readUserRepository(id);
+		if (!response) {
+			res.status(404).send('User not found');
+			return;
+		}
+
+		response.auth0_id = 'hidden';
+		response.email = 'hidden';
+		response.role = 'hidden';
+
+		res.status(200).json(response);
+	} catch (error) {
+		console.log(error);
+		res.status(500).send('Internal Server Error');
+	}
+};
+
 export const readUsers = async (req: Request, res: Response) => {
 	try {
 		const response = await readUsersRepository();
@@ -76,7 +96,7 @@ export const readUsers = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response) => {
 	const id = req.params.id;
-	const user = req.body as User;
+	const user = req.body as UserModel;
 	const authPayload = req.auth?.payload;
 	try {
 		let response = await readUserRepository(id);
