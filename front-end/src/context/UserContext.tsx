@@ -2,7 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { get } from '../api/Api';
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { AxiosError } from 'axios';
-import { User } from '../../../back-end/src/models';
+import { UserModel } from '../../../back-end/src/models';
 
 interface UserContextProps {
 	id: string;
@@ -94,7 +94,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 			await getAuth0();
 
 			try {
-				const response = await get<User>(`/users/auth0/${auth0_idRef.current}`, tokenRef.current);
+				const response = await get<UserModel>(`/users/auth0/${auth0_idRef.current}`, tokenRef.current);
                 if (response.status === 200) {
                     const data = response.data;
                     if (data.id) setId(data.id);

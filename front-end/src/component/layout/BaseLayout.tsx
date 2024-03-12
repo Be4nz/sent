@@ -1,4 +1,5 @@
-import { CssBaseline, Grid, useTheme } from "@mui/material";
+import { Button, CssBaseline, Grid, useTheme } from "@mui/material";
+import { useThemeContext } from "../../context/ThemeContext";
 
 interface Props {
 	children?: React.ReactNode;
@@ -6,6 +7,7 @@ interface Props {
 
 const BaseLayout: React.FC<Props> = ({ children }) => {
     const Theme = useTheme();
+    const { update } = useThemeContext();
 
     return (
         <Grid container direction="column" style={{ minHeight: '100vh', backgroundColor: Theme.palette.background.default }}>
@@ -22,6 +24,7 @@ const BaseLayout: React.FC<Props> = ({ children }) => {
 
             {/* Footer component */}
             {/* <Footer /> */}
+            <Button onClick={() => {update()}}>Change color mode</Button>
         </Grid>
     );
 };
