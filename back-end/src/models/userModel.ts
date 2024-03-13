@@ -1,4 +1,4 @@
-export interface User {
+export interface UserModel {
 	id?: string;
 	auth0_id: string;
 	username: string;
@@ -16,7 +16,7 @@ export interface User {
  * @swagger
  * components:
  *   schemas:
- *     User:
+ *     UserModel:
  *       type: object
  *       required:
  *        - auth0_id

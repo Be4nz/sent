@@ -44,31 +44,77 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
         palette: {
             mode: mode as PaletteMode,
             ...(mode === 'dark'
-                ? // If colorMode is `dark`     // just configured, need to change the styling
+                ? // If colorMode is `dark`    
                 {
                     primary: {
-                        main: "#f06292",
+                        main: "#4f12ff",
                     },
                     text: {
-                        primary: "#f06292",
+                        primary: "#ffffff",
                     },
                     background: {
-                        default: "#1E1E1E",
+                        default: "#060606",
                     },
                 }
-                : // If colorMode is `light`    // just configured, need to change the styling
+                : // If colorMode is `light`    
                 {
                     primary: {
-                        main: "#1e88e5",
+                        main: "#4f12ff",
                     },
                     text: {
-                        primary: "#1e88e5",
+                        primary: "#060606",
                     },
                     background: {
-                        default: "#FFFFFF",
+                        default: "#ffffff",
                     },
                 }
             ),
+        },
+        components: {
+            MuiAvatar: {
+                styleOverrides: {
+                    root: {
+                        minWidth: '32px',
+                        minHeight: '32px',
+                        maxWidth: '64px',
+                        maxHeight: '64px',
+                        '@media (min-width: 0px)': { // xs
+                            width: '8.5vw',
+                            height: '8.5vw',
+                        },
+                        '@media (min-width: 600px)': { // sm
+                            width: '8.5vw',
+                            height: '8.5vw',
+                        },
+                    },
+                },
+            },
+            MuiTypography: {
+                styleOverrides: {
+                    root: {
+                        fontFamily: 'Poppins',
+                        textAlign: 'justify',
+                        '@media (min-width: 0px)': { // xs
+                            fontSize: '0.6rem',
+                        },
+                        '@media (min-width: 600px)': { // sm
+                            fontSize: '1rem',
+                        },
+                    },
+                },
+            },
+            MuiSvgIcon: {
+                styleOverrides: {
+                    root: {
+                        '@media (min-width: 0px)': { // xs
+                            fontSize: '0.6rem',
+                        },
+                        '@media (min-width: 600px)': { // sm
+                            fontSize: '1em',
+                        },
+                    },
+                },
+            },
         },
     }), [mode])
 

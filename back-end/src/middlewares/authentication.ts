@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { auth } from 'express-oauth2-jwt-bearer';
 import { readUserAuth0Repository, readUserRepository } from '../APIs/repositories';
-import { User } from '../models';
+import { UserModel } from '../models';
 require('dotenv').config();
 
 export const verifyJwt = auth({
@@ -33,7 +33,7 @@ export const checkAdminOrOwn = () => {
 		} else if (auth0_id) {
 			user = await readUserAuth0Repository(auth0_id);
 		} else {
-			user = req.body as User;
+			user = req.body as UserModel;
 		}
 		if (!authPayload || !authPayload.role || authPayload.role !== 'admin') {
 			if (!authPayload || !user || authPayload.sub !== user.auth0_id) {

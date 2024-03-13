@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createUser, deleteUser, readUser, readUserAuth0, readUsers, updateUser } from '../APIs/controllers';
+import { createUser, deleteUser, readUser, readUserAuth0, readUsers, updateUser, readUserProfile } from '../APIs/controllers';
 import { checkAdminOrOwn, checkRole } from '../middlewares/authentication';
 
 export const userRouter = Router();
@@ -29,7 +29,7 @@ export const userRouter = Router();
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/User'
+ *               $ref: '#/components/schemas/UserModel'
  *       '403':
  *         description: Unauthorized access. You do not have permission to post this user.
  *       409:
@@ -60,7 +60,7 @@ userRouter.post('/', checkAdminOrOwn(), createUser);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/User'
+ *               $ref: '#/components/schemas/UserModel'
  *       '403':
  *         description: Unauthorized access. You do not have permission to get this user.
  *       '404':
@@ -91,7 +91,7 @@ userRouter.get('/auth0/:auth0_id', checkAdminOrOwn(), readUserAuth0);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/User'
+ *               $ref: '#/components/schemas/UserModel'
  *       '403':
  *         description: Unauthorized access. You do not have permission to get this user.
  *       '404':
@@ -100,6 +100,49 @@ userRouter.get('/auth0/:auth0_id', checkAdminOrOwn(), readUserAuth0);
  *         description: Internal server error
  */
 userRouter.get('/:id', checkAdminOrOwn(), readUser);
+
+/**
+ * @swagger
+ * /users/profile/{id}:
+ *   get:
+ *     tags:
+ *      - Users
+ *     summary: Get user by ID
+ *     description: Retrieve user information by ID. This endpoint is accessible to everyone who is logged user.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the user to retrieve.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: User found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UserModel'
+ *             example:
+ *               id: f47ac10b-58cc-4372-a567-0e02b2c3d479
+ *               auth_id: hidden
+ *               username: JohnDoe
+ *               name: John Doe
+ *               description: This is John Doe personal profile.
+ *               email: hidden
+ *               role: hidden        
+ *               picture: https://www.example.com/picture.jpg
+ *               created_at: 2024-01-01T00:00:00.000Z   
+ *               followers: 2  
+ *               following: 3         
+ *       '403':
+ *         description: Unauthorized access. You do not have permission to get this user.
+ *       '404':
+ *         description: User not found
+ *       '500':
+ *         description: Internal server error
+ */
+userRouter.get('/profile/:id', readUserProfile);
 
 /**
  * @swagger
@@ -117,7 +160,7 @@ userRouter.get('/:id', checkAdminOrOwn(), readUser);
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/User'
+ *                 $ref: '#/components/schemas/UserModel'
  *       '204':
  *         description: No users found
  *       '403':
@@ -147,14 +190,14 @@ userRouter.get('/', checkRole('admin'), readUsers);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/User'
+ *             $ref: '#/components/schemas/UserModel'
  *     responses:
  *       '200':
  *         description: User updated successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/User'
+ *               $ref: '#/components/schemas/UserModel'
  *       '403':
  *         description: Forbidden. You do not have permission to update this user or trying to update non-updatable fields like `id`, `auth0_id`, `role` (there are exceptions) or `created_at`.
  *       '404':
@@ -185,7 +228,7 @@ userRouter.put('/:id', checkAdminOrOwn(), updateUser);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/User'
+ *               $ref: '#/components/schemas/UserModel'
  *       '403':
  *         description: Unauthorized access. You do not have permission to delete this user.
  *       '404':
