@@ -1,32 +1,39 @@
-import { Button, CssBaseline, Grid, useTheme } from "@mui/material";
-import { useThemeContext } from "../../context/ThemeContext";
+import { Box, Button, Container, CssBaseline, Grid, Hidden, useTheme } from '@mui/material';
+import PageHeader from '../pageHeader/PageHeader';
+import NavMenu from '../navigationMenu/navMenu';
+import BottomNavMenu from '../navigationMenu/bottomNavMenu';
 
 interface Props {
 	children?: React.ReactNode;
 }
 
 const BaseLayout: React.FC<Props> = ({ children }) => {
-    const Theme = useTheme();
-    const { update } = useThemeContext();
+	const Theme = useTheme();
 
-    return (
-        <Grid container direction="column" style={{ minHeight: '100vh', backgroundColor: Theme.palette.background.default }}>
-            {/* Apply CSS baseline to reset default browser styles */}
-            <CssBaseline />
+	return (
+		<Box minHeight='100vh'>
+			<CssBaseline />
+			<PageHeader />
+			<Hidden lgDown>
+				<NavMenu />
+			</Hidden>
+			<Hidden lgUp>
+				<BottomNavMenu />
+			</Hidden>
 
-            {/* Header component */}
-            {/* <Header /> */}
-
-            {/* Main content */}
-            <Grid item xs={12} style={{ flex: 1 }}>
-                {children}
-            </Grid>
-
-            {/* Footer component */}
-            {/* <Footer /> */}
-            <Button onClick={() => {update()}}>Change color mode</Button>
-        </Grid>
-    );
+			<Box
+				style={{
+					paddingTop: '125px',
+					paddingBottom: '125px',
+					backgroundColor: Theme.palette.background.default,
+				}}
+			>
+				<Container maxWidth='lg' style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
+					{children}
+				</Container>
+			</Box>
+		</Box>
+	);
 };
 
 export default BaseLayout;
