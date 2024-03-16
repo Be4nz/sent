@@ -1,32 +1,42 @@
-import { Button, CssBaseline, Grid, useTheme } from "@mui/material";
-import { useThemeContext } from "../../context/ThemeContext";
+import { Box, Button, Container, CssBaseline, Grid, useTheme } from '@mui/material';
+import { useThemeContext } from '../../context/ThemeContext';
+import PageHeader from '../pageHeader/PageHeader';
+import HeaderHeight from '../../function/AppBarHeight';
 
 interface Props {
 	children?: React.ReactNode;
 }
 
 const BaseLayout: React.FC<Props> = ({ children }) => {
-    const Theme = useTheme();
-    const { update } = useThemeContext();
+	const Theme = useTheme();
+	const { update } = useThemeContext();
 
-    return (
-        <Grid container direction="column" style={{ minHeight: '100vh', backgroundColor: Theme.palette.background.default }}>
-            {/* Apply CSS baseline to reset default browser styles */}
-            <CssBaseline />
+	return (
+		<Box>
+			<PageHeader />
 
-            {/* Header component */}
-            {/* <Header /> */}
+			<Box
+				style={{
+					backgroundColor: Theme.palette.background.default,
+				}}
+			>
+				<CssBaseline />
 
-            {/* Main content */}
-            <Grid item xs={12} style={{ flex: 1 }}>
-                {children}
-            </Grid>
+				<Container maxWidth='lg' style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
+					{children}
+				</Container>
 
-            {/* Footer component */}
-            {/* <Footer /> */}
-            <Button onClick={() => {update()}}>Change color mode</Button>
-        </Grid>
-    );
+				<Button
+					style={{ minWidth: '100%' }}
+					onClick={() => {
+						update();
+					}}
+				>
+					Change color mode
+				</Button>
+			</Box>
+		</Box>
+	);
 };
 
 export default BaseLayout;
