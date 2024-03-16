@@ -1,15 +1,17 @@
-import { CircularProgress, Grid } from "@mui/material";
 import { useUserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { AppRoute } from "../type/AppRoute";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { PostModel } from "../../../back-end/src/models";
 import PostDisplay from "../component/display/PostDisplay";
 import { CreatePostField } from "../component/createPost/CreatePostField";
+import LoadingDisplay from "../component/display/LoadingDisplay";
 
 const Home = () => {
   const User = useUserContext();
   const Navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const posts: PostModel[] = [
     {
@@ -35,10 +37,16 @@ const Home = () => {
   ];
 
   useEffect(() => {
+    const timer = setTimeout(() => {  // Simulate loading time for visuals
+      setIsLoading(false);
+    }, 2500);
+
     if (!User.isLoading && User.isNewUser) Navigate(AppRoute.SIGNUP);
+
+    return () => clearTimeout(timer);
   }, [User.isLoading, User.isNewUser, Navigate]);
 
-  if (User.isLoading || User.isNewUser) return <CircularProgress />;
+  if (isLoading || User.isLoading || User.isNewUser) return <LoadingDisplay/>;
 
   return (
     <div>
