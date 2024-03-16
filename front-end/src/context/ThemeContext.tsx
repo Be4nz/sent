@@ -123,11 +123,18 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
                 },
                 "@media (min-width: 600px)": {
                   // sm
-                  fontSize: "1em",
+                  fontSize: "1rem",
                 },
               },
             },
           },
+          MuiLinearProgress: {
+            styleOverrides: {
+              root: {
+                borderRadius: "10px",
+              }
+            }
+          }
         },
       }),
     [mode]
