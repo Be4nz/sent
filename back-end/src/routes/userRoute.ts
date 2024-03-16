@@ -1,6 +1,14 @@
-import { Router } from 'express';
-import { createUser, deleteUser, readUser, readUserAuth0, readUsers, updateUser, readUserProfile } from '../APIs/controllers';
-import { checkAdminOrOwn, checkRole } from '../middlewares/authentication';
+import { Router } from "express";
+import {
+  createUser,
+  deleteUser,
+  readUser,
+  readUserAuth0,
+  readUsers,
+  updateUser,
+  readUserProfile,
+} from "../APIs/controllers";
+import { checkAdminOrOwn, checkRole } from "../middlewares/authentication";
 
 export const userRouter = Router();
 
@@ -37,7 +45,7 @@ export const userRouter = Router();
  *       500:
  *         description: Internal Server Error
  */
-userRouter.post('/', checkAdminOrOwn(), createUser);
+userRouter.post("/", checkAdminOrOwn(), createUser);
 
 /**
  * @swagger
@@ -68,7 +76,7 @@ userRouter.post('/', checkAdminOrOwn(), createUser);
  *       '500':
  *         description: Internal server error
  */
-userRouter.get('/auth0/:auth0_id', checkAdminOrOwn(), readUserAuth0);
+userRouter.get("/auth0/:auth0_id", readUserAuth0);
 
 /**
  * @swagger
@@ -99,7 +107,7 @@ userRouter.get('/auth0/:auth0_id', checkAdminOrOwn(), readUserAuth0);
  *       '500':
  *         description: Internal server error
  */
-userRouter.get('/:id', checkAdminOrOwn(), readUser);
+userRouter.get("/:id", checkAdminOrOwn(), readUser);
 
 /**
  * @swagger
@@ -130,11 +138,11 @@ userRouter.get('/:id', checkAdminOrOwn(), readUser);
  *               name: John Doe
  *               description: This is John Doe personal profile.
  *               email: hidden
- *               role: hidden        
+ *               role: hidden
  *               picture: https://www.example.com/picture.jpg
- *               created_at: 2024-01-01T00:00:00.000Z   
- *               followers: 2  
- *               following: 3         
+ *               created_at: 2024-01-01T00:00:00.000Z
+ *               followers: 2
+ *               following: 3
  *       '403':
  *         description: Unauthorized access. You do not have permission to get this user.
  *       '404':
@@ -142,7 +150,7 @@ userRouter.get('/:id', checkAdminOrOwn(), readUser);
  *       '500':
  *         description: Internal server error
  */
-userRouter.get('/profile/:id', readUserProfile);
+userRouter.get("/profile/:id", readUserProfile);
 
 /**
  * @swagger
@@ -168,7 +176,7 @@ userRouter.get('/profile/:id', readUserProfile);
  *       '500':
  *         description: Internal server error
  */
-userRouter.get('/', checkRole('admin'), readUsers);
+userRouter.get("/", checkRole("admin"), readUsers);
 
 /**
  * @swagger
@@ -205,7 +213,7 @@ userRouter.get('/', checkRole('admin'), readUsers);
  *       '500':
  *         description: Internal server error
  */
-userRouter.put('/:id', checkAdminOrOwn(), updateUser);
+userRouter.put("/:id", checkAdminOrOwn(), updateUser);
 
 /**
  * @swagger
@@ -236,4 +244,4 @@ userRouter.put('/:id', checkAdminOrOwn(), updateUser);
  *       '500':
  *         description: Internal server error
  */
-userRouter.delete('/:id', checkAdminOrOwn(), deleteUser);
+userRouter.delete("/:id", checkAdminOrOwn(), deleteUser);

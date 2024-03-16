@@ -1,7 +1,7 @@
-import { Box, Button, Container, CssBaseline, Grid, useTheme } from '@mui/material';
-import { useThemeContext } from '../../context/ThemeContext';
+import { Box, Button, Container, CssBaseline, Grid, Hidden, useTheme } from '@mui/material';
 import PageHeader from '../pageHeader/PageHeader';
-import HeaderHeight from '../../function/AppBarHeight';
+import NavMenu from '../navigationMenu/navMenu';
+import BottomNavMenu from '../navigationMenu/bottomNavMenu';
 
 interface Props {
 	children?: React.ReactNode;
@@ -9,31 +9,28 @@ interface Props {
 
 const BaseLayout: React.FC<Props> = ({ children }) => {
 	const Theme = useTheme();
-	const { update } = useThemeContext();
 
 	return (
-		<Box>
+		<Box minHeight='100vh'>
+			<CssBaseline />
 			<PageHeader />
+			<Hidden lgDown>
+				<NavMenu />
+			</Hidden>
+			<Hidden lgUp>
+				<BottomNavMenu />
+			</Hidden>
 
 			<Box
 				style={{
+					paddingTop: '125px',
+					paddingBottom: '125px',
 					backgroundColor: Theme.palette.background.default,
 				}}
 			>
-				<CssBaseline />
-
 				<Container maxWidth='lg' style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
 					{children}
 				</Container>
-
-				<Button
-					style={{ minWidth: '100%' }}
-					onClick={() => {
-						update();
-					}}
-				>
-					Change color mode
-				</Button>
 			</Box>
 		</Box>
 	);

@@ -69,6 +69,7 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 								},
 						  }),
 				},
+
 				components: {
 					MuiAvatar: {
 						styleOverrides: {
@@ -123,11 +124,67 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 					MuiAppBar: {
 						styleOverrides: {
 							colorPrimary: {
+								background: mode === 'dark' ? 'rgba(6, 6, 6, 0.6)' : 'rgba(255, 255, 255, 0.2)',
+								boxShadow: 'none',
+								backdropFilter: 'blur(15px)',
+								WebkitBackdropFilter: 'blur(15px)',
+								border: 'none',
+								padding: '5px',
+								zIndex: 999,
+							},
+						},
+					},
+					MuiBottomNavigation: {
+						styleOverrides: {
+							root: {
+								background: mode === 'dark' ? 'rgba(6, 6, 6, 0.6)' : 'rgba(255, 255, 255, 0.2)',
+								boxShadow: 'none',
+								backdropFilter: 'blur(15px)',
+								WebkitBackdropFilter: 'blur(15px)',
+								border: 'none',
+								zIndex: 999,
+								position: 'fixed',
+								bottom: 0,
+								width: '100%',
+							},
+						},
+					},
+					MuiDrawer: {
+						styleOverrides: {
+							paper: {
 								background: 'none',
-								boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-								backdropFilter: 'blur(17px)',
-								WebkitBackdropFilter: 'blur(17px)',
-								border: '1px solid rgba(0, 0, 0, 0.3)',
+								boxShadow: 'none',
+								border: 'none',
+								margin: '50px',
+								fontFamily: 'Poppins',
+							},
+						},
+					},
+					MuiListItemButton: {
+						styleOverrides: {
+							root: {
+								// '&:hover': {
+								// 	textShadow: '1px 1px 20px rgba(79,18,255,1)',
+								// },
+								width: '100%',
+								color: '#888888',
+								marginBottom: 20,
+								borderRadius: 10,
+							},
+						},
+					},
+					MuiListItemIcon: {
+						styleOverrides: {
+							root: {
+								fontSize: '2em',
+								color: '#888888',
+							},
+						},
+					},
+					MuiLinearProgress: {
+						styleOverrides: {
+							root: {
+								borderRadius: '10px',
 							},
 						},
 					},

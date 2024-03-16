@@ -1,11 +1,11 @@
 export interface PostModel {
-	id?: string;
-	created_at?: Date;
-    content: string;
-    like_count?: number;
-    comment_count?: number;
-    save_count?: number;
-    user_id: string;
+  id?: string;
+  created_at?: Date;
+  content: string;
+  like_count?: number;
+  comment_count?: number;
+  save_count?: number;
+  user_id: string;
 }
 
 /**
@@ -49,4 +49,3 @@ export interface PostModel {
  *         save_count: 3
  *         user_id: f47ac10b-58cc-4372-a567-0e02b2c3d479
  */
-
