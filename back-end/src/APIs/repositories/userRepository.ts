@@ -9,8 +9,9 @@ export const createUserRepository = async (user: UserModel) => {
 
 export const readUserAuth0Repository = async (auth0_id: string) => {
     const response = await knexConnection("users")
-    .select()
-    .where("auth0_id", auth0_id);
+    .select("auth0_id")
+    .where("auth0_id", auth0_id)
+    .limit(1);
     return response[0] as UserModel;
 };
 
