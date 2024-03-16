@@ -76,7 +76,7 @@ userRouter.post("/", checkAdminOrOwn(), createUser);
  *       '500':
  *         description: Internal server error
  */
-userRouter.get("/auth0/:auth0_id", checkAdminOrOwn(), readUserAuth0);
+userRouter.get("/auth0/:auth0_id", readUserAuth0);
 
 /**
  * @swagger
