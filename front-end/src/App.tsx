@@ -5,9 +5,20 @@ import Home from './page/Home';
 import Signup from './page/Signup';
 import BaseLayout from './component/layout/BaseLayout';
 import LoadingDisplay from './component/display/LoadingDisplay';
+import { useEffect, useState } from 'react';
 
 const App = () => {
-	const { isLoading, isAuthenticated, loginWithRedirect } = useAuth0();
+	const { isAuthenticated, loginWithRedirect } = useAuth0();
+	const [isLoading, setIsLoading] = useState(true);
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			// Simulate loading time for visuals
+			setIsLoading(false);
+		}, 2500);
+
+		return () => clearTimeout(timer);
+	}, []);
 
 	if (isLoading) {
 		return <LoadingDisplay />;
