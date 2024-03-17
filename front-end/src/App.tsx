@@ -6,6 +6,7 @@ import Signup from './page/Signup';
 import BaseLayout from './component/layout/BaseLayout';
 import LoadingDisplay from './component/display/LoadingDisplay';
 import { useEffect, useState } from 'react';
+import Profile from './page/Profile';
 
 const App = () => {
 	const { isAuthenticated, loginWithRedirect } = useAuth0();
@@ -35,6 +36,7 @@ const App = () => {
 				<Routes>
 					<Route path={AppRoute.HOME} element={<Home />} />
 					<Route path={AppRoute.SIGNUP} element={<Signup />} />
+					<Route path={AppRoute.PROFILE} element={<Profile />} />
 					<Route path='*' element={<Navigate to={AppRoute.HOME} replace />} />
 				</Routes>
 			</BaseLayout>
