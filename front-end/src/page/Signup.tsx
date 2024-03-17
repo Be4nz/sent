@@ -1,4 +1,3 @@
-import { CircularProgress } from '@mui/material';
 import { useUserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { AppRoute } from '../type/AppRoute';
@@ -13,18 +12,19 @@ const Signup = () => {
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-		const timer = setTimeout(() => {	// Simulate loading time for visuals
+		// Simulate loading time for visuals
+		const timer = setTimeout(() => {
 			setIsLoading(false);
 		}, 1000);
 
 		if (!User.isLoading && !User.isNewUser) Navigate(AppRoute.HOME);
+
+		return () => clearTimeout(timer);
 	}, [User.isLoading, User.isNewUser, Navigate]);
 
 	if (isLoading || User.isLoading || !User.isNewUser) return <LoadingDisplay />;
 
-	return (
-		<SignupForm />
-	);
+	return <SignupForm />;
 };
 
 export default Signup;
