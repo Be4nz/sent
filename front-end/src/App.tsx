@@ -1,38 +1,33 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { UserContextProvider } from './context/UserContext';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AppRoute } from './type/AppRoute';
 import Home from './page/Home';
-import { CircularProgress } from '@mui/material';
 import Signup from './page/Signup';
-import { ThemeContextProvider } from './context/ThemeContext';
 import BaseLayout from './component/layout/BaseLayout';
+import LoadingDisplay from './component/display/LoadingDisplay';
 
 const App = () => {
 	const { isLoading, isAuthenticated, loginWithRedirect } = useAuth0();
 
 	if (isLoading) {
-		return <CircularProgress />;
+		return <LoadingDisplay />;
 	}
 
 	if (!isAuthenticated) {
 		loginWithRedirect();
-		return <CircularProgress />;
+		return <LoadingDisplay />;
 	}
 
 	return (
-		<ThemeContextProvider>
-			<UserContextProvider>
-				<BrowserRouter>
-					<BaseLayout>
-						<Routes>
-							<Route path={AppRoute.HOME} element={<Home />} />
-							<Route path={AppRoute.SIGNUP} element={<Signup />} />
-						</Routes>
-					</BaseLayout>
-				</BrowserRouter>
-			</UserContextProvider>
-		</ThemeContextProvider>
+		<BrowserRouter>
+			<BaseLayout>
+				<Routes>
+					<Route path={AppRoute.HOME} element={<Home />} />
+					<Route path={AppRoute.SIGNUP} element={<Signup />} />
+					<Route path='*' element={<Navigate to={AppRoute.HOME} replace />} />
+				</Routes>
+			</BaseLayout>
+		</BrowserRouter>
 	);
 };
 

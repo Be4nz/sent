@@ -28,11 +28,30 @@
 			// Retrieve color mode from localStorage
 			const colorMode = localStorage.getItem('color-mode');
 
-			// Set background color based on the color mode
-			if (colorMode === 'dark') {
-				document.body.style.backgroundColor = '#060606'; // Dark background color
+			// Function to set background color based on color mode
+			function setBackgroundColor(colorMode) {
+				if (colorMode === 'dark') {
+					document.body.style.backgroundColor = '#060606'; // Dark background color
+				} else {
+					document.body.style.backgroundColor = '#ffffff'; // Light background color
+				}
+			}
+
+			// Check if color mode is stored in localStorage
+			if (colorMode) {
+				setBackgroundColor(colorMode);
 			} else {
-				document.body.style.backgroundColor = '#ffffff'; // Light background color
+				// Retrieve system's preferred color mode using matchMedia
+				const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+				// Set color mode based on system preference
+				const systemColorMode = prefersDarkMode ? 'dark' : 'light';
+
+				// Store the system color mode in localStorage
+				localStorage.setItem('color-mode', systemColorMode);
+
+				// Set background color based on system color mode
+				setBackgroundColor(systemColorMode);
 			}
 		</script>
 		<noscript>You need to enable JavaScript to run this app.</noscript>
