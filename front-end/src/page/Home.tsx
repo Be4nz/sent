@@ -6,6 +6,8 @@ import { PostModel } from '../../../back-end/src/models';
 import PostDisplay from '../component/display/PostDisplay';
 import { CreatePostField } from '../component/createPost/CreatePostField';
 import LoadingDisplay from '../component/display/LoadingDisplay';
+import { Divider } from '@mui/material';
+import React from 'react';
 
 const Home = () => {
 	const User = useUserContext();
@@ -123,8 +125,11 @@ const Home = () => {
 	return (
 		<div>
 			<CreatePostField />
-			{posts.map((post) => (
-				<PostDisplay key={post.id} post={post} minWidth='360px' maxWidth='752px' padding='15px' />
+			{posts.map((post, index) => (
+				<React.Fragment key={post.id}>
+					<PostDisplay post={post} minWidth='360px' maxWidth='752px' py='15px' />
+					{index !== posts.length - 1 && <Divider />}
+				</React.Fragment>
 			))}
 		</div>
 	);
