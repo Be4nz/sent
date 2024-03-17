@@ -20,6 +20,13 @@ interface Props {
 export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 	const [mode, setMode] = useState<string>(localStorage.getItem('color-mode') || 'dark');
 
+	const COLOR = {
+		primary: '#4f12ff',
+		white: '#ffffff',
+		black: '#060606',
+		gray: '#888888',
+	};
+
 	const update = () => {
 		if (localStorage.getItem('color-mode') === 'light') {
 			localStorage.setItem('color-mode', 'dark');
@@ -47,25 +54,33 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 						? // If colorMode is `dark`
 						  {
 								primary: {
-									main: '#4f12ff',
+									main: COLOR.primary,
+								},
+								secondary: {
+									main: COLOR.white,
 								},
 								text: {
-									primary: '#ffffff',
+									primary: COLOR.white,
+									secondary: COLOR.gray,
 								},
 								background: {
-									default: '#060606',
+									default: COLOR.black,
 								},
 						  }
 						: // If colorMode is `light`
 						  {
 								primary: {
-									main: '#4f12ff',
+									main: COLOR.primary,
+								},
+								secondary: {
+									main: COLOR.black,
 								},
 								text: {
-									primary: '#060606',
+									primary: COLOR.black,
+									secondary: COLOR.gray,
 								},
 								background: {
-									default: '#ffffff',
+									default: COLOR.white,
 								},
 						  }),
 				},
@@ -88,6 +103,18 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 									width: '8.5vw',
 									height: '8.5vw',
 								},
+
+								'&.profile-avatar': {
+									minWidth: '64px',
+									minHeight: '64px',
+									maxWidth: '144px',
+									maxHeight: '144px',
+									'@media (min-width: 0px)': {
+										// xs
+										width: '19.1vw',
+										height: '19.1vw',
+									},
+								},
 							},
 						},
 					},
@@ -103,6 +130,16 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 								'@media (min-width: 600px)': {
 									// sm
 									fontSize: '1rem',
+								},
+								'&.profile-typography-name': {
+									'@media (min-width: 0px)': {
+										// xs
+										fontSize: '1rem',
+									},
+									'@media (min-width: 600px)': {
+										// sm
+										fontSize: '1.7rem',
+									},
 								},
 							},
 						},
@@ -167,7 +204,7 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 								// 	textShadow: '1px 1px 20px rgba(79,18,255,1)',
 								// },
 								width: '100%',
-								color: '#888888',
+								color: COLOR.gray,
 								marginBottom: 20,
 								borderRadius: 10,
 							},
@@ -177,7 +214,7 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 						styleOverrides: {
 							root: {
 								fontSize: '2em',
-								color: '#888888',
+								color: COLOR.gray,
 							},
 						},
 					},
@@ -185,6 +222,32 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 						styleOverrides: {
 							root: {
 								borderRadius: '10px',
+							},
+						},
+					},
+					MuiButton: {
+						styleOverrides: {
+							root: {
+								borderRadius: '60px',
+								fontFamily: 'Poppins',
+								textTransform: 'none',
+
+								'@media (min-width: 0px)': {
+									// xs
+									fontSize: '0.4rem',
+								},
+								'@media (min-width: 600px)': {
+									// sm
+									fontSize: '1rem',
+								},
+							},
+						},
+					},
+					MuiDivider: {
+						styleOverrides: {
+							root: {
+								borderBottom: `2px solid ${COLOR.gray}`,
+								borderRadius: '2px',
 							},
 						},
 					},

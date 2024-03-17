@@ -1,18 +1,10 @@
-import { useUserContext } from '../context/UserContext';
-import { useNavigate } from 'react-router-dom';
-import { AppRoute } from '../type/AppRoute';
-import { useEffect } from 'react';
+import ProfileDisplay from '../component/display/ProfileDisplay';
 import { PostModel } from '../../../back-end/src/models';
 import PostDisplay from '../component/display/PostDisplay';
-import { CreatePostField } from '../component/createPost/CreatePostField';
-import LoadingDisplay from '../component/display/LoadingDisplay';
-import { Divider } from '@mui/material';
 import React from 'react';
+import { Divider } from '@mui/material';
 
-const Home = () => {
-	const User = useUserContext();
-	const Navigate = useNavigate();
-
+const Profile = () => {
 	const posts: PostModel[] = [
 		{
 			id: '1',
@@ -116,15 +108,9 @@ const Home = () => {
 		},
 	];
 
-	useEffect(() => {
-		if (!User.isLoading && User.isNewUser) Navigate(AppRoute.SIGNUP);
-	}, [User.isLoading, User.isNewUser, Navigate]);
-
-	if (User.isLoading || User.isNewUser) return <LoadingDisplay />;
-
 	return (
 		<div>
-			<CreatePostField />
+			<ProfileDisplay minWidth='360px' maxWidth='752px' py='15px' />
 			{posts.map((post, index) => (
 				<React.Fragment key={post.id}>
 					<PostDisplay post={post} minWidth='360px' maxWidth='752px' py='15px' />
@@ -135,4 +121,4 @@ const Home = () => {
 	);
 };
 
-export default Home;
+export default Profile;
