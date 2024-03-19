@@ -262,6 +262,8 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 								zIndex: 999,
 								minWidth: '200px',
 								fontFamily: 'Poppins',
+								paddingRight: '8px',
+								paddingLeft: '8px',
 							},
 						},
 					},

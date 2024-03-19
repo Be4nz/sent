@@ -17,10 +17,9 @@ type Props = {
 	anchorEl: any;
 	open: any;
 	onClose: any;
-	User: any;
 };
 
-const UserDropdownMenu: React.FC<Props> = ({ anchorEl, open, onClose, User }) => {
+const UserDropdownMenu: React.FC<Props> = ({ anchorEl, open, onClose }) => {
 	const Theme = useTheme();
 	const { update } = useThemeContext();
 
@@ -36,10 +35,6 @@ const UserDropdownMenu: React.FC<Props> = ({ anchorEl, open, onClose, User }) =>
 	const onLogoutClick = () => {
 		onClose();
 		logout();
-	};
-
-	const onThemeClick = () => {
-		update();
 	};
 
 	const elementStyle = { color: Theme.palette.text.primary, marginRight: '0.4em', width: '0.7em' };
@@ -69,7 +64,7 @@ const UserDropdownMenu: React.FC<Props> = ({ anchorEl, open, onClose, User }) =>
 				</ListItemIcon>
 				Profile
 			</MenuItem>
-			<MenuItem onClick={onThemeClick}>
+			<MenuItem onClick={update}>
 				<ListItemIcon>
 					{Theme.palette.mode === 'dark' ? (
 						<LightModeIcon style={elementStyle} />

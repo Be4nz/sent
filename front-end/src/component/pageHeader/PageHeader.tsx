@@ -75,7 +75,7 @@ export default function PageHeader() {
 						>
 							<MenuIcon style={{ color: Theme.palette.text.secondary }} />
 						</IconButton>
-						<UserDropdownMenu anchorEl={dropdownAnchorEl} open={dropdownOpen} onClose={handleClose} User={User} />
+						<UserDropdownMenu anchorEl={dropdownAnchorEl} open={dropdownOpen} onClose={handleClose} />
 					</Hidden>
 
 					<Hidden lgDown>
@@ -95,7 +95,7 @@ export default function PageHeader() {
 								>
 									<Avatar src={User.picture} alt='Profile' style={{ width: '40px', height: '40px' }} />
 								</IconButton>
-								<UserDropdownMenu anchorEl={dropdownAnchorEl} open={dropdownOpen} onClose={handleClose} User={User} />
+								<UserDropdownMenu anchorEl={dropdownAnchorEl} open={dropdownOpen} onClose={handleClose} />
 							</Box>
 						</Box>
 					</Hidden>

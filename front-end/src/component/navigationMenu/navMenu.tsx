@@ -40,6 +40,15 @@ const NavMenu: React.FC = () => {
 		</ListItemButton>
 	);
 
+	const [dropdownAnchorEl, setDropdownAnchorEl] = React.useState<null | HTMLElement>(null);
+	const dropdownOpen = Boolean(dropdownAnchorEl);
+	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+		setDropdownAnchorEl(event.currentTarget);
+	};
+	const handleClose = () => {
+		setDropdownAnchorEl(null);
+	};
+
 	return (
 		<Drawer variant='permanent'>
 			<List style={{ marginTop: '150px' }}>
