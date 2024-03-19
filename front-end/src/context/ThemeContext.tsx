@@ -147,10 +147,10 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 					MuiSvgIcon: {
 						styleOverrides: {
 							root: {
-								'@media (min-width: 0px)': {
-									// xs
-									fontSize: '0.6rem',
-								},
+								// '@media (min-width: 0px)': {
+								// 	// xs
+								// 	fontSize: '0.6rem',
+								// },
 								'@media (min-width: 600px)': {
 									// sm
 									fontSize: '1em',
@@ -192,8 +192,9 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 								background: 'none',
 								boxShadow: 'none',
 								border: 'none',
-								margin: '50px',
+								margin: '2vw',
 								fontFamily: 'Poppins',
+								zIndex: 100,
 							},
 						},
 					},
@@ -246,8 +247,31 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 					MuiDivider: {
 						styleOverrides: {
 							root: {
-								borderBottom: `2px solid ${COLOR.gray}`,
+								borderBottom: `1px solid ${COLOR.gray}`,
 								borderRadius: '2px',
+							},
+						},
+					},
+					MuiMenu: {
+						styleOverrides: {
+							paper: {
+								background: mode === 'dark' ? 'rgba(6, 6, 6, 1)' : 'rgba(255, 255, 255, 1)',
+								boxShadow: 'none',
+								border: '1px solid #888888',
+								borderRadius: '15px',
+								zIndex: 999,
+								minWidth: '200px',
+								fontFamily: 'Poppins',
+								paddingRight: '8px',
+								paddingLeft: '8px',
+							},
+						},
+					},
+					MuiMenuItem: {
+						styleOverrides: {
+							root: {
+								fontFamily: 'Poppins',
+								borderRadius: '10px',
 							},
 						},
 					},
