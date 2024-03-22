@@ -123,6 +123,7 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 							root: {
 								fontFamily: 'Poppins',
 								textAlign: 'justify',
+								wordBreak: 'break-all',
 								'@media (min-width: 0px)': {
 									// xs
 									fontSize: '0.6rem',

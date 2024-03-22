@@ -19,15 +19,19 @@ const SignupForm = () => {
 		name: string;
 		description?: string;
 		picture?: string;
-	}
+	};
 
 	const schema: ZodType<FormData> = z.object({
-		name: z.string().min(2).max(64),
+		name: z.string().min(2).max(20),
 		description: z.string().max(255).optional(),
 		picture: z.string().max(255).optional(),
-	})
+	});
 
-	const { handleSubmit, register, formState: { errors } } = useForm<FormData>({ resolver: zodResolver(schema) });
+	const {
+		handleSubmit,
+		register,
+		formState: { errors },
+	} = useForm<FormData>({ resolver: zodResolver(schema) });
 
 	const submit = async (data: FormData) => {
 		const newUser: UserModel = {
@@ -40,7 +44,7 @@ const SignupForm = () => {
 		};
 
 		try {
-			const response = await post<UserModel>('/users', newUser, User.token);
+			const response = await post<UserModel>(`/users/${User.auth0_id}`, newUser, User.token);
 			if (response.status === 201) {
 				await User.update();
 				setSubmited(true);
@@ -65,7 +69,7 @@ const SignupForm = () => {
 					error={errors.name ? true : false}
 					helperText={errors.name?.message}
 				/>
-				<br/>
+				<br />
 				<TextField
 					type='text'
 					label='Description'
@@ -73,7 +77,7 @@ const SignupForm = () => {
 					error={errors.description ? true : false}
 					helperText={errors.description?.message}
 				/>
-				<br/>
+				<br />
 				<TextField
 					type='text'
 					label='Picture'
@@ -81,7 +85,7 @@ const SignupForm = () => {
 					error={errors.picture ? true : false}
 					helperText={errors.picture?.message}
 				/>
-				<br/>
+				<br />
 				<Button type='submit'>Submit</Button>
 			</form>
 		</>

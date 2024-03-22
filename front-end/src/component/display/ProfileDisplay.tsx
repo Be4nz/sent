@@ -1,6 +1,6 @@
 import { Typography, Avatar, Button, Grid, useTheme } from '@mui/material';
 import { useUserContext } from '../../context/UserContext';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface Props {
 	minWidth: string;
