@@ -22,6 +22,8 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 
 	const COLOR = {
 		primary: '#4f12ff',
+		light: '#5944ff',
+		dark: '#440ede',
 		white: '#ffffff',
 		black: '#060606',
 		gray: '#888888',
@@ -55,6 +57,8 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 						  {
 								primary: {
 									main: COLOR.primary,
+									light: COLOR.light,
+									dark: COLOR.dark,
 								},
 								secondary: {
 									main: COLOR.white,
@@ -71,6 +75,8 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 						  {
 								primary: {
 									main: COLOR.primary,
+									light: COLOR.light,
+									dark: COLOR.dark,
 								},
 								secondary: {
 									main: COLOR.black,
@@ -123,7 +129,6 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 							root: {
 								fontFamily: 'Poppins',
 								textAlign: 'justify',
-								wordBreak: 'break-all',
 								'@media (min-width: 0px)': {
 									// xs
 									fontSize: '0.6rem',
@@ -140,6 +145,16 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 									'@media (min-width: 600px)': {
 										// sm
 										fontSize: '1.7rem',
+									},
+								},
+								'&.signup-typography': {
+									'@media (min-width: 0px)': {
+										// xs
+										fontSize: '1rem',
+									},
+									'@media (min-width: 600px)': {
+										// sm
+										fontSize: '1rem',
 									},
 								},
 							},

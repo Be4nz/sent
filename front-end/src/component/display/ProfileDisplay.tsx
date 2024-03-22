@@ -59,7 +59,7 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 							<Typography>@{User.username}</Typography>
 						</Grid>
 						<Grid item>
-							<Typography>{User.description}</Typography>
+							<Typography sx={{ wordBreak: 'break-all' }}>{User.description}</Typography>
 						</Grid>
 						<Grid container direction='row'>
 							<Grid item xs={4}>
