@@ -6,13 +6,13 @@ export const createUserRepository = async (user: UserModel) => {
 	return response;
 };
 
-export const readUserAuth0Repository = async (auth0_id: string) => {
-	const response = await knexConnection('users').select().where('auth0_id', auth0_id).limit(1);
+export const readUserByIdRepository = async (id: string) => {
+	const response = await knexConnection('users').select().where('id', id).limit(1);
 	return response[0] as UserModel;
 };
 
-export const readUserRepository = async (id: string) => {
-	const response = await knexConnection('users').select().where('id', id);
+export const readUserByAuth0IdRepository = async (auth0_id: string) => {
+	const response = await knexConnection('users').select().where('auth0_id', auth0_id).limit(1);
 	return response[0] as UserModel;
 };
 
