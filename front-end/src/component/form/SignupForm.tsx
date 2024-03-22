@@ -40,7 +40,7 @@ const SignupForm = () => {
 			name: data.name,
 			email: User.email,
 			description: data.description !== '' ? data.description : undefined,
-			picture: data.picture !== '' ? data.picture : undefined,
+			picture: data.picture !== '' ? data.picture : User.picture,
 		};
 
 		try {

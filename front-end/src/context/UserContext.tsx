@@ -84,6 +84,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 						auth0_idRef.current = claims.sub;
 						setUsername(claims.nickname ?? '');
 						setEmail(claims.email ?? '');
+						setPicture(claims.picture ?? '');
 					}
 				} catch (error) {
 					loginWithRedirect();
