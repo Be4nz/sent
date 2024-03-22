@@ -15,7 +15,7 @@ const Signup = () => {
 
 	if (User.isLoading || !User.isNewUser) return <LoadingDisplay />;
 
-	return <SignupForm />;
+	return <SignupForm minWidth='360px' maxWidth='752px' py='15px' />;
 };
 
 export default Signup;
