@@ -10,7 +10,7 @@ interface UserContextProps {
 	username: string;
 	name: string;
 	email: string;
-    description: string;
+	description: string;
 	role: string;
 	picture: string;
 	created_at: Date;
@@ -19,7 +19,7 @@ interface UserContextProps {
 	token: string;
 	isNewUser: boolean;
 	isLoading: boolean;
-    update: () => Promise<void>;
+	update: () => Promise<void>;
 }
 
 const UserContext = createContext<UserContextProps>({
@@ -28,7 +28,7 @@ const UserContext = createContext<UserContextProps>({
 	username: '',
 	name: '',
 	email: '',
-    description: '',
+	description: '',
 	role: '',
 	picture: '',
 	created_at: new Date(),
@@ -37,7 +37,7 @@ const UserContext = createContext<UserContextProps>({
 	token: '',
 	isNewUser: false,
 	isLoading: true,
-    update: async () => {},
+	update: async () => {},
 });
 
 export const useUserContext = () => useContext(UserContext);
@@ -54,7 +54,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 	const [username, setUsername] = useState<string>('');
 	const [name, setName] = useState<string>('');
 	const [email, setEmail] = useState<string>('');
-    const [description, setDescription] = useState<string>('');
+	const [description, setDescription] = useState<string>('');
 	const [role, setRole] = useState<string>('');
 	const [picture, setPicture] = useState<string>('');
 	const [created_at, setCreated_at] = useState<Date>(new Date());
@@ -62,55 +62,54 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 	const [following, setFollowing] = useState<number>(0);
 	const tokenRef = useRef<string>('');
 
-    const [isNewUser, setIsNewUser] = useState<boolean>(false);
+	const [isNewUser, setIsNewUser] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [contextUpdate, setContextUpdate] = useState<boolean>(false);
+	const [contextUpdate, setContextUpdate] = useState<boolean>(false);
 
-    const update = async () => {
-        setContextUpdate(!contextUpdate);
-    };
+	const update = async () => {
+		setContextUpdate(!contextUpdate);
+	};
 
 	useEffect(() => {
-
 		const getUserData = async () => {
-            setIsLoading(true);
+			setIsLoading(true);
 
-            const getAuth0 = async () => {
-                try {
-                    const token = await getAccessTokenSilently();
-                    if (token) tokenRef.current = token;
+			const getAuth0 = async () => {
+				try {
+					const token = await getAccessTokenSilently();
+					if (token) tokenRef.current = token;
 
-                    const claims = await getIdTokenClaims();
-                    if (claims) {
-                        auth0_idRef.current = claims.sub;
-                        setUsername(claims.nickname ?? '');
-                        setEmail(claims.email ?? '');
-                    }
-                } catch (error) {
-                    loginWithRedirect();
-                }
-            };
+					const claims = await getIdTokenClaims();
+					if (claims) {
+						auth0_idRef.current = claims.sub;
+						setUsername(claims.nickname ?? '');
+						setEmail(claims.email ?? '');
+					}
+				} catch (error) {
+					loginWithRedirect();
+				}
+			};
 
 			await getAuth0();
 
 			try {
-				const response = await get<UserModel>(`/users/auth0/${auth0_idRef.current}`, tokenRef.current);
-                if (response.status === 200) {
-                    const data = response.data;
-                    if (data.id) setId(data.id);
-                    if (data.username) setUsername(data.username);
-                    if (data.name) setName(data.name);
-                    if (data.email) setEmail(data.email);
-                    if (data.description) setDescription(data.description);
-                    if (data.role) setRole(data.role);
-                    if (data.picture) setPicture(data.picture);
-                    if (data.created_at) setCreated_at(data.created_at);
-                    if (data.followers) setFollowers(data.followers);
-                    if (data.following) setFollowing(data.following);
-                }
+				const response = await get<UserModel>(`/users/auth0_id/${auth0_idRef.current}`, tokenRef.current);
+				if (response.status === 200) {
+					const data = response.data;
+					if (data.id) setId(data.id);
+					if (data.username) setUsername(data.username);
+					if (data.name) setName(data.name);
+					if (data.email) setEmail(data.email);
+					if (data.description) setDescription(data.description);
+					if (data.role) setRole(data.role);
+					if (data.picture) setPicture(data.picture);
+					if (data.created_at) setCreated_at(data.created_at);
+					if (data.followers) setFollowers(data.followers);
+					if (data.following) setFollowing(data.following);
+				}
 
-                setIsNewUser(false);
-                setIsLoading(false);
+				setIsNewUser(false);
+				setIsLoading(false);
 			} catch (error) {
 				if (error instanceof AxiosError) {
 					if (error.response?.status === 404) {
@@ -119,12 +118,11 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 				} else {
 					console.log(error);
 				}
-                setIsLoading(false);
+				setIsLoading(false);
 			}
 		};
 
 		if (isAuthenticated) getUserData();
-        
 	}, [getAccessTokenSilently, getIdTokenClaims, isAuthenticated, loginWithRedirect, user, contextUpdate]);
 
 	const UserContextValue: UserContextProps = {
@@ -133,7 +131,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 		username,
 		name,
 		email,
-        description,
+		description,
 		role,
 		picture,
 		created_at,
@@ -142,7 +140,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 		token: tokenRef.current,
 		isNewUser,
 		isLoading,
-        update,
+		update,
 	};
 
 	return <UserContext.Provider value={UserContextValue}>{children}</UserContext.Provider>;

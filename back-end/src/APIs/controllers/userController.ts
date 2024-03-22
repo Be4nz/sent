@@ -3,8 +3,8 @@ import { UserModel } from '../../models';
 import {
 	createUserRepository,
 	deleteUserRepository,
-	readUserRepository,
-	readUserAuth0Repository,
+	readUserByIdRepository,
+	readUserByAuth0IdRepository,
 	readUsersRepository,
 	updateUserRepository,
 } from '../repositories';
@@ -12,14 +12,14 @@ import {
 export const createUser = async (req: Request, res: Response) => {
 	const user = req.body as UserModel;
 	try {
-		let response = await readUserAuth0Repository(user.auth0_id);
+		let response = await readUserByAuth0IdRepository(user.auth0_id);
 		if (response) {
 			res.status(409).send('User already exists');
 			return;
 		}
 
 		await createUserRepository(user);
-		response = await readUserAuth0Repository(user.auth0_id);
+		response = await readUserByAuth0IdRepository(user.auth0_id);
 		res.status(201).json(response);
 	} catch (error) {
 		console.log(error);
@@ -27,10 +27,10 @@ export const createUser = async (req: Request, res: Response) => {
 	}
 };
 
-export const readUserAuth0 = async (req: Request, res: Response) => {
-	const auth0_id = req.params.auth0_id;
+export const readUserById = async (req: Request, res: Response) => {
+	const id = req.params.id;
 	try {
-		const response = await readUserAuth0Repository(auth0_id);
+		const response = await readUserByIdRepository(id);
 		if (!response) {
 			res.status(404).send('User not found');
 			return;
@@ -43,10 +43,10 @@ export const readUserAuth0 = async (req: Request, res: Response) => {
 	}
 };
 
-export const readUser = async (req: Request, res: Response) => {
-	const id = req.params.id;
+export const readUserByAuth0Id = async (req: Request, res: Response) => {
+	const auth0_id = req.params.auth0_id;
 	try {
-		const response = await readUserRepository(id);
+		const response = await readUserByAuth0IdRepository(auth0_id);
 		if (!response) {
 			res.status(404).send('User not found');
 			return;
@@ -62,7 +62,7 @@ export const readUser = async (req: Request, res: Response) => {
 export const readUserProfile = async (req: Request, res: Response) => {
 	const id = req.params.id;
 	try {
-		const response = await readUserRepository(id);
+		const response = await readUserByIdRepository(id);
 		if (!response) {
 			res.status(404).send('User not found');
 			return;
@@ -99,7 +99,7 @@ export const updateUser = async (req: Request, res: Response) => {
 	const user = req.body as UserModel;
 	const authPayload = req.auth?.payload;
 	try {
-		let response = await readUserRepository(id);
+		let response = await readUserByIdRepository(id);
 		if (!response) {
 			res.status(404).send('User not found');
 			return;
@@ -132,7 +132,7 @@ export const updateUser = async (req: Request, res: Response) => {
 		}
 
 		await updateUserRepository(id, user);
-		response = await readUserRepository(id);
+		response = await readUserByIdRepository(id);
 		res.status(200).json(response);
 	} catch (error) {
 		console.log(error);
@@ -143,7 +143,7 @@ export const updateUser = async (req: Request, res: Response) => {
 export const deleteUser = async (req: Request, res: Response) => {
 	const id = req.params.id;
 	try {
-		const response = await readUserRepository(id);
+		const response = await readUserByIdRepository(id);
 		if (!response) {
 			res.status(404).send('User not found');
 			return;
