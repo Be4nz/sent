@@ -7,8 +7,11 @@ import BaseLayout from './component/layout/BaseLayout';
 import LoadingDisplay from './component/display/LoadingDisplay';
 import { useEffect, useState } from 'react';
 import Profile from './page/Profile';
+import { useUserContext } from './context/UserContext';
 
 const App = () => {
+	const User = useUserContext();
+
 	const { isAuthenticated, loginWithRedirect } = useAuth0();
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -34,9 +37,23 @@ const App = () => {
 		<BrowserRouter>
 			<BaseLayout>
 				<Routes>
-					<Route path={AppRoute.HOME} element={<Home />} />
-					<Route path={AppRoute.SIGNUP} element={<Signup />} />
-					<Route path={AppRoute.PROFILE} element={<Profile />} />
+					{/* Redirect to signup page if user is new */}
+					{User.isNewUser && (
+						<>
+							<Route path={AppRoute.SIGNUP} element={<Signup />} />
+							<Route path='*' element={<Navigate to={AppRoute.SIGNUP} replace />} />
+						</>
+					)}
+
+					{/* Normal routes */}
+					{!User.isNewUser && (
+						<>
+							<Route path={AppRoute.HOME} element={<Home />} />
+							<Route path={AppRoute.PROFILE} element={<Profile />} />
+						</>
+					)}
+
+					{/* Default route */}
 					<Route path='*' element={<Navigate to={AppRoute.HOME} replace />} />
 				</Routes>
 			</BaseLayout>
