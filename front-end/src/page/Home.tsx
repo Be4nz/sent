@@ -7,6 +7,7 @@ import LoadingDisplay from '../component/display/LoadingDisplay';
 import { Grid, useTheme } from '@mui/material';
 import PostForm from '../component/form/PostForm';
 import { usePostContext } from '../context/PostContext';
+import PostModal from '../component/display/PostModal';
 import PostListDisplay from '../component/display/PostListDisplay';
 import { get } from '../api/Api';
 
@@ -15,14 +16,26 @@ interface Props {}
 const Home: React.FC<Props> = (props) => {
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [posts, setPosts] = useState<PostModel[]>([]);
+	const [modalOpen, setModalOpen] = useState<boolean>(false);
 
 	const User = useUserContext();
+	const Posts = usePostContext();
 	const Theme = useTheme();
 	const Navigate = useNavigate();
 
-	const handleModalOpen = () => {};
+	const handleModalOpen = () => {
+		setModalOpen(true);
+	};
 
-	const handleModalClose = () => {};
+	const handleModalClose = () => {
+		setModalOpen(false);
+	};
+
+	useEffect(() => {
+		if (Posts.statusUpdate) {
+			setPosts((prevPosts) => [Posts.getPost(), ...prevPosts]);
+		}
+	}, [Posts]);
 
 	useEffect(() => {
 		const fetchPosts = async () => {
@@ -60,6 +73,8 @@ const Home: React.FC<Props> = (props) => {
 				>
 					<PostForm disabled={true} />
 				</Grid>
+
+				<PostModal open={modalOpen} handleClose={handleModalClose} />
 
 				<PostListDisplay posts={posts} />
 			</Grid>

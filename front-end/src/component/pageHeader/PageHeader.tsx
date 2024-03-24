@@ -5,27 +5,18 @@ import Toolbar from '@mui/material/Toolbar';
 import { LogoSvg } from '../svg/LogoSvg';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import { useUserContext } from '../../context/UserContext';
-import {
-	Avatar,
-	Drawer,
-	Hidden,
-	Icon,
-	ListItemButton,
-	ListItemIcon,
-	ListItemText,
-	Menu,
-	MenuItem,
-	useTheme,
-} from '@mui/material';
+import { Avatar, Hidden, useTheme } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../type/AppRoute';
 import { IconButton } from '@mui/material';
 import UserDropdownMenu from './UserDropdownMenu';
 import MenuIcon from '@mui/icons-material/Menu';
+import PostModal from '../display/PostModal';
 
 export default function PageHeader() {
 	// Used for opening and closing dropdown menu
 	const [dropdownAnchorEl, setDropdownAnchorEl] = React.useState<null | HTMLElement>(null);
+	const [modalOpen, setModalOpen] = React.useState(false);
 	const dropdownOpen = Boolean(dropdownAnchorEl);
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setDropdownAnchorEl(event.currentTarget);
@@ -40,8 +31,12 @@ export default function PageHeader() {
 	const User = useUserContext();
 	const navigate = useNavigate();
 
-	const handleNewPostClick = () => {
-		/* TODO: Open create post module */
+	const handleModalOpen = () => {
+		setModalOpen(true);
+	};
+
+	const handleModalClose = () => {
+		setModalOpen(false);
 	};
 
 	return (
@@ -81,9 +76,10 @@ export default function PageHeader() {
 					<Hidden lgDown>
 						<Box style={{ display: 'flex', alignItems: 'center', marginRight: '1.4vw' }}>
 							<Box style={{ marginRight: '1em' }}>
-								<IconButton onClick={handleNewPostClick}>
+								<IconButton onClick={handleModalOpen}>
 									<EditNoteIcon style={{ color: '#888888', fontSize: '40px' }} />
 								</IconButton>
+								<PostModal open={modalOpen} handleClose={handleModalClose} />
 							</Box>
 							<Box>
 								<IconButton
