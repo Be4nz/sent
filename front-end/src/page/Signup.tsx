@@ -5,7 +5,9 @@ import SignupForm from '../component/form/SignupForm';
 import { useEffect } from 'react';
 import LoadingDisplay from '../component/display/LoadingDisplay';
 
-const Signup = () => {
+interface Props {}
+
+const Signup: React.FC<Props> = (props) => {
 	const User = useUserContext();
 	const Navigate = useNavigate();
 
