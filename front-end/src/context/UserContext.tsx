@@ -2,7 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { get } from '../api/Api';
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { AxiosError } from 'axios';
-import { UserModel } from '../../../back-end/src/models';
+import { UserModel } from '../model';
 
 interface UserContextProps {
 	id: string;
