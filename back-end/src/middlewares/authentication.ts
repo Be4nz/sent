@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { auth } from 'express-oauth2-jwt-bearer';
 import { readUserByIdRepository } from '../APIs/repositories';
+import { PostModel } from '../models';
+import { readPostRepository } from '../APIs/repositories/postRepository';
 require('dotenv').config();
 
 export const verifyJwt = auth({
@@ -31,15 +33,27 @@ export const checkOwnership = (resourceType: string) => {
 
 		try {
 			let isOwner = false;
+			const id = req.params.id;
 			switch (resourceType) {
 				case 'users':
-					const id = req.params.id;
 					const auth0_id = req.params.auth0_id;
 
 					if (auth0_id) {
 						isOwner = auth0_id === authPayload?.sub;
 					} else if (id) {
 						const user = await readUserByIdRepository(id);
+						isOwner = user.auth0_id === authPayload?.sub;
+					}
+					break;
+				case 'posts':
+					const post = req.body as PostModel;
+
+					if (post) {
+						const user = await readUserByIdRepository(post.user_id);
+						isOwner = user.auth0_id === authPayload?.sub;
+					} else if (id) {
+						const post = await readPostRepository(id);
+						const user = await readUserByIdRepository(post.user_id);
 						isOwner = user.auth0_id === authPayload?.sub;
 					}
 					break;
