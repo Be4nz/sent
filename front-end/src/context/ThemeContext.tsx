@@ -27,6 +27,8 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 		white: '#ffffff',
 		black: '#060606',
 		gray: '#888888',
+		lightGray: '#f5f5f5',
+		darkGray: '#333333',
 	};
 
 	const update = () => {
@@ -69,6 +71,7 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 								},
 								background: {
 									default: COLOR.black,
+									paper: COLOR.gray,
 								},
 						  }
 						: // If colorMode is `light`
@@ -87,6 +90,7 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 								},
 								background: {
 									default: COLOR.white,
+									paper: COLOR.lightGray,
 								},
 						  }),
 				},

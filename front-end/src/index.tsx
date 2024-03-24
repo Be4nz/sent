@@ -4,6 +4,7 @@ import App from './App';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { ThemeContextProvider } from './context/ThemeContext';
 import { UserContextProvider } from './context/UserContext';
+import { PostContextProvider } from './context/PostContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
@@ -21,7 +22,9 @@ root.render(
 		>
 			<ThemeContextProvider>
 				<UserContextProvider>
-					<App />
+					<PostContextProvider>
+						<App />
+					</PostContextProvider>
 				</UserContextProvider>
 			</ThemeContextProvider>
 		</Auth0Provider>

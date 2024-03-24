@@ -4,7 +4,9 @@ import PostDisplay from '../component/display/PostDisplay';
 import React from 'react';
 import { Divider } from '@mui/material';
 
-const Profile = () => {
+interface Props {}
+
+const Profile: React.FC<Props> = (props) => {
 	const posts: PostModel[] = [
 		{
 			id: '1',
