@@ -1,4 +1,4 @@
-import { useTheme, Grid, LinearProgress } from '@mui/material';
+import { Grid, LinearProgress } from '@mui/material';
 import { LogoTextSvg } from '../svg/LogoTextSvg';
 
 interface Props {
@@ -9,8 +9,6 @@ interface Props {
 }
 
 const LoadingDisplay: React.FC<Props> = (props) => {
-	const Theme = useTheme();
-
 	return (
 		<Grid
 			container
