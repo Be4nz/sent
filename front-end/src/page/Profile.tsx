@@ -15,6 +15,13 @@ const Profile: React.FC<Props> = (props) => {
 	const [posts, setPosts] = useState<PostModel[]>([]);
 
 	const User = useUserContext();
+	const Posts = usePostContext();
+
+	useEffect(() => {
+		if (Posts.statusUpdate) {
+			setPosts((prevPosts) => [Posts.getPost(), ...prevPosts]);
+		}
+	}, [Posts]);
 
 	useEffect(() => {
 		const fetchPosts = async () => {

@@ -2,12 +2,10 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Home, Person, Favorite, Bookmark, EditNote } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../type/AppRoute';
+import PostModal from '../display/PostModal';
 
 export default function BottomNavMenu() {
 	const iconStyles = { fontSize: 30 };
@@ -15,9 +13,21 @@ export default function BottomNavMenu() {
 	const location = useLocation();
 	const navigate = useNavigate();
 
+	const [prev, setPrev] = React.useState(location.pathname);
 	const [value, setValue] = React.useState(location.pathname);
+	const [modalOpen, setModalOpen] = React.useState(false);
+
+	const handleModalOpen = () => {
+		setModalOpen(true);
+	};
+
+	const handleModalClose = () => {
+		setModalOpen(false);
+		setValue(prev);
+	};
 
 	const handleChange = (event: React.ChangeEvent<{}>, newValue: string) => {
+		setPrev(value);
 		setValue(newValue);
 	};
 
@@ -34,7 +44,8 @@ export default function BottomNavMenu() {
 					icon={<Person style={iconStyles} />}
 					onClick={() => navigate(AppRoute.PROFILE)}
 				/>
-				<BottomNavigationAction icon={<EditNote style={{ fontSize: 40 }} />} />
+				<BottomNavigationAction onClick={handleModalOpen} icon={<EditNote style={{ fontSize: 40 }} />} />
+				<PostModal open={modalOpen} handleClose={handleModalClose} />
 				<BottomNavigationAction
 					value={AppRoute.FOLLOWING}
 					icon={<Favorite style={iconStyles} />}
