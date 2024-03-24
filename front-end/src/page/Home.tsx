@@ -15,7 +15,7 @@ interface Props {}
 const Home: React.FC<Props> = (props) => {
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [posts, setPosts] = useState<PostModel[]>([]);
-
+    
 	const User = useUserContext();
 	const Theme = useTheme();
 	const Navigate = useNavigate();
@@ -60,7 +60,7 @@ const Home: React.FC<Props> = (props) => {
 				>
 					<PostForm disabled={true} />
 				</Grid>
-
+        
 				<PostListDisplay posts={posts} />
 			</Grid>
 		</div>
