@@ -1,6 +1,6 @@
 import { useUserContext } from '../../context/UserContext';
 import { useEffect, useState } from 'react';
-import { UserModel } from '../../../../back-end/src/models';
+import { UserModelDTO } from '../../model';
 import { Button, Grid, TextField, Typography, useTheme } from '@mui/material';
 import { post } from '../../api/Api';
 import { useNavigate } from 'react-router-dom';
@@ -43,7 +43,7 @@ const SignupForm: React.FC<Props> = (props) => {
 	} = useForm<FormData>({ resolver: zodResolver(schema) });
 
 	const submit = async (data: FormData) => {
-		const newUser: UserModel = {
+		const newUser: UserModelDTO = {
 			auth0_id: User.auth0_id,
 			username: User.username,
 			name: data.name,
@@ -53,7 +53,7 @@ const SignupForm: React.FC<Props> = (props) => {
 		};
 
 		try {
-			const response = await post<UserModel>(`/users/${User.auth0_id}`, newUser, User.token);
+			const response = await post<UserModelDTO>(`/users/${User.auth0_id}`, newUser, User.token);
 			if (response.status === 201) {
 				await User.update();
 				setSubmited(true);

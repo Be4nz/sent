@@ -3,9 +3,10 @@ import { useUserContext } from '../../context/UserContext';
 import { useState } from 'react';
 
 interface Props {
-	minWidth: string;
-	maxWidth: string;
-	py: string;
+	minWidth?: string;
+	maxWidth?: string;
+	my?: string;
+	mx?: string;
 }
 
 const ProfileDisplay: React.FC<Props> = (props) => {
@@ -26,7 +27,7 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 	const handleFollowingClick = () => {};
 
 	return (
-		<Grid container direction='row' minWidth={props.minWidth} maxWidth={props.maxWidth} py={props.py}>
+		<Grid container direction='row' minWidth={props.minWidth} maxWidth={props.maxWidth} my={props.my} mx={props.mx}>
 			<Grid item xs={3}>
 				<Avatar className='profile-avatar' src={User.picture}></Avatar>
 			</Grid>
@@ -59,7 +60,7 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 							<Typography>@{User.username}</Typography>
 						</Grid>
 						<Grid item>
-							<Typography sx={{ wordBreak: 'break-all' }}>{User.description}</Typography>
+							<Typography sx={{ wordBreak: 'break-word' }}>{User.description}</Typography>
 						</Grid>
 						<Grid container direction='row'>
 							<Grid item xs={4}>

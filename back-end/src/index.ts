@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import { errorHandler, requestLogger, verifyJwt, router } from './middlewares';
 import { swaggerDocs } from './configs';
-import { postRouter } from './routes/postRoute';
 
 const swaggerUI = require('swagger-ui-express');
 const app = express();
