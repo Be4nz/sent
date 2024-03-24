@@ -1,17 +1,24 @@
 import { useUserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { AppRoute } from '../type/AppRoute';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { PostModel } from '../../../back-end/src/models';
-import PostDisplay from '../component/display/PostDisplay';
-import { CreatePostField } from '../component/createPost/CreatePostField';
 import LoadingDisplay from '../component/display/LoadingDisplay';
-import { Divider } from '@mui/material';
+import { Divider, Grid, useTheme } from '@mui/material';
 import React from 'react';
+import PostForm from '../component/form/PostForm';
+import PostDisplay from '../component/display/PostDisplay';
 
-const Home = () => {
+interface Props {}
+
+const Home: React.FC<Props> = (props) => {
 	const User = useUserContext();
+	const Theme = useTheme();
 	const Navigate = useNavigate();
+
+	const handleModalOpen = () => {};
+
+	const handleModalClose = () => {};
 
 	const posts: PostModel[] = [
 		{
@@ -118,19 +125,33 @@ const Home = () => {
 
 	useEffect(() => {
 		if (!User.isLoading && User.isNewUser) Navigate(AppRoute.SIGNUP);
-	}, [User.isLoading, User.isNewUser, Navigate]);
+	}, [User, Navigate]);
 
 	if (User.isLoading || User.isNewUser) return <LoadingDisplay />;
 
 	return (
-		<div>
-			<CreatePostField />
-			{posts.map((post, index) => (
-				<React.Fragment key={post.id}>
-					<PostDisplay post={post} minWidth='360px' maxWidth='752px' py='15px' />
-					{index !== posts.length - 1 && <Divider />}
-				</React.Fragment>
-			))}
+		<div style={{ width: '100%' }}>
+			<Grid item minWidth='360px' maxWidth='752px' mx='auto'>
+				<Grid
+					onClick={handleModalOpen}
+					my='4vh'
+					sx={{
+						borderRadius: '15px',
+						':hover': {
+							cursor: 'pointer',
+							backgroundColor: Theme.palette.background.paper,
+						},
+					}}
+				>
+					<PostForm disabled={true} />
+				</Grid>
+				{posts.map((post, index) => (
+					<React.Fragment key={post.id}>
+						<PostDisplay post={post} minWidth='360px' maxWidth='752px' py='15px' />
+						{index !== posts.length - 1 && <Divider />}
+					</React.Fragment>
+				))}
+			</Grid>
 		</div>
 	);
 };
