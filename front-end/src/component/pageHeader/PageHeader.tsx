@@ -6,12 +6,13 @@ import { LogoSvg } from '../svg/LogoSvg';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import { useUserContext } from '../../context/UserContext';
 import { Avatar, Hidden, useTheme } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../type/AppRoute';
 import { IconButton } from '@mui/material';
 import UserDropdownMenu from './UserDropdownMenu';
 import MenuIcon from '@mui/icons-material/Menu';
 import PostModal from '../display/PostModal';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function PageHeader() {
 	// Used for opening and closing dropdown menu
@@ -30,6 +31,7 @@ export default function PageHeader() {
 
 	const User = useUserContext();
 	const navigate = useNavigate();
+	const location = useLocation();
 
 	const handleModalOpen = () => {
 		setModalOpen(true);
@@ -39,10 +41,25 @@ export default function PageHeader() {
 		setModalOpen(false);
 	};
 
+	const handleBacking = () => {
+		navigate('/');
+	};
+
+	// Check if the current pathname is post/:id
+	const shouldRenderBackButton = /^\/post\/.*/.test(location.pathname);
+
 	return (
 		<Box>
 			<AppBar position='fixed'>
 				<Toolbar>
+					<Hidden lgUp>
+						{shouldRenderBackButton && (
+							<IconButton id='basic-button' onClick={handleBacking} edge='start'>
+								<ArrowBackIcon style={{ color: Theme.palette.text.secondary }} />
+							</IconButton>
+						)}
+					</Hidden>
+
 					<Box
 						sx={{
 							margin: {
