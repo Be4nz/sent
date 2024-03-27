@@ -7,9 +7,11 @@ import PostDisplay from '../component/display/PostDisplay';
 import { Button } from '@mui/base';
 import styled from '@emotion/styled';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Hidden } from '@mui/material';
+import { Hidden, IconButton } from '@mui/material';
+import { AppRoute } from '../type/AppRoute';
+import LoadingDisplay from '../component/display/LoadingDisplay';
 
-const BackButton = styled(Button)`
+const BackButton = styled(IconButton)`
 	background: none;
 	border: none;
 	color: white;
@@ -19,10 +21,11 @@ const BackButton = styled(Button)`
 	:hover {
 		cursor: pointer;
 	}
+	margin-right: 20px;
 `;
 
 const Title = styled('div')`
-	font-size: 40px;
+	font-size: 35px;
 	:hover {
 		cursor: default;
 	}
@@ -55,7 +58,7 @@ export const Post: React.FC<Props> = () => {
 	const navigate = useNavigate();
 
 	const handleBacking = () => {
-		navigate('/');
+		navigate(AppRoute.HOME);
 	};
 
 	const fetchPost = async () => {
@@ -75,7 +78,9 @@ export const Post: React.FC<Props> = () => {
 		fetchPost();
 	}, []);
 
-	return post ? (
+	return isLoading ? (
+		<LoadingDisplay />
+	) : post ? (
 		<Container>
 			<Hidden lgDown>
 				<TitleBar>
