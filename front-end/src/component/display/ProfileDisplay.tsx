@@ -1,8 +1,9 @@
 import { Typography, Avatar, Button, Grid, useTheme } from '@mui/material';
-import { useUserContext } from '../../context/UserContext';
 import { useState } from 'react';
+import { UserModel } from '../../model';
 
 interface Props {
+	user: UserModel;
 	minWidth?: string;
 	maxWidth?: string;
 	my?: string;
@@ -12,7 +13,6 @@ interface Props {
 const ProfileDisplay: React.FC<Props> = (props) => {
 	const [isEditing, setIsEditing] = useState(false);
 
-	const User = useUserContext();
 	const Theme = useTheme();
 
 	// TODO connect edit button to edit profile form
@@ -29,13 +29,13 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 	return (
 		<Grid container direction='row' minWidth={props.minWidth} maxWidth={props.maxWidth} my={props.my} mx={props.mx}>
 			<Grid item xs={3}>
-				<Avatar className='profile-avatar' src={User.picture}></Avatar>
+				<Avatar className='profile-avatar' src={props.user.picture}></Avatar>
 			</Grid>
 			<Grid item xs={9}>
 				<Grid container direction='column'>
 					<Grid container direction='row'>
 						<Grid item xs={8.4}>
-							<Typography className='profile-typography-name'>{User.name}</Typography>
+							<Typography className='profile-typography-name'>{props.user.name}</Typography>
 						</Grid>
 						<Grid item xs={3.6} textAlign='right' my='auto'>
 							<Button
@@ -57,10 +57,10 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 					</Grid>
 					<Grid container direction='column' rowGap={1}>
 						<Grid item>
-							<Typography>@{User.username}</Typography>
+							<Typography>@{props.user.username}</Typography>
 						</Grid>
 						<Grid item>
-							<Typography sx={{ wordBreak: 'break-word' }}>{User.description}</Typography>
+							<Typography sx={{ wordBreak: 'break-word' }}>{props.user.description}</Typography>
 						</Grid>
 						<Grid container direction='row'>
 							<Grid item xs={4}>
@@ -77,7 +77,7 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 									<Grid container direction='row' columnSpacing={1}>
 										<Grid item>
 											<Typography color={Theme.palette.text.primary} fontWeight={'bold'}>
-												{User.followers}
+												{props.user.followers}
 											</Typography>
 										</Grid>
 										<Grid item>
@@ -100,7 +100,7 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 									<Grid container direction='row' columnSpacing={1}>
 										<Grid item>
 											<Typography color={Theme.palette.text.primary} fontWeight={'bold'}>
-												{User.following}
+												{props.user.following}
 											</Typography>
 										</Grid>
 										<Grid item>

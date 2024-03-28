@@ -4,7 +4,7 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import { Avatar, Grid, IconButton, ListItem, Typography, useTheme } from '@mui/material';
+import { Avatar, Grid, IconButton, Link, ListItem, Typography, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { get } from '../../api/Api';
 import { useUserContext } from '../../context/UserContext';
@@ -12,6 +12,8 @@ import { timeSince } from '../../function/TimeSince';
 import { countToDisplay } from '../../function/CountToDisplay';
 import { PostModel, UserModel } from '../../model';
 import PostSkeletonDisplay from './PostSkeletonDisplay';
+import { useNavigate } from 'react-router-dom';
+import { AppRoute } from '../../type/AppRoute';
 
 const PostDisplay: React.FC<{
 	post: PostModel;
@@ -28,6 +30,7 @@ const PostDisplay: React.FC<{
 
 	const Theme = useTheme();
 	const User = useUserContext();
+	const Navigate = useNavigate();
 
 	//TODO connect liking to database
 	const handleLikeClick = () => {
@@ -42,6 +45,10 @@ const PostDisplay: React.FC<{
 	//TODO connect saving to database
 	const handleSaveClick = () => {
 		setIsSaved(!isSaved);
+	};
+
+	const handleProfileClick = () => {
+		Navigate(`${AppRoute.PROFILE}/${creator?.username}`);
 	};
 
 	useEffect(() => {
@@ -70,17 +77,38 @@ const PostDisplay: React.FC<{
 		<ListItem divider>
 			<Grid container direction='row' minWidth={minWidth} maxWidth={maxWidth} my={my} mx={mx} width={'100%'}>
 				<Grid item xs={1.5}>
-					<Avatar alt='avatar' src={creator?.picture} />
+					<Avatar
+						onClick={handleProfileClick}
+						src={creator?.picture}
+						sx={{
+							transition: 'filter 0.3s',
+							':hover': {
+								filter: 'brightness(70%)',
+								cursor: 'pointer',
+							},
+						}}
+					/>
 				</Grid>
 				<Grid item xs={10.5}>
 					<Grid container direction='column'>
 						<Grid container direction='row'>
 							<Grid item xs={7}>
-								<Typography fontWeight='bold'>@{creator?.username || 'unknown'}</Typography>
+								<Link
+									color='none'
+									underline='hover'
+									onClick={handleProfileClick}
+									sx={{
+										':hover': {
+											cursor: 'pointer',
+										},
+									}}
+								>
+									<Typography fontWeight='bold'>@{creator?.username}</Typography>
+								</Link>
 							</Grid>
 							<Grid item xs={5}>
 								<Typography textAlign='right' color={Theme.palette.text.secondary}>
-									{post.created_at ? timeSince(new Date(post.created_at)) : 'unknown'}
+									{timeSince(new Date(post.created_at))}
 								</Typography>
 							</Grid>
 						</Grid>

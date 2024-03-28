@@ -1,8 +1,6 @@
 import React from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
-import Avatar from '@mui/material/Avatar';
 import { useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../type/AppRoute';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -12,6 +10,7 @@ import { Person, Logout } from '@mui/icons-material';
 
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
+import { useUserContext } from '../../context/UserContext';
 
 type Props = {
 	anchorEl: any;
@@ -21,6 +20,7 @@ type Props = {
 
 const UserDropdownMenu: React.FC<Props> = ({ anchorEl, open, onClose }) => {
 	const Theme = useTheme();
+	const User = useUserContext();
 	const { update } = useThemeContext();
 
 	const navigate = useNavigate();
@@ -28,7 +28,7 @@ const UserDropdownMenu: React.FC<Props> = ({ anchorEl, open, onClose }) => {
 	const { logout } = useAuth0();
 
 	const onProfileClick = () => {
-		navigate(AppRoute.PROFILE);
+		navigate(`${AppRoute.PROFILE}/${User.username}`);
 		onClose();
 	};
 

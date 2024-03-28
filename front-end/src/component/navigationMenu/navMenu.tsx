@@ -1,23 +1,14 @@
 import React from 'react';
-import {
-	Drawer,
-	List,
-	ListItemButton,
-	ListItemIcon,
-	ListItemText,
-	Box,
-	ListItem,
-	useTheme,
-	Typography,
-} from '@mui/material';
+import { Drawer, List, ListItemButton, ListItemIcon, ListItemText, Box, useTheme, Typography } from '@mui/material';
 import { Home, Person, Favorite, Bookmark } from '@mui/icons-material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../type/AppRoute';
-import ThemeSwitchButton from '../utilities/themeSwitchButton';
+import { useUserContext } from '../../context/UserContext';
 
 const NavMenu: React.FC = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
+	const User = useUserContext();
 
 	const Theme = useTheme();
 	const activeColor = Theme.palette.text.primary;
@@ -40,20 +31,11 @@ const NavMenu: React.FC = () => {
 		</ListItemButton>
 	);
 
-	const [dropdownAnchorEl, setDropdownAnchorEl] = React.useState<null | HTMLElement>(null);
-	const dropdownOpen = Boolean(dropdownAnchorEl);
-	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-		setDropdownAnchorEl(event.currentTarget);
-	};
-	const handleClose = () => {
-		setDropdownAnchorEl(null);
-	};
-
 	return (
 		<Drawer variant='permanent'>
 			<List style={{ marginTop: '150px' }}>
 				{renderListItemButton(AppRoute.HOME, <Home />, 'Home')}
-				{renderListItemButton(AppRoute.PROFILE, <Person />, 'Profile')}
+				{renderListItemButton(`${AppRoute.PROFILE}/${User.username}`, <Person />, 'Profile')}
 				{renderListItemButton(AppRoute.FOLLOWING, <Favorite />, 'Following')}
 				{renderListItemButton(AppRoute.SAVED, <Bookmark />, 'Saved')}
 			</List>
