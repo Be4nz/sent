@@ -61,7 +61,7 @@ const Profile: React.FC<Props> = (props) => {
 		fetchPosts();
 	}, [User, profile]);
 
-	//if (isLoading) return <LoadingDisplay />;
+	if (isLoading) return <LoadingDisplay />;
 
 	return profile ? (
 		<div style={{ width: '100%' }}>
