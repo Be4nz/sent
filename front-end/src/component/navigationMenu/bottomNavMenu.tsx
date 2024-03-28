@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../type/AppRoute';
 import PostModal from '../display/PostModal';
 import { useUserContext } from '../../context/UserContext';
+import { useEffect } from 'react';
 
 export default function BottomNavMenu() {
 	const iconStyles = { fontSize: 30 };
@@ -33,6 +34,10 @@ export default function BottomNavMenu() {
 		setValue(newValue);
 	};
 
+	useEffect(() => {
+		setValue(location.pathname);
+	}, [location.pathname]);
+
 	return (
 		<Box>
 			<BottomNavigation value={value} onChange={handleChange}>
@@ -42,7 +47,7 @@ export default function BottomNavMenu() {
 					onClick={() => navigate(AppRoute.HOME)}
 				/>
 				<BottomNavigationAction
-					value={AppRoute.PROFILE}
+					value={`${AppRoute.PROFILE}/${User.username}`}
 					icon={<Person style={iconStyles} />}
 					onClick={() => navigate(`${AppRoute.PROFILE}/${User.username}`)}
 				/>
