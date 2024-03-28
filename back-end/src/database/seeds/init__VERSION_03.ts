@@ -24,10 +24,46 @@ export async function seed(knex: Knex): Promise<void> {
 			name: 'Jerry',
 			email: 'user2@gmail.com',
 			role: knex.raw('DEFAULT'),
-			picture: 'https://www.baltana.com/file/25727/700x394/16:9/jerry-best-wallpaper-26278_707238579.jpg',
+			picture:
+				'https://purepng.com/public/uploads/large/purepng.com-jerry-tom-and-jerrytom-and-jerrytomjerryanimated-seriesin-1940characters-17015286595464y8nc.png',
 			created_at: knex.raw('DEFAULT'),
 			followers: 0,
 			following: 0,
+		},
+	]);
+
+	await knex('posts').insert([
+		{
+			created_at: '2024-03-24 18:27:40',
+			content: "I'm Tom and I'm new to this platform!",
+			like_count: 26,
+			comment_count: 2,
+			save_count: 1,
+			user_id: '3sd3c63c-e93f-11ee-9af8-0242ac120002',
+		},
+		{
+			created_at: '2024-03-25 18:27:40',
+			content: "Today I couldn't catch Jerry again!",
+			like_count: 3,
+			comment_count: 1,
+			save_count: 0,
+			user_id: '3sd3c63c-e93f-11ee-9af8-0242ac120002',
+		},
+		{
+			created_at: '2024-03-25 21:27:40',
+			content: 'Once more I fooled Tom!',
+			like_count: 1001,
+			comment_count: 543,
+			save_count: 1236652,
+			user_id: 'l99fd3ed-e93f-11ee-9af8-0242ac120002',
+		},
+		{
+			created_at: '2024-03-28 21:27:40',
+			content: 'Unopropiated bahavior is not allowed! Please be respectful! #respect #love #peace',
+			like_count: 124583,
+			comment_count: 23848,
+			save_count: 1462,
+			user_id: '2b2ac63c-e93f-11ee-9af8-0242ac120002',
 		},
 	]);
 
