@@ -33,3 +33,19 @@ export const updateUserRepository = async (id: string, user: UserModel) => {
 export const deleteUserRepository = async (id: string) => {
 	await knexConnection('users').where('id', id).del();
 };
+
+export const incrementFollowersRepository = async (id: string) => {
+	await knexConnection('users').where('id', id).increment('followers', 1);
+};
+
+export const decrementFollowersRepository = async (id: string) => {
+	await knexConnection('users').where('id', id).decrement('followers', 1);
+};
+
+export const incrementFollowingRepository = async (id: string) => {
+	await knexConnection('users').where('id', id).increment('following', 1);
+};
+
+export const decrementFollowingRepository = async (id: string) => {
+	await knexConnection('users').where('id', id).decrement('following', 1);
+};

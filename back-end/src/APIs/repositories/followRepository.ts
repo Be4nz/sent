@@ -29,6 +29,6 @@ export const readFollowingRepository = async (follower_id: string) => {
 	return response as FollowModel[];
 };
 
-export const deleteFollowRepository = async (follow: FollowModel) => {
-	await knexConnection('follows').where('user_id', follow.user_id).andWhere('follower_id', follow.follower_id).del();
+export const deleteFollowRepository = async (user_id: string, follower_id: string) => {
+	await knexConnection('follows').where('user_id', user_id).andWhere('follower_id', follower_id).del();
 };

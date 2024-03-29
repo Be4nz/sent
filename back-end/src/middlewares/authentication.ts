@@ -59,8 +59,12 @@ export const checkOwnership = (resourceType: string) => {
 					break;
 				case 'follows':
 					const follow = req.body as FollowModel;
+					const follower_id = req.query.follower_id as string;
 
-					if (follow) {
+					if (follower_id) {
+						const user = await readUserByIdRepository(follower_id);
+						isOwner = user.auth0_id === authPayload?.sub;
+					} else if (follow) {
 						const user = await readUserByIdRepository(follow.follower_id);
 						isOwner = user.auth0_id === authPayload?.sub;
 					}
