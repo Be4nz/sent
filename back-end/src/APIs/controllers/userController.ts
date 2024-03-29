@@ -82,7 +82,6 @@ export const readUserProfile = async (req: Request, res: Response) => {
 
 export const readUserByUsername = async (req: Request, res: Response) => {
 	const username = req.params.username;
-	console.log('Hehe' + username);
 	try {
 		const response = await readUserByUsernameRepository(username);
 		if (!response) {
