@@ -10,7 +10,6 @@ import {
 	readFollowRepository,
 	readFollowersRepository,
 	readFollowingRepository,
-	readFollowsRepository,
 } from '../repositories';
 
 export const createFollow = async (req: Request, res: Response) => {
@@ -45,8 +44,6 @@ export const readFollow = async (req: Request, res: Response) => {
 			response = await readFollowingRepository(follower_id);
 		} else if (user_id) {
 			response = await readFollowersRepository(user_id);
-		} else {
-			response = await readFollowsRepository();
 		}
 
 		if (!response) {

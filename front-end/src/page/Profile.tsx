@@ -8,6 +8,7 @@ import LoadingDisplay from '../component/display/LoadingDisplay';
 import { usePostContext } from '../context/PostContext';
 import PostListDisplay from '../component/display/PostListDisplay';
 import { useParams } from 'react-router-dom';
+import ProfileSkeletonDisplay from '../component/display/ProfileSkeletonDisplay';
 
 interface Props {}
 
