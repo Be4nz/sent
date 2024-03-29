@@ -1,11 +1,9 @@
 import { useUserContext } from '../context/UserContext';
-import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { PostModel } from '../model';
 import LoadingDisplay from '../component/display/LoadingDisplay';
 import { Grid, useTheme } from '@mui/material';
 import PostForm from '../component/form/PostForm';
-import { usePostContext } from '../context/PostContext';
 import PostModal from '../component/display/PostModal';
 import PostListDisplay from '../component/display/PostListDisplay';
 import { get } from '../api/Api';
@@ -18,9 +16,7 @@ const Home: React.FC<Props> = (props) => {
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 
 	const User = useUserContext();
-	const Posts = usePostContext();
 	const Theme = useTheme();
-	const Navigate = useNavigate();
 
 	const handleModalOpen = () => {
 		setModalOpen(true);
@@ -45,9 +41,9 @@ const Home: React.FC<Props> = (props) => {
 		};
 
 		fetchPosts();
-	}, [User, Navigate]);
+	}, [User]);
 
-	if (isLoading || User.isLoading || User.isNewUser) return <LoadingDisplay />;
+	if (isLoading) return <LoadingDisplay />;
 
 	return (
 		<div style={{ width: '100%' }}>
