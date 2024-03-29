@@ -8,6 +8,7 @@ import LoadingDisplay from './component/display/LoadingDisplay';
 import { useEffect, useState } from 'react';
 import Profile from './page/Profile';
 import { useUserContext } from './context/UserContext';
+import Following from './page/Following';
 
 const App = () => {
 	const User = useUserContext();
@@ -50,6 +51,7 @@ const App = () => {
 						<>
 							<Route path={AppRoute.HOME} element={<Home />} />
 							<Route path={`${AppRoute.PROFILE}/:username`} element={<Profile />} />
+							<Route path={AppRoute.FOLLOWING} element={<Following />} />
 						</>
 					)}
 
