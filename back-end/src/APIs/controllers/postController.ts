@@ -7,7 +7,9 @@ import {
 	readPostsByUserRepository,
 	deletePostRepository,
 	updatePostRepository,
+	readPostsFollowingRepository,
 } from '../repositories/postRepository';
+import { readFollowingRepository, readUserByAuth0IdRepository } from '../repositories';
 
 export const createPost = async (req: Request, res: Response) => {
 	const post = req.body as PostModel;
@@ -49,6 +51,37 @@ export const readPosts = async (req: Request, res: Response) => {
 		} else {
 			response = await readPostsRepository();
 		}
+
+		if (!response) {
+			res.status(200).send('No posts found');
+			return;
+		}
+
+		res.status(200).json(response);
+	} catch (error) {
+		console.log(error);
+		res.status(500).send('Internal Server Error');
+	}
+};
+
+export const readPostsFollowing = async (req: Request, res: Response) => {
+	try {
+		const authPayload = req.auth?.payload;
+
+		if (!authPayload || !authPayload.sub) {
+			res.status(403).send('Unauthorized');
+			return;
+		}
+
+		const user = await readUserByAuth0IdRepository(authPayload.sub);
+
+		if (!user || !user.id) {
+			res.status(404).send('User not found');
+			return;
+		}
+
+		const following = await readFollowingRepository(user.id);
+		const response = await readPostsFollowingRepository(following);
 
 		if (!response) {
 			res.status(200).send('No posts found');
