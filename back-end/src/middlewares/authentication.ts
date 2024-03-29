@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { auth } from 'express-oauth2-jwt-bearer';
 import { readUserByIdRepository } from '../APIs/repositories';
-import { PostModel } from '../models';
+import { FollowModel, PostModel } from '../models';
 import { readPostRepository } from '../APIs/repositories/postRepository';
 require('dotenv').config();
 
@@ -57,6 +57,13 @@ export const checkOwnership = (resourceType: string) => {
 						isOwner = user.auth0_id === authPayload?.sub;
 					}
 					break;
+				case 'follows':
+					const follow = req.body as FollowModel;
+
+					if (follow) {
+						const user = await readUserByIdRepository(follow.follower_id);
+						isOwner = user.auth0_id === authPayload?.sub;
+					}
 				default:
 					break;
 			}
