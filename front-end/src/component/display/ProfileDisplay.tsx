@@ -99,7 +99,9 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 										},
 									}}
 								>
-									<Typography color={Theme.palette.secondary.main}>Edit Profile</Typography>
+									<Typography sx={{ px: '0.8vw' }} color={Theme.palette.secondary.main}>
+										Edit Profile
+									</Typography>
 								</Button>
 							) : (
 								<Button
