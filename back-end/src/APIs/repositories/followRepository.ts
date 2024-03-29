@@ -14,11 +14,6 @@ export const readFollowRepository = async (user_id: string, follower_id: string)
 	return response[0] as FollowModel;
 };
 
-export const readFollowsRepository = async () => {
-	const response = await knexConnection('follows').select();
-	return response as FollowModel[];
-};
-
 export const readFollowersRepository = async (user_id: string) => {
 	const response = await knexConnection('follows').select('follower_id').where('user_id', user_id);
 	return response as FollowModel[];
