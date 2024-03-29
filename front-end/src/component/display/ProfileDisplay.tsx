@@ -114,9 +114,7 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 										},
 									}}
 								>
-									<Typography fontWeight={'bold'} color='white'>
-										{isFollowing ? 'Unfollow' : 'Follow'}
-									</Typography>
+									<Typography color='white'>{isFollowing ? 'Unfollow' : 'Follow'}</Typography>
 								</Button>
 							)}
 						</Grid>
