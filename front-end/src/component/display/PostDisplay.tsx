@@ -93,18 +93,20 @@ const PostDisplay: React.FC<{
 					<Grid container direction='column'>
 						<Grid container direction='row'>
 							<Grid item xs={7}>
-								<Link
-									color='none'
-									underline='hover'
-									onClick={handleProfileClick}
-									sx={{
-										':hover': {
-											cursor: 'pointer',
-										},
-									}}
-								>
-									<Typography fontWeight='bold'>@{creator?.username}</Typography>
-								</Link>
+								<Typography fontWeight='bold'>
+									<Link
+										color='none'
+										underline='hover'
+										onClick={handleProfileClick}
+										sx={{
+											':hover': {
+												cursor: 'pointer',
+											},
+										}}
+									>
+										@{creator?.username}
+									</Link>
+								</Typography>
 							</Grid>
 							<Grid item xs={5}>
 								<Typography textAlign='right' color={Theme.palette.text.secondary}>

@@ -1,6 +1,10 @@
 import { Typography, Avatar, Button, Grid, useTheme } from '@mui/material';
-import { useState } from 'react';
-import { UserModel } from '../../model';
+import { useEffect, useState } from 'react';
+import { UserModel, FollowModelDTO } from '../../model';
+import { countToDisplay } from '../../function/CountToDisplay';
+import { useUserContext } from '../../context/UserContext';
+import { del, get, post } from '../../api/Api';
+import ProfileSkeletonDisplay from './ProfileSkeletonDisplay';
 
 interface Props {
 	user: UserModel;
@@ -12,8 +16,12 @@ interface Props {
 
 const ProfileDisplay: React.FC<Props> = (props) => {
 	const [isEditing, setIsEditing] = useState(false);
+	const [isProfile, setIsProfile] = useState(true);
+	const [isFollowing, setIsFollowing] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 
 	const Theme = useTheme();
+	const User = useUserContext();
 
 	// TODO connect edit button to edit profile form
 	const handleEditClick = () => {
@@ -25,6 +33,45 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 
 	// TODO connect following button to following list
 	const handleFollowingClick = () => {};
+
+	const handleFollowClick = async () => {
+		try {
+			let response;
+			if (isFollowing) {
+				response = await del<FollowModelDTO>(`/follows/?user_id=${props.user.id}&follower_id=${User.id}`, User.token);
+				props.user.followers -= 1;
+			} else {
+				response = await post<FollowModelDTO>('/follows', { user_id: props.user.id, follower_id: User.id }, User.token);
+				props.user.followers += 1;
+			}
+
+			if (response.status === 201 || response.status === 200) {
+				setIsFollowing(!isFollowing);
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	useEffect(() => {
+		const fetchFollowing = async () => {
+			setIsLoading(true);
+			if (User.id !== props.user.id) {
+				setIsProfile(false);
+				try {
+					const response = await get(`/follows?user_id=${props.user.id}&follower_id=${User.id}`, User.token);
+					if (response.status === 200) setIsFollowing(true);
+				} catch (error) {
+					console.error(error);
+				}
+			}
+			setIsLoading(false);
+		};
+
+		fetchFollowing();
+	}, [User.id, props.user.id, User.token]);
+
+	if (isLoading) return <ProfileSkeletonDisplay my='4vh' />;
 
 	return (
 		<Grid container direction='row' minWidth={props.minWidth} maxWidth={props.maxWidth} my={props.my} mx={props.mx}>
@@ -38,21 +85,42 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 							<Typography className='profile-typography-name'>{props.user.name}</Typography>
 						</Grid>
 						<Grid item xs={3.6} textAlign='right' my='auto'>
-							<Button
-								onClick={handleEditClick}
-								sx={{
-									border: `2px solid ${Theme.palette.text.secondary}`,
-									backgroundColor: isEditing ? Theme.palette.text.secondary : 'none',
-									':hover': {
-										backgroundColor: Theme.palette.text.secondary,
-									},
-									'.MuiTouchRipple-child': {
-										color: Theme.palette.secondary.main,
-									},
-								}}
-							>
-								<Typography color={Theme.palette.secondary.main}>Edit Profile</Typography>
-							</Button>
+							{isProfile ? (
+								<Button
+									onClick={handleEditClick}
+									sx={{
+										border: `2px solid ${Theme.palette.text.secondary}`,
+										backgroundColor: isEditing ? Theme.palette.text.secondary : 'none',
+										':hover': {
+											backgroundColor: Theme.palette.text.secondary,
+										},
+										'.MuiTouchRipple-child': {
+											color: Theme.palette.secondary.main,
+										},
+									}}
+								>
+									<Typography sx={{ px: '0.8vw' }} color={Theme.palette.secondary.main}>
+										Edit Profile
+									</Typography>
+								</Button>
+							) : (
+								<Button
+									onClick={handleFollowClick}
+									sx={{
+										backgroundColor: isFollowing ? Theme.palette.text.secondary : Theme.palette.primary.main,
+										':hover': {
+											backgroundColor: Theme.palette.primary.light,
+										},
+										'.MuiTouchRipple-child': {
+											color: Theme.palette.primary.main,
+										},
+									}}
+								>
+									<Typography sx={{ px: '0.8vw' }} color='white'>
+										{isFollowing ? 'Following' : 'Follow'}
+									</Typography>
+								</Button>
+							)}
 						</Grid>
 					</Grid>
 					<Grid container direction='column' rowGap={1}>
@@ -77,7 +145,7 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 									<Grid container direction='row' columnSpacing={1}>
 										<Grid item>
 											<Typography color={Theme.palette.text.primary} fontWeight={'bold'}>
-												{props.user.followers}
+												{countToDisplay(props.user.followers)}
 											</Typography>
 										</Grid>
 										<Grid item>
@@ -100,7 +168,7 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 									<Grid container direction='row' columnSpacing={1}>
 										<Grid item>
 											<Typography color={Theme.palette.text.primary} fontWeight={'bold'}>
-												{props.user.following}
+												{countToDisplay(props.user.following)}
 											</Typography>
 										</Grid>
 										<Grid item>
