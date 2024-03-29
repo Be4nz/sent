@@ -6,10 +6,13 @@ import { Home, Person, Favorite, Bookmark, EditNote } from '@mui/icons-material'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../type/AppRoute';
 import PostModal from '../display/PostModal';
+import { useUserContext } from '../../context/UserContext';
+import { useEffect } from 'react';
 
 export default function BottomNavMenu() {
 	const iconStyles = { fontSize: 30 };
 
+	const User = useUserContext();
 	const location = useLocation();
 	const navigate = useNavigate();
 
@@ -31,6 +34,10 @@ export default function BottomNavMenu() {
 		setValue(newValue);
 	};
 
+	useEffect(() => {
+		setValue(location.pathname);
+	}, [location.pathname]);
+
 	return (
 		<Box>
 			<BottomNavigation value={value} onChange={handleChange}>
@@ -40,9 +47,9 @@ export default function BottomNavMenu() {
 					onClick={() => navigate(AppRoute.HOME)}
 				/>
 				<BottomNavigationAction
-					value={AppRoute.PROFILE}
+					value={`${AppRoute.PROFILE}/${User.username}`}
 					icon={<Person style={iconStyles} />}
-					onClick={() => navigate(AppRoute.PROFILE)}
+					onClick={() => navigate(`${AppRoute.PROFILE}/${User.username}`)}
 				/>
 				<BottomNavigationAction onClick={handleModalOpen} icon={<EditNote style={{ fontSize: 40 }} />} />
 				<PostModal open={modalOpen} handleClose={handleModalClose} />

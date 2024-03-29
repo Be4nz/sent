@@ -16,6 +16,11 @@ export const readUserByAuth0IdRepository = async (auth0_id: string) => {
 	return response[0] as UserModel;
 };
 
+export const readUserByUsernameRepository = async (username: string) => {
+	const response = await knexConnection('users').select().where('username', username).limit(1);
+	return response[0] as UserModel;
+};
+
 export const readUsersRepository = async () => {
 	const response = await knexConnection('users').select();
 	return response as UserModel[];

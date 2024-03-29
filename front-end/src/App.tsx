@@ -49,7 +49,7 @@ const App = () => {
 					{!User.isNewUser && (
 						<>
 							<Route path={AppRoute.HOME} element={<Home />} />
-							<Route path={AppRoute.PROFILE} element={<Profile />} />
+							<Route path={`${AppRoute.PROFILE}/:username`} element={<Profile />} />
 						</>
 					)}
 

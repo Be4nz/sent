@@ -7,6 +7,7 @@ import {
 	readUsers,
 	updateUser,
 	readUserProfile,
+	readUserByUsername,
 } from '../APIs/controllers';
 import { checkOwnership, checkRole } from '../middlewares/authentication';
 
@@ -151,6 +152,8 @@ userRouter.get('/auth0_id/:auth0_id', checkOwnership('users'), readUserByAuth0Id
  *         description: Internal server error
  */
 userRouter.get('/profile/:id', readUserProfile);
+
+userRouter.get('/profile/username/:username', readUserByUsername);
 
 /**
  * @swagger

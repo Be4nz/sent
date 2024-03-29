@@ -7,6 +7,7 @@ import {
 	readUserByAuth0IdRepository,
 	readUsersRepository,
 	updateUserRepository,
+	readUserByUsernameRepository,
 } from '../repositories';
 
 export const createUser = async (req: Request, res: Response) => {
@@ -63,6 +64,26 @@ export const readUserProfile = async (req: Request, res: Response) => {
 	const id = req.params.id;
 	try {
 		const response = await readUserByIdRepository(id);
+		if (!response) {
+			res.status(404).send('User not found');
+			return;
+		}
+
+		response.auth0_id = 'hidden';
+		response.email = 'hidden';
+		response.role = 'hidden';
+
+		res.status(200).json(response);
+	} catch (error) {
+		console.log(error);
+		res.status(500).send('Internal Server Error');
+	}
+};
+
+export const readUserByUsername = async (req: Request, res: Response) => {
+	const username = req.params.username;
+	try {
+		const response = await readUserByUsernameRepository(username);
 		if (!response) {
 			res.status(404).send('User not found');
 			return;
