@@ -1,5 +1,5 @@
 import knexConnection from '../../database/knex';
-import { PostModel } from '../../models';
+import { FollowModel, PostModel } from '../../models';
 
 export const createPostRepository = async (post: PostModel) => {
 	const response = await knexConnection('posts').insert(post);
@@ -13,6 +13,17 @@ export const readPostRepository = async (id: string) => {
 
 export const readPostsRepository = async () => {
 	const response = await knexConnection('posts').select().orderBy('created_at', 'desc');
+	return response as PostModel[];
+};
+
+export const readPostsFollowingRepository = async (following: FollowModel[]) => {
+	const response = await knexConnection('posts')
+		.select()
+		.whereIn(
+			'user_id',
+			following.map((entry) => entry.user_id)
+		)
+		.orderBy('created_at', 'desc');
 	return response as PostModel[];
 };
 
