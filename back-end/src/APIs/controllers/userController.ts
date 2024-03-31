@@ -8,6 +8,8 @@ import {
 	readUsersRepository,
 	updateUserRepository,
 	readUserByUsernameRepository,
+	readUserFollowerProfilesPaginatedRepository,
+	readUserFollowingProfilesPaginatedRepository,
 } from '../repositories';
 
 export const createUser = async (req: Request, res: Response) => {
@@ -72,6 +74,38 @@ export const readUserProfile = async (req: Request, res: Response) => {
 		response.auth0_id = 'hidden';
 		response.email = 'hidden';
 		response.role = 'hidden';
+
+		res.status(200).json(response);
+	} catch (error) {
+		console.log(error);
+		res.status(500).send('Internal Server Error');
+	}
+};
+
+export const readUserFollowProfilesPaginated = async (req: Request, res: Response) => {
+	const page = parseInt(req.params.page as string);
+	const limit = parseInt(req.params.limit as string);
+	const user_id = req.query.user_id as string;
+	const follower_id = req.query.follower_id as string;
+
+	try {
+		let response: UserModel[] = [];
+		if (follower_id) {
+			response = await readUserFollowingProfilesPaginatedRepository(follower_id, page, limit);
+		} else if (user_id) {
+			response = await readUserFollowerProfilesPaginatedRepository(user_id, page, limit);
+		}
+
+		if (response.length === 0) {
+			res.status(404).send('Users not found');
+			return;
+		}
+
+		response.map((user) => {
+			user.auth0_id = 'hidden';
+			user.email = 'hidden';
+			user.role = 'hidden';
+		});
 
 		res.status(200).json(response);
 	} catch (error) {

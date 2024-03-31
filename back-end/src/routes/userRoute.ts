@@ -8,10 +8,13 @@ import {
 	updateUser,
 	readUserProfile,
 	readUserByUsername,
+	readUserFollowProfilesPaginated,
 } from '../APIs/controllers';
 import { checkOwnership, checkRole } from '../middlewares/authentication';
 
 export const userRouter = Router();
+
+userRouter.get('/follow/profile/:page/:limit/', readUserFollowProfilesPaginated);
 
 /**
  * @swagger
