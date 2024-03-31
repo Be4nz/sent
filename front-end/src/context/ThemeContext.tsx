@@ -161,6 +161,10 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 										fontSize: '1rem',
 									},
 								},
+								'&.follow-typography': {
+									fontSize: '1.7rem',
+									fontWeight: '500',
+								},
 							},
 						},
 					},
