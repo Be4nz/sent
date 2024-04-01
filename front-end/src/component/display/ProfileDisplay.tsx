@@ -5,6 +5,8 @@ import { countToDisplay } from '../../function/CountToDisplay';
 import { useUserContext } from '../../context/UserContext';
 import { del, get, post } from '../../api/Api';
 import ProfileSkeletonDisplay from './ProfileSkeletonDisplay';
+import FollowersModal from '../follow/FollowersModal';
+import FollowingModal from '../follow/FollowingModal';
 
 interface Props {
 	user: UserModel;
@@ -19,6 +21,8 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 	const [isProfile, setIsProfile] = useState(true);
 	const [isFollowing, setIsFollowing] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
+	const [isFollowingOpen, setIsFollowingOpen] = useState(false);
+	const [isFollwersOpen, setIsFollowersOpen] = useState(false);
 
 	const Theme = useTheme();
 	const User = useUserContext();
@@ -27,12 +31,6 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 	const handleEditClick = () => {
 		setIsEditing(!isEditing);
 	};
-
-	// TODO connect followers button to followers list
-	const handleFollowersClick = () => {};
-
-	// TODO connect following button to following list
-	const handleFollowingClick = () => {};
 
 	const handleFollowClick = async () => {
 		try {
@@ -133,7 +131,7 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 						<Grid container direction='row'>
 							<Grid item xs={4}>
 								<Button
-									onClick={handleFollowersClick}
+									onClick={() => setIsFollowersOpen(true)}
 									disableRipple
 									sx={{
 										padding: '0px',
@@ -153,10 +151,17 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 										</Grid>
 									</Grid>
 								</Button>
+								{isFollwersOpen && (
+									<FollowersModal
+										open={isFollwersOpen}
+										handleClose={() => setIsFollowersOpen(false)}
+										user_id={props.user.id}
+									/>
+								)}
 							</Grid>
 							<Grid item xs={4}>
 								<Button
-									onClick={handleFollowingClick}
+									onClick={() => setIsFollowingOpen(true)}
 									disableRipple
 									sx={{
 										padding: '0px',
@@ -176,6 +181,13 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 										</Grid>
 									</Grid>
 								</Button>
+								{isFollowingOpen && (
+									<FollowingModal
+										open={isFollowingOpen}
+										handleClose={() => setIsFollowingOpen(false)}
+										follower_id={props.user.id}
+									/>
+								)}
 							</Grid>
 						</Grid>
 					</Grid>

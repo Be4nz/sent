@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import Profile from './page/Profile';
 import { useUserContext } from './context/UserContext';
 import Following from './page/Following';
+import './App.css';
 
 const App = () => {
 	const User = useUserContext();

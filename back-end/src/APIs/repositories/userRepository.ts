@@ -1,5 +1,6 @@
 import knexConnection from '../../database/knex';
-import { UserModel } from '../../models';
+import { FollowModel, UserModel } from '../../models';
+import { PaginatedModel } from '../../models/paginatedModel';
 
 export const createUserRepository = async (user: UserModel) => {
 	const response = await knexConnection('users').insert(user);
@@ -14,6 +15,32 @@ export const readUserByIdRepository = async (id: string) => {
 export const readUserByAuth0IdRepository = async (auth0_id: string) => {
 	const response = await knexConnection('users').select().where('auth0_id', auth0_id).limit(1);
 	return response[0] as UserModel;
+};
+
+export const readUserFollowingProfilesPaginatedRepository = async (
+	follower_id: string,
+	page: number,
+	limit: number
+) => {
+	const followedUserIds = (await knexConnection('follows')
+		.select('user_id')
+		.where('follower_id', follower_id)
+		.paginate({ perPage: limit, currentPage: page, isLengthAware: true })
+		.then((response: PaginatedModel<FollowModel>) => response.data.map((entry) => entry.user_id))) as string[];
+
+	const response = await knexConnection('users').select().whereIn('id', followedUserIds);
+	return response as UserModel[];
+};
+
+export const readUserFollowerProfilesPaginatedRepository = async (user_id: string, page: number, limit: number) => {
+	const followersUserIds = (await knexConnection('follows')
+		.select('follower_id')
+		.where('user_id', user_id)
+		.paginate({ perPage: limit, currentPage: page, isLengthAware: true })
+		.then((response: PaginatedModel<FollowModel>) => response.data.map((entry) => entry.follower_id))) as string[];
+
+	const response = await knexConnection('users').select().whereIn('id', followersUserIds);
+	return response as UserModel[];
 };
 
 export const readUserByUsernameRepository = async (username: string) => {
