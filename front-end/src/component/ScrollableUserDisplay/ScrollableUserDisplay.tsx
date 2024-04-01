@@ -1,15 +1,4 @@
-import {
-	Avatar,
-	Box,
-	CircularProgress,
-	Container,
-	Grid,
-	IconButton,
-	Link,
-	Modal,
-	Typography,
-	useTheme,
-} from '@mui/material';
+import { Avatar, Box, CircularProgress, Grid, IconButton, Modal, Typography, useTheme } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import React, { useRef } from 'react';
 import { UserModel } from '../../model';
