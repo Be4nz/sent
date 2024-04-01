@@ -65,13 +65,13 @@ const ScrollableUserDisplay: React.FC<Props> = (props) => {
 						backgroundColor: Theme.palette.background.default,
 					}}
 				>
-					<Grid container direction={'row'} justifyContent={'center'}>
-						<Grid item xs={7.8}>
+					<Grid container direction={'row'} alignItems={'center'}>
+						<Grid item xs={7.75}>
 							<Typography style={{ fontSize: '1.4rem', fontWeight: 500 }} textAlign='right'>
 								{props.title}
 							</Typography>
 						</Grid>
-						<Grid item xs={4.2} textAlign='right'>
+						<Grid item xs={4.25} textAlign='right'>
 							<IconButton onClick={props.handleClose}>
 								<CloseIcon />
 							</IconButton>
@@ -108,7 +108,7 @@ const ScrollableUserDisplay: React.FC<Props> = (props) => {
 								sx={{
 									':hover': {
 										cursor: 'pointer',
-										backgroundColor: Theme.palette.background.paper,
+										backgroundColor: Theme.palette.action.hover,
 									},
 								}}
 								onClick={() => handleProfileClick(user.username)}
