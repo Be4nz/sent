@@ -14,6 +14,7 @@ import { PostModel, UserModel } from '../../model';
 import PostSkeletonDisplay from './PostSkeletonDisplay';
 import { useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../type/AppRoute';
+import { convertToLocalTime } from '../../function/ConvertToLocalTime';
 
 const PostDisplay: React.FC<{
 	post: PostModel;
@@ -110,12 +111,7 @@ const PostDisplay: React.FC<{
 							</Grid>
 							<Grid item xs={5}>
 								<Typography textAlign='right' color={Theme.palette.text.secondary}>
-									{/* If every date isn't in new Date(), it doesn't work */}
-									{timeSince(
-										new Date(
-											new Date(post.created_at).getTime() - new Date(post.created_at).getTimezoneOffset() * 60000
-										)
-									)}
+									{timeSince(convertToLocalTime(post.created_at))}
 								</Typography>
 							</Grid>
 						</Grid>
