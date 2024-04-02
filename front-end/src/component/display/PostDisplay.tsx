@@ -110,7 +110,12 @@ const PostDisplay: React.FC<{
 							</Grid>
 							<Grid item xs={5}>
 								<Typography textAlign='right' color={Theme.palette.text.secondary}>
-									{timeSince(new Date(post.created_at))}
+									{/* If every date isn't in new Date(), it doesn't work */}
+									{timeSince(
+										new Date(
+											new Date(post.created_at).getTime() - new Date(post.created_at).getTimezoneOffset() * 60000
+										)
+									)}
 								</Typography>
 							</Grid>
 						</Grid>
