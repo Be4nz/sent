@@ -80,7 +80,7 @@ export const Post: React.FC<Props> = () => {
 
 	const fetchComments = async () => {
 		try {
-			const response = await get<CommentModel[]>('/comments/', User.token);
+			const response = await get<CommentModel[]>('/comments/of/' + id, User.token);
 			if (response.status === 200) {
 				setComments(response.data);
 			}
