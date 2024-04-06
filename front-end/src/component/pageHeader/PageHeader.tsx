@@ -42,7 +42,7 @@ export default function PageHeader() {
 	};
 
 	const handleBacking = () => {
-		navigate('/');
+		navigate(AppRoute.HOME);
 	};
 
 	// Check if the current pathname is post/:id

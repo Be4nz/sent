@@ -76,7 +76,7 @@ export const Post: React.FC<Props> = () => {
 
 	useEffect(() => {
 		fetchPost();
-	}, []);
+	}, [User]);
 
 	return isLoading ? (
 		<LoadingDisplay />
