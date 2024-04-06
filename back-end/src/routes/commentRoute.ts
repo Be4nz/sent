@@ -4,7 +4,7 @@ import {
 	createComment,
 	deleteComment,
 	readComment,
-	readComments,
+	readCommentsByPostId,
 	updateComment,
 } from '../APIs/controllers/commentController';
 
@@ -14,7 +14,7 @@ commentRouter.post('/', checkOwnership('comments'), createComment);
 
 commentRouter.get('/:id', readComment);
 
-commentRouter.get('/', readComments);
+commentRouter.get('/of/:id', readCommentsByPostId);
 
 commentRouter.put('/:id', checkOwnership('comments'), updateComment);
 
