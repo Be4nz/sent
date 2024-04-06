@@ -8,8 +8,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use('/api/v1', requestLogger);
-app.use('/api/v1', verifyJwt);
+// app.use('/api/v1', requestLogger);
+// app.use('/api/v1', verifyJwt);
 
 app.use('/api/v1', router);
 app.use('/api-docs/v1', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
