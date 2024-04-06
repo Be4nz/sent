@@ -7,10 +7,14 @@ import {
 	readUsers,
 	updateUser,
 	readUserProfile,
+	readUserByUsername,
+	readUserFollowProfilesPaginated,
 } from '../APIs/controllers';
 import { checkOwnership, checkRole } from '../middlewares/authentication';
 
 export const userRouter = Router();
+
+userRouter.get('/follow/profile/:page/:limit/', readUserFollowProfilesPaginated);
 
 /**
  * @swagger
@@ -151,6 +155,8 @@ userRouter.get('/auth0_id/:auth0_id', checkOwnership('users'), readUserByAuth0Id
  *         description: Internal server error
  */
 userRouter.get('/profile/:id', readUserProfile);
+
+userRouter.get('/profile/username/:username', readUserByUsername);
 
 /**
  * @swagger

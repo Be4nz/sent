@@ -4,7 +4,7 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import { Avatar, Grid, IconButton, ListItem, Typography, useTheme } from '@mui/material';
+import { Avatar, Grid, IconButton, Link, ListItem, Typography, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { get } from '../../api/Api';
 import { useUserContext } from '../../context/UserContext';
@@ -56,6 +56,10 @@ const PostDisplay: React.FC<{
 		setIsSaved(!isSaved);
 	};
 
+	const handleProfileClick = () => {
+		Navigate(`${AppRoute.PROFILE}/${creator?.username}`);
+	};
+
 	useEffect(() => {
 		if (postPattern.test(window.location.pathname)) {
 			setIsCommentSelected(true);
@@ -86,17 +90,40 @@ const PostDisplay: React.FC<{
 		<ListItem divider>
 			<Grid container direction='row' minWidth={minWidth} maxWidth={maxWidth} my={my} mx={mx} width={'100%'}>
 				<Grid item xs={1.5}>
-					<Avatar alt='avatar' src={creator?.picture} />
+					<Avatar
+						onClick={handleProfileClick}
+						src={creator?.picture}
+						sx={{
+							transition: 'filter 0.3s',
+							':hover': {
+								filter: 'brightness(70%)',
+								cursor: 'pointer',
+							},
+						}}
+					/>
 				</Grid>
 				<Grid item xs={10.5}>
 					<Grid container direction='column'>
 						<Grid container direction='row'>
 							<Grid item xs={7}>
-								<Typography fontWeight='bold'>@{creator?.username || 'unknown'}</Typography>
+								<Typography fontWeight='bold'>
+									<Link
+										color='none'
+										underline='hover'
+										onClick={handleProfileClick}
+										sx={{
+											':hover': {
+												cursor: 'pointer',
+											},
+										}}
+									>
+										@{creator?.username}
+									</Link>
+								</Typography>
 							</Grid>
 							<Grid item xs={5}>
 								<Typography textAlign='right' color={Theme.palette.text.secondary}>
-									{post.created_at ? timeSince(new Date(post.created_at)) : 'unknown'}
+									{timeSince(convertToLocalTime(post.created_at))}
 								</Typography>
 							</Grid>
 						</Grid>

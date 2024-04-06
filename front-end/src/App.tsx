@@ -54,6 +54,7 @@ const App = () => {
 							<Route path={AppRoute.HOME} element={<Home />} />
 							<Route path={AppRoute.PROFILE} element={<Profile />} />
 							<Route path={AppRoute.POST} element={<Post />} />
+							<Route path={`${AppRoute.PROFILE}/:username`} element={<Profile />} />
 							<Route path={AppRoute.FOLLOWING} element={<Following />} />
 						</>
 					)}
