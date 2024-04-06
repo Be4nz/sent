@@ -4,8 +4,7 @@ import {
 	createCommentRepository,
 	deleteCommentRepository,
 	readCommentRepository,
-	readCommentsByUserRepository,
-	readCommentsRepository,
+	readCommentsByPostRepository,
 	updateCommentRepository,
 } from '../repositories/commentRepository';
 
@@ -39,15 +38,13 @@ export const readComment = async (req: Request, res: Response) => {
 	}
 };
 
-export const readComments = async (req: Request, res: Response) => {
+export const readCommentsByPostId = async (req: Request, res: Response) => {
 	try {
 		let response;
-		const user_id = req.query.user_id as string;
+		const id = req.params.id;
 
-		if (user_id) {
-			response = await readCommentsByUserRepository(user_id);
-		} else {
-			response = await readCommentsRepository();
+		if (id) {
+			response = await readCommentsByPostRepository(id);
 		}
 
 		if (!response) {

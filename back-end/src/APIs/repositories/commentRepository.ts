@@ -16,8 +16,8 @@ export const readCommentsRepository = async () => {
 	return response as CommentModel[];
 };
 
-export const readCommentsByUserRepository = async (user_id: string) => {
-	const response = await knexConnection('comments').select().where('user_id', user_id).orderBy('created_at', 'desc');
+export const readCommentsByPostRepository = async (post_id: string) => {
+	const response = await knexConnection('comments').select().where('post_id', post_id).orderBy('created_at', 'desc');
 	return response as CommentModel[];
 };
 
