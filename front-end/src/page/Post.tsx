@@ -11,6 +11,8 @@ import { AppRoute } from '../type/AppRoute';
 import LoadingDisplay from '../component/display/LoadingDisplay';
 import CommentForm from '../component/form/CommentForm';
 import CommentModal from '../component/display/CommentModal';
+import CommentListDisplay from '../component/display/CommentListDisplay';
+import { CommentModel } from '../model/CommentModel';
 
 const BackButton = styled(IconButton)`
 	background: none;
@@ -54,6 +56,7 @@ export const Post: React.FC<Props> = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [post, setPost] = useState<PostModel>();
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
+	const [comments, setComments] = useState<CommentModel[]>([]);
 	const { id } = useParams();
 
 	const User = useUserContext();
@@ -65,7 +68,6 @@ export const Post: React.FC<Props> = () => {
 	};
 
 	const fetchPost = async () => {
-		setIsLoading(true);
 		try {
 			const response = await get<PostModel>('/posts/' + id, User.token);
 			if (response.status === 200) {
@@ -74,11 +76,23 @@ export const Post: React.FC<Props> = () => {
 		} catch (error) {
 			console.log(error);
 		}
-		setIsLoading(false);
+	};
+
+	const fetchComments = async () => {
+		try {
+			const response = await get<CommentModel[]>('/comments/', User.token);
+			if (response.status === 200) {
+				setComments(response.data);
+			}
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	useEffect(() => {
 		fetchPost();
+		fetchComments();
+		setIsLoading(false);
 	}, [User]);
 
 	const handleModalOpen = () => {
@@ -86,6 +100,7 @@ export const Post: React.FC<Props> = () => {
 	};
 
 	const handleModalClose = () => {
+		fetchComments();
 		setModalOpen(false);
 	};
 
@@ -122,6 +137,7 @@ export const Post: React.FC<Props> = () => {
 
 					<CommentModal open={modalOpen} handleClose={handleModalClose} postId={id} />
 				</Container>
+				<CommentListDisplay comments={comments} />
 			</Grid>
 		</div>
 	) : (
