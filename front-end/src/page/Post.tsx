@@ -4,12 +4,13 @@ import { PostModel } from '../model';
 import { get } from '../api/Api';
 import { useUserContext } from '../context/UserContext';
 import PostDisplay from '../component/display/PostDisplay';
-import { Button } from '@mui/base';
 import styled from '@emotion/styled';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Hidden, IconButton } from '@mui/material';
+import { Grid, Hidden, IconButton, useTheme } from '@mui/material';
 import { AppRoute } from '../type/AppRoute';
 import LoadingDisplay from '../component/display/LoadingDisplay';
+import CommentForm from '../component/form/CommentForm';
+import CommentModal from '../component/display/CommentModal';
 
 const BackButton = styled(IconButton)`
 	background: none;
@@ -52,10 +53,12 @@ interface Props {}
 export const Post: React.FC<Props> = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [post, setPost] = useState<PostModel>();
+	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const { id } = useParams();
 
 	const User = useUserContext();
 	const navigate = useNavigate();
+	const Theme = useTheme();
 
 	const handleBacking = () => {
 		navigate(AppRoute.HOME);
@@ -78,22 +81,49 @@ export const Post: React.FC<Props> = () => {
 		fetchPost();
 	}, [User]);
 
+	const handleModalOpen = () => {
+		setModalOpen(true);
+	};
+
+	const handleModalClose = () => {
+		setModalOpen(false);
+	};
+
 	return isLoading ? (
 		<LoadingDisplay />
 	) : post ? (
-		<Container>
-			<Hidden lgDown>
-				<TitleBar>
-					<BackButton onClick={handleBacking}>
-						<ArrowBackIcon />
-					</BackButton>
-					<Title>Post</Title>
-				</TitleBar>
-			</Hidden>
-			<ContentContainer>
-				<PostDisplay post={post} />
-			</ContentContainer>
-		</Container>
+		<div style={{ width: '100%' }}>
+			<Grid item minWidth='360px' maxWidth='752px' mx='auto'>
+				<Container>
+					<Hidden lgDown>
+						<TitleBar>
+							<BackButton onClick={handleBacking}>
+								<ArrowBackIcon />
+							</BackButton>
+							<Title>Post</Title>
+						</TitleBar>
+					</Hidden>
+					<ContentContainer>
+						<PostDisplay post={post} />
+					</ContentContainer>
+					<Grid
+						onClick={handleModalOpen}
+						my='4vh'
+						sx={{
+							borderRadius: '15px',
+							':hover': {
+								cursor: 'pointer',
+								backgroundColor: Theme.palette.background.paper,
+							},
+						}}
+					>
+						<CommentForm disabled={true} />
+					</Grid>
+
+					<CommentModal open={modalOpen} handleClose={handleModalClose} postId={id} />
+				</Container>
+			</Grid>
+		</div>
 	) : (
 		<>This post does not exist</>
 	);
