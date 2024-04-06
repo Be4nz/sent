@@ -12,7 +12,9 @@ import { timeSince } from '../../function/TimeSince';
 import { countToDisplay } from '../../function/CountToDisplay';
 import { PostModel, UserModel } from '../../model';
 import PostSkeletonDisplay from './PostSkeletonDisplay';
-import { redirect, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
+import { AppRoute } from '../../type/AppRoute';
+import { convertToLocalTime } from '../../function/ConvertToLocalTime';
 
 const PostDisplay: React.FC<{
 	post: PostModel;
