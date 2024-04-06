@@ -31,7 +31,10 @@ const PostDisplay: React.FC<{
 
 	const Theme = useTheme();
 	const User = useUserContext();
-	const Navigate = useNavigate();
+	const navigate = useNavigate();
+
+	// Regular expression pattern to match '/post/:id'
+	const postPattern = /^\/post\/\d+$/;
 
 	//TODO connect liking to database
 	const handleLikeClick = () => {
@@ -40,7 +43,12 @@ const PostDisplay: React.FC<{
 
 	//TODO implement comment section
 	const handleCommentClick = () => {
-		setIsCommentSelected(!isCommentSelected);
+		// Check if the current URL does not match the pattern "/post/:id"
+		if (!postPattern.test(window.location.pathname)) {
+			setIsCommentSelected(!isCommentSelected);
+
+			navigate('/post/' + post.id);
+		}
 	};
 
 	//TODO connect saving to database
@@ -53,6 +61,10 @@ const PostDisplay: React.FC<{
 	};
 
 	useEffect(() => {
+		if (postPattern.test(window.location.pathname)) {
+			setIsCommentSelected(true);
+		}
+
 		//TODO recieve like status from database if current user is already liked
 		const getLikeStatus = async () => {};
 		//TODO recieve save status from database if current user is already liked
