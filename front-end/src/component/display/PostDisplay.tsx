@@ -57,7 +57,7 @@ const PostDisplay: React.FC<{
 	};
 
 	const handleProfileClick = () => {
-		Navigate(`${AppRoute.PROFILE}/${creator?.username}`);
+		navigate(`${AppRoute.PROFILE}/${creator?.username}`);
 	};
 
 	useEffect(() => {
