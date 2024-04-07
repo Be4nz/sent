@@ -1,18 +1,6 @@
 import { Request, Response } from 'express';
 import { FollowModel } from '../../models';
-import {
-	createFollowRepository,
-	decrementFollowersRepository,
-	decrementFollowingRepository,
-	decrementLikesRepository,
-	deleteFollowRepository,
-	incrementFollowersRepository,
-	incrementFollowingRepository,
-	incrementLikesRepository,
-	readFollowRepository,
-	readFollowersRepository,
-	readFollowingRepository,
-} from '../repositories';
+import { decrementLikesRepository, incrementLikesRepository, readFollowRepository } from '../repositories';
 import {
 	createLikeRepository,
 	deleteLikeRepository,
@@ -20,7 +8,7 @@ import {
 	readLikersRepository,
 	readLikingRepository,
 } from '../repositories/likeRepository';
-import { LikeModel } from '../../models/likeModel';
+import { LikeModel } from '../../models';
 
 export const createLike = async (req: Request, res: Response) => {
 	const like = req.body as LikeModel;
@@ -47,7 +35,7 @@ export const createLike = async (req: Request, res: Response) => {
 
 export const readLike = async (req: Request, res: Response) => {
 	const user_id = req.query.user_id as string;
-	const post_id = req.query.follower_id as string;
+	const post_id = req.query.post_id as string;
 
 	try {
 		let response;

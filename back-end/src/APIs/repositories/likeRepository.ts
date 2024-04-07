@@ -1,5 +1,5 @@
 import knexConnection from '../../database/knex';
-import { LikeModel } from '../../models/likeModel';
+import { LikeModel } from '../../models';
 
 export const createLikeRepository = async (like: LikeModel) => {
 	await knexConnection('likes').insert(like);

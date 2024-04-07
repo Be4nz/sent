@@ -28,7 +28,7 @@ const PostListDisplay: React.FC<Props> = (props) => {
 	return (
 		<List>
 			{props.posts.map((post) => {
-				return <PostDisplay key={post.id} post={post} my='2vh' />;
+				return <PostDisplay key={post.id} postData={post} my='2vh' />;
 			})}
 		</List>
 	);

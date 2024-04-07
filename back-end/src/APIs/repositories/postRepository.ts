@@ -45,5 +45,5 @@ export const incrementLikesRepository = async (id: string) => {
 };
 
 export const decrementLikesRepository = async (id: string) => {
-	await knexConnection('users').where('id', id).decrement('like_count', 1);
+	await knexConnection('posts').where('id', id).decrement('like_count', 1);
 };
