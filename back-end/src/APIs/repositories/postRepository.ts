@@ -39,3 +39,11 @@ export const updatePostRepository = async (id: string, post: PostModel) => {
 export const deletePostRepository = async (id: string) => {
 	await knexConnection('users').where('id', id).del();
 };
+
+export const incrementCommentsRepository = async (id: string) => {
+	await knexConnection('posts').where('id', id).increment('comment_count', 1);
+};
+
+export const decrementCommentsRepository = async (id: string) => {
+	await knexConnection('posts').where('id', id).decrement('comment_count', 1);
+};

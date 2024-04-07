@@ -1,5 +1,5 @@
 import knexConnection from '../../database/knex';
-import { CommentModel } from '../../models/CommentModel';
+import { CommentModel } from '../../models';
 
 export const createCommentRepository = async (comment: CommentModel) => {
 	const response = await knexConnection('comments').insert(comment);

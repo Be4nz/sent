@@ -120,7 +120,7 @@ export const Post: React.FC<Props> = () => {
 						<CommentForm disabled={true} />
 					</Grid>
 
-					<CommentModal open={modalOpen} handleClose={handleModalClose} postId={id} />
+					<CommentModal open={modalOpen} handleClose={handleModalClose} postId={id} fetchPost={fetchPost} />
 				</Container>
 			</Grid>
 		</div>
