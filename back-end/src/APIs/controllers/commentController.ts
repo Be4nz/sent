@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { CommentModel } from '../../models/CommentModel';
+import { CommentModel } from '../../models';
 import {
 	createCommentRepository,
 	deleteCommentRepository,
@@ -7,6 +7,7 @@ import {
 	readCommentsByPostRepository,
 	updateCommentRepository,
 } from '../repositories/commentRepository';
+import { decrementCommentsRepository, incrementCommentsRepository } from '../repositories';
 
 export const createComment = async (req: Request, res: Response) => {
 	const comment = req.body as CommentModel;
@@ -14,6 +15,8 @@ export const createComment = async (req: Request, res: Response) => {
 		const id = await createCommentRepository(comment);
 
 		const response = await readCommentRepository(id);
+
+		incrementCommentsRepository(comment.post_id);
 
 		res.status(201).json(response);
 	} catch (error) {
@@ -108,7 +111,10 @@ export const deleteComment = async (req: Request, res: Response) => {
 			return;
 		}
 
+		decrementCommentsRepository(response.post_id);
+
 		await deleteCommentRepository(id);
+
 		res.status(200).json(response);
 	} catch (error) {
 		console.log(error);

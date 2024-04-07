@@ -99,8 +99,8 @@ const CommentForm: React.FC<Props> = (props) => {
 						<Avatar src={User.picture} />
 					</Grid>
 					<Grid item xs={10.5}>
-						<Grid container direction={'row'} columnGap={1}>
-							<Grid item xs={props.disabled ? 10.5 : 9}>
+						<Grid alignItems='center' container direction={'row'} columnGap={1} item justifyContent='space-between'>
+							<Grid>
 								<Input
 									{...register('content')}
 									error={errors.content ? true : false}

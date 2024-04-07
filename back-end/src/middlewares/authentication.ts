@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { auth } from 'express-oauth2-jwt-bearer';
 import { readUserByIdRepository } from '../APIs/repositories';
-import { FollowModel, PostModel } from '../models';
+import { FollowModel, PostModel, CommentModel } from '../models';
 import { readPostRepository } from '../APIs/repositories/postRepository';
-import { CommentModel } from '../models/CommentModel';
 import { readCommentRepository } from '../APIs/repositories/commentRepository';
 require('dotenv').config();
 

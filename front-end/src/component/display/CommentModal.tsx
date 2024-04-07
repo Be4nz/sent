@@ -10,10 +10,12 @@ interface Props {
 	open: boolean;
 	postId?: string;
 	handleClose: () => void;
+	fetchPost: () => void;
 }
 
 const CommentModal: React.FC<Props> = (props) => {
 	const handleSubmit = () => {
+		props.fetchPost();
 		props.handleClose();
 	};
 
