@@ -17,7 +17,6 @@ test('Should format 1000 as 1K', () => {
 
     expect(actual).toBe(expected);
 })
-
 test('Should format 1000000 as 1M', () => {
     let number = 1000000;
     let expected = '1M';
