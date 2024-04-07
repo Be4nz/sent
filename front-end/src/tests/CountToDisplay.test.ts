@@ -17,3 +17,21 @@ test('Should format 1000 as 1K', () => {
 
     expect(actual).toBe(expected);
 })
+
+test('Should format 1000000 as 1M', () => {
+    let number = 1000000;
+    let expected = '1M';
+
+    let actual = countToDisplay(number);
+
+    expect(actual).toBe(expected);
+})
+
+test('Should format 1000000000 as 1B', () => {
+    let number = 1000000000;
+    let expected = '1B';
+
+    let actual = countToDisplay(number);
+
+    expect(actual).toBe(expected);
+})
