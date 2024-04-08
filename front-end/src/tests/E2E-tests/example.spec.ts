@@ -1,11 +1,13 @@
 import { test, expect } from '@playwright/test';
+import { LoginPage } from '../pages/loginPage';
+import { validUser } from '../mock-data/user';
 
 test('get started link', async ({ page }) => {
-  await page.goto('http://localhost:3000/');
+  const loginPage = new LoginPage(page);
 
-  // Click the get started link.
-  let usernameField =  page.locator('#usernasme');
+  await loginPage.goto();
+  await loginPage.login(validUser);
 
   // Expects page to have a heading with the name of Installation.
-  await expect(usernameField).toBeVisible();
+  await expect(page.locator('#text')).toBeVisible();
 });
