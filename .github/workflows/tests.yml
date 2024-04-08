@@ -1,6 +1,8 @@
 name: AutomatedTesting
 run-name: ${{ github.actor }} is testing her frontend
-on: pull_request
+on:
+  pull_request:
+  workflow_dispatch:
 jobs:
   run-defined-frontend-tests:
     runs-on: ubuntu-latest
