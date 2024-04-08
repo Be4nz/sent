@@ -31,7 +31,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "tests": "jest --coverage"
+    "tests": "jest --coverage --findRelatedTests ./tests/unit-tests"
   },
   "eslintConfig": {
     "extends": [
@@ -52,6 +52,7 @@
     ]
   },
   "devDependencies": {
+    "@playwright/test": "^1.43.0",
     "jest": "^27.5.1"
   }
 }

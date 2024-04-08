@@ -1,0 +1,2 @@
+export const validPostContent: string = 'This is a valid post';
+export const tooLargePostContent: string = 'This is too much text. This is too much text. This is too much text. This is too much text. This is too much text. This is too much text. This is too much text. This is too much text. This is too much text. This is too much text. This is too much text. This is too much text.';
