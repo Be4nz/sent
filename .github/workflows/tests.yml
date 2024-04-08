@@ -1,0 +1,16 @@
+name: AutomatedTesting
+run-name: ${{ github.actor }} is testing her frontend
+on: pull_request
+jobs:
+  run-defined-frontend-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./front-end
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm ci
+      - run: npm run tests
