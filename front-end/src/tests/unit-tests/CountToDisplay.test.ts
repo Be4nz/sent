@@ -1,4 +1,4 @@
-import { countToDisplay } from "../function/CountToDisplay";
+import { countToDisplay } from "../../function/CountToDisplay";
 
 test('Should format 1 as 1', () => {
     let number = 1;
