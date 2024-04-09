@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { auth } from 'express-oauth2-jwt-bearer';
 import { readUserByIdRepository } from '../APIs/repositories';
-import { FollowModel, PostModel } from '../models';
+import { FollowModel, PostModel, CommentModel } from '../models';
 import { readPostRepository } from '../APIs/repositories/postRepository';
+import { readCommentRepository } from '../APIs/repositories/commentRepository';
 require('dotenv').config();
 
 export const verifyJwt = auth({
@@ -66,6 +67,17 @@ export const checkOwnership = (resourceType: string) => {
 						isOwner = user.auth0_id === authPayload?.sub;
 					} else if (follow) {
 						const user = await readUserByIdRepository(follow.follower_id);
+						isOwner = user.auth0_id === authPayload?.sub;
+					}
+				case 'comments':
+					const comment = req.body as CommentModel;
+
+					if (comment) {
+						const user = await readUserByIdRepository(comment.user_id);
+						isOwner = user.auth0_id === authPayload?.sub;
+					} else if (id) {
+						const comment = await readCommentRepository(id);
+						const user = await readUserByIdRepository(comment.user_id);
 						isOwner = user.auth0_id === authPayload?.sub;
 					}
 				default:
