@@ -37,6 +37,7 @@ export default defineConfig({
 		url: 'http://localhost:3000',
 		stdout: 'ignore',
 		stderr: 'pipe',
+		timeout: 300000,
 	},
 
 	/* Configure projects for major browsers */
