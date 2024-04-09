@@ -6,28 +6,29 @@ import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import { Avatar, Grid, IconButton, Link, ListItem, Typography, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { get } from '../../api/Api';
+import { get, post, del } from '../../api/Api';
 import { useUserContext } from '../../context/UserContext';
 import { timeSince } from '../../function/TimeSince';
 import { countToDisplay } from '../../function/CountToDisplay';
-import { PostModel, UserModel } from '../../model';
+import { LikeModel, PostModel, UserModel } from '../../model';
 import PostSkeletonDisplay from './PostSkeletonDisplay';
 import { useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../type/AppRoute';
 import { convertToLocalTime } from '../../function/ConvertToLocalTime';
 
 const PostDisplay: React.FC<{
-	post: PostModel;
+	postData: PostModel;
 	minWidth?: string;
 	maxWidth?: string;
 	my?: string;
 	mx?: string;
-}> = ({ post, minWidth, maxWidth, my, mx }) => {
+}> = ({ postData, minWidth, maxWidth, my, mx }) => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [isLiked, setIsLiked] = useState(false);
 	const [isCommentSelected, setIsCommentSelected] = useState(false);
 	const [isSaved, setIsSaved] = useState(false);
 	const [creator, setCreator] = useState<UserModel>();
+	const [displayedPost, setDisplayedPost] = useState<PostModel>(postData);
 
 	const Theme = useTheme();
 	const User = useUserContext();
@@ -36,9 +37,47 @@ const PostDisplay: React.FC<{
 	// Regular expression pattern to match '/post/:id'
 	const postPattern = /^\/post\/\d+$/;
 
+	const updatePost = async () => {
+		setIsLoading(true);
+		fetchPost();
+		setIsLoading(false);
+	};
+
+	const fetchPost = async () => {
+		try {
+			const response = await get<PostModel>('/posts/' + postData.id, User.token);
+			if (response.status === 200) {
+				setDisplayedPost(response.data);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	//TODO connect liking to database
-	const handleLikeClick = () => {
-		setIsLiked(!isLiked);
+	const handleLikeClick = async () => {
+		const newLike: LikeModel = {
+			post_id: postData.id,
+			user_id: User.id,
+		};
+
+		try {
+			let response;
+			if (isLiked) {
+				console.log('del');
+				response = await del<LikeModel>(`/likes/?user_id=${User.id}&post_id=${postData.id}`, User.token);
+			} else {
+				response = await post<LikeModel>('/likes', newLike, User.token);
+			}
+
+			if (response.status === 201 || response.status === 200) {
+				setIsLiked(!isLiked);
+			}
+		} catch (error) {
+			console.error(error);
+		}
+
+		updatePost();
 	};
 
 	//TODO implement comment section
@@ -47,7 +86,7 @@ const PostDisplay: React.FC<{
 		if (!postPattern.test(window.location.pathname)) {
 			setIsCommentSelected(!isCommentSelected);
 
-			navigate('/post/' + post.id);
+			navigate('/post/' + postData.id);
 		}
 	};
 
@@ -60,29 +99,40 @@ const PostDisplay: React.FC<{
 		navigate(`${AppRoute.PROFILE}/${creator?.username}`);
 	};
 
+	//TODO recieve like status from database if current user is already liked
+	const getLikeStatus = async () => {
+		try {
+			const response = await get<LikeModel>(`/likes/?user_id=${User.id}&post_id=${postData.id}`, User.token);
+
+			if (response) {
+				setIsLiked(true);
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
+	//TODO recieve save status from database if current user is already liked
+	const getSaveStatus = async () => {};
+
+	const getCreatorData = async () => {
+		setIsLoading(true);
+		try {
+			const response = await get<UserModel>(`/users/profile/${postData.user_id}`, User.token);
+			setCreator(response.data);
+		} catch (error) {
+			console.error(error);
+		}
+		setIsLoading(false);
+	};
+
 	useEffect(() => {
 		if (postPattern.test(window.location.pathname)) {
 			setIsCommentSelected(true);
 		}
-
-		//TODO recieve like status from database if current user is already liked
-		const getLikeStatus = async () => {};
-		//TODO recieve save status from database if current user is already liked
-		const getSaveStatus = async () => {};
-
-		const getCreatorData = async () => {
-			setIsLoading(true);
-			try {
-				const response = await get<UserModel>(`/users/profile/${post.user_id}`, User.token);
-				setCreator(response.data);
-			} catch (error) {
-				console.error(error);
-			}
-			setIsLoading(false);
-		};
+		getLikeStatus();
 
 		getCreatorData();
-	}, [User.token, post.user_id]);
+	}, [User.token, postData.user_id]);
 
 	if (isLoading) return <PostSkeletonDisplay minWidth={minWidth} maxWidth={maxWidth} my={my} mx={mx} />;
 
@@ -123,12 +173,12 @@ const PostDisplay: React.FC<{
 							</Grid>
 							<Grid item xs={5}>
 								<Typography textAlign='right' color={Theme.palette.text.secondary}>
-									{timeSince(convertToLocalTime(post.created_at))}
+									{timeSince(convertToLocalTime(displayedPost.created_at))}
 								</Typography>
 							</Grid>
 						</Grid>
 						<Grid item>
-							<Typography sx={{ wordBreak: 'break-word' }}>{post.content}</Typography>
+							<Typography sx={{ wordBreak: 'break-word' }}>{displayedPost.content}</Typography>
 						</Grid>
 						<Grid container direction='row'>
 							<Grid item xs={2.5}>
@@ -140,7 +190,9 @@ const PostDisplay: React.FC<{
 										</IconButton>
 									</Grid>
 									<Grid item sx={{ my: 'auto' }}>
-										<Typography color={Theme.palette.text.secondary}>{countToDisplay(post.like_count)}</Typography>
+										<Typography color={Theme.palette.text.secondary}>
+											{countToDisplay(displayedPost.like_count)}
+										</Typography>
 									</Grid>
 								</Grid>
 							</Grid>
@@ -153,7 +205,9 @@ const PostDisplay: React.FC<{
 										</IconButton>
 									</Grid>
 									<Grid item sx={{ my: 'auto' }}>
-										<Typography color={Theme.palette.text.secondary}>{countToDisplay(post.comment_count)}</Typography>
+										<Typography color={Theme.palette.text.secondary}>
+											{countToDisplay(displayedPost.comment_count)}
+										</Typography>
 									</Grid>
 								</Grid>
 							</Grid>
@@ -166,7 +220,9 @@ const PostDisplay: React.FC<{
 										</IconButton>
 									</Grid>
 									<Grid item sx={{ my: 'auto' }}>
-										<Typography color={Theme.palette.text.secondary}>{countToDisplay(post.save_count)}</Typography>
+										<Typography color={Theme.palette.text.secondary}>
+											{countToDisplay(displayedPost.save_count)}
+										</Typography>
 									</Grid>
 								</Grid>
 							</Grid>
