@@ -46,4 +46,15 @@ export const incrementLikesRepository = async (id: string) => {
 
 export const decrementLikesRepository = async (id: string) => {
 	await knexConnection('posts').where('id', id).decrement('like_count', 1);
+
+export const deletePostRepositoryByContent = async (content: string) => {
+	await knexConnection('posts').where('content', content).del();
+};
+
+export const incrementCommentsRepository = async (id: string) => {
+	await knexConnection('posts').where('id', id).increment('comment_count', 1);
+};
+
+export const decrementCommentsRepository = async (id: string) => {
+	await knexConnection('posts').where('id', id).decrement('comment_count', 1);
 };
