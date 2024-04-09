@@ -26,4 +26,9 @@ export class HomePage extends BasePage {
 		await this.postTextField.fill(content);
 		await this.postButton.click();
 	}
+
+	async getPost(content: string) {
+		const post = this.page.locator(`//ul/li[contains(@class,'MuiListItem-gutters')][contains(.,'${content}')]`);
+		return post;
+	}
 }

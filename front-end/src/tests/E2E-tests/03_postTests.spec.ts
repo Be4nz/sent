@@ -1,6 +1,10 @@
 import { test, expect, Page } from '@playwright/test';
 import { HomePage } from '../pages/homePage';
 import { validPostContent } from '../mock-data/post';
+import {
+	deletePostRepositoryByContent
+} from '../../../../back-end/src/APIs/repositories/postRepository';
+
 
 const setupHomePage = async (page: Page) => {
 	const homePage = new HomePage(page);
@@ -14,6 +18,9 @@ test('Create post functionality works correctly with valid data', async ({ page 
 
 	await homePage.createPost(validPostContent);
 
-	// TODO: Check if the post was created successfully
-	/*expect(await homePage.page.locator(`p:has-text("${validPostContent}")`)).toHaveText(validPostContent);*/
+	const post = homePage.getPost(validPostContent);
+
+	await expect(await post).toBeVisible();
+
+	deletePostRepositoryByContent(validPostContent);	
 });
