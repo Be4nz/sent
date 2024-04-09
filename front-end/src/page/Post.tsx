@@ -11,6 +11,7 @@ import { AppRoute } from '../type/AppRoute';
 import LoadingDisplay from '../component/display/LoadingDisplay';
 import CommentForm from '../component/form/CommentForm';
 import CommentListDisplay from '../component/display/CommentListDisplay';
+import { CommentModel } from '../model/CommentModel';
 
 const BackButton = styled(IconButton)`
 	background: none;
@@ -52,7 +53,7 @@ interface Props {}
 export const Post: React.FC<Props> = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [post, setPost] = useState<PostModel>();
-	const [modalOpen, setModalOpen] = useState<boolean>(false);
+	const [comments, setComments] = useState<CommentModel[]>([]);
 	const { id } = useParams();
 
 	const User = useUserContext();
@@ -120,7 +121,7 @@ export const Post: React.FC<Props> = () => {
 							},
 						}}
 					>
-						<CommentForm disabled={false} postId={id} />
+						<CommentForm disabled={false} postId={id} onSubmit={fetchComments} />
 					</Grid>
 				</Container>
 				<CommentListDisplay comments={comments} />
