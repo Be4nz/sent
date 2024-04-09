@@ -28,3 +28,7 @@ export const updateCommentRepository = async (id: string, comment: CommentModel)
 export const deleteCommentRepository = async (id: string) => {
 	await knexConnection('comments').where('id', id).del();
 };
+
+export const deleteCommentRepositoryByContent = async (content: string) => {
+	await knexConnection('comments').where('content', content).del();
+};
