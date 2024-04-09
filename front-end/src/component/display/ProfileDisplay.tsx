@@ -85,6 +85,7 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 						<Grid item xs={3.6} textAlign='right' my='auto'>
 							{isProfile ? (
 								<Button
+									id='edit-profile-button'
 									onClick={handleEditClick}
 									sx={{
 										border: `2px solid ${Theme.palette.text.secondary}`,
@@ -103,6 +104,7 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 								</Button>
 							) : (
 								<Button
+									id='follow-button'
 									onClick={handleFollowClick}
 									sx={{
 										backgroundColor: isFollowing ? Theme.palette.text.secondary : Theme.palette.primary.main,
