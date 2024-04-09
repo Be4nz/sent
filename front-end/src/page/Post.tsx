@@ -10,12 +10,10 @@ import { Grid, Hidden, IconButton, useTheme } from '@mui/material';
 import { AppRoute } from '../type/AppRoute';
 import LoadingDisplay from '../component/display/LoadingDisplay';
 import CommentForm from '../component/form/CommentForm';
-import CommentModal from '../component/display/CommentModal';
 
 const BackButton = styled(IconButton)`
 	background: none;
 	border: none;
-	color: white;
 	font-size: 40px;
 	display: flex;
 	align-items: center;
@@ -81,14 +79,6 @@ export const Post: React.FC<Props> = () => {
 		fetchPost();
 	}, [User]);
 
-	const handleModalOpen = () => {
-		setModalOpen(true);
-	};
-
-	const handleModalClose = () => {
-		setModalOpen(false);
-	};
-
 	return isLoading ? (
 		<LoadingDisplay />
 	) : post ? (
@@ -107,7 +97,6 @@ export const Post: React.FC<Props> = () => {
 						<PostDisplay post={post} />
 					</ContentContainer>
 					<Grid
-						onClick={handleModalOpen}
 						my='4vh'
 						sx={{
 							borderRadius: '15px',
@@ -117,10 +106,8 @@ export const Post: React.FC<Props> = () => {
 							},
 						}}
 					>
-						<CommentForm disabled={true} />
+						<CommentForm disabled={false} postId={id} />
 					</Grid>
-
-					<CommentModal open={modalOpen} handleClose={handleModalClose} postId={id} fetchPost={fetchPost} />
 				</Container>
 			</Grid>
 		</div>
