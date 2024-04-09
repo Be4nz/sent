@@ -31,7 +31,8 @@
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
-		"tests": "npx playwright test && jest --coverage --findRelatedTests ./tests/unit-tests"
+		"tests": "jest --coverage --findRelatedTests ./tests/unit-tests",
+		"playwright": "npx playwright test"
 	},
 	"eslintConfig": {
 		"extends": [
