@@ -12,7 +12,7 @@ export class HomePage extends BasePage {
 		this.page = page;
 		this.postCreationInitializeButton = this.page.locator('form img.MuiAvatar-img');
 		this.postTextField = this.page.locator("div[role='presentation'] textarea[name='content']");
-		this.postButton = this.page.locator("div[role='presentation']  button p");
+		this.postButton = this.page.locator("//div[@role='presentation']//button[contains(.,'Sent')]");
 	}
 
 	async check() {
@@ -21,10 +21,11 @@ export class HomePage extends BasePage {
 		if (!this.postButton) fail('Button "post" not found');
 	}
 
-	async createPost(content: string) {
+	async createPost(content: string, shouldClick = true) {
 		await this.postCreationInitializeButton.click();
 		await this.postTextField.fill(content);
-		await this.postButton.click();
+		if(shouldClick)
+			await this.postButton.click();
 	}
 
 	async getPost(content: string) {

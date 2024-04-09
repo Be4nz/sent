@@ -1,6 +1,6 @@
 import { test, expect, Page } from '@playwright/test';
 import { HomePage } from '../pages/homePage';
-import { validPostContent } from '../mock-data/post';
+import { validPostContent, tooLargePostContent } from '../mock-data/post';
 import {
 	deletePostRepositoryByContent
 } from '../../../../back-end/src/APIs/repositories/postRepository';
@@ -23,4 +23,12 @@ test('Create post functionality works correctly with valid data', async ({ page 
 	await expect(await post).toBeVisible();
 
 	deletePostRepositoryByContent(validPostContent);	
+});
+
+test('Create post functionality does not work with too much content', async ({ page }) => {
+	const homePage = await setupHomePage(page);
+
+	await homePage.createPost(tooLargePostContent, false);
+
+	await expect(homePage.postButton).toBeDisabled();
 });
