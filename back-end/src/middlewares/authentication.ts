@@ -69,6 +69,7 @@ export const checkOwnership = (resourceType: string) => {
 						const user = await readUserByIdRepository(follow.follower_id);
 						isOwner = user.auth0_id === authPayload?.sub;
 					}
+					break;
 				case 'likes':
 					const like = req.body as LikeModel;
 					const user_id = req.query.user_id as string;
@@ -78,6 +79,8 @@ export const checkOwnership = (resourceType: string) => {
 						isOwner = user.auth0_id === authPayload?.sub;
 					} else if (like) {
 						const user = await readUserByIdRepository(like.user_id);
+					}
+					break;
 				case 'comments':
 					const comment = req.body as CommentModel;
 
@@ -89,6 +92,7 @@ export const checkOwnership = (resourceType: string) => {
 						const user = await readUserByIdRepository(comment.user_id);
 						isOwner = user.auth0_id === authPayload?.sub;
 					}
+					break;
 				default:
 					break;
 			}
