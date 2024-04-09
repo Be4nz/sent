@@ -10,14 +10,11 @@ import { Grid, Hidden, IconButton, useTheme } from '@mui/material';
 import { AppRoute } from '../type/AppRoute';
 import LoadingDisplay from '../component/display/LoadingDisplay';
 import CommentForm from '../component/form/CommentForm';
-import CommentModal from '../component/display/CommentModal';
 import CommentListDisplay from '../component/display/CommentListDisplay';
-import { CommentModel } from '../model/CommentModel';
 
 const BackButton = styled(IconButton)`
 	background: none;
 	border: none;
-	color: white;
 	font-size: 40px;
 	display: flex;
 	align-items: center;
@@ -56,7 +53,6 @@ export const Post: React.FC<Props> = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [post, setPost] = useState<PostModel>();
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
-	const [comments, setComments] = useState<CommentModel[]>([]);
 	const { id } = useParams();
 
 	const User = useUserContext();
@@ -68,6 +64,7 @@ export const Post: React.FC<Props> = () => {
 	};
 
 	const fetchPost = async () => {
+		setIsLoading(true);
 		try {
 			const response = await get<PostModel>('/posts/' + id, User.token);
 			if (response.status === 200) {
@@ -76,6 +73,7 @@ export const Post: React.FC<Props> = () => {
 		} catch (error) {
 			console.log(error);
 		}
+		setIsLoading(false);
 	};
 
 	const fetchComments = async () => {
@@ -95,15 +93,6 @@ export const Post: React.FC<Props> = () => {
 		setIsLoading(false);
 	}, [User]);
 
-	const handleModalOpen = () => {
-		setModalOpen(true);
-	};
-
-	const handleModalClose = () => {
-		fetchComments();
-		setModalOpen(false);
-	};
-
 	return isLoading ? (
 		<LoadingDisplay />
 	) : post ? (
@@ -122,7 +111,6 @@ export const Post: React.FC<Props> = () => {
 						<PostDisplay post={post} />
 					</ContentContainer>
 					<Grid
-						onClick={handleModalOpen}
 						my='4vh'
 						sx={{
 							borderRadius: '15px',
@@ -132,10 +120,8 @@ export const Post: React.FC<Props> = () => {
 							},
 						}}
 					>
-						<CommentForm disabled={true} />
+						<CommentForm disabled={false} postId={id} />
 					</Grid>
-
-					<CommentModal open={modalOpen} handleClose={handleModalClose} postId={id} fetchPost={fetchPost} />
 				</Container>
 				<CommentListDisplay comments={comments} />
 			</Grid>
