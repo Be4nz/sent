@@ -59,3 +59,4 @@ front-end/node_modules/.cache/default-development/3.pack
 front-end/node_modules/.cache/default-development/4.pack
 front-end/node_modules/.cache/default-development/index.pack
 front-end/node_modules/.cache/default-development/index.pack.old
+front-end/playwright/.auth/user.json
