@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
 	createUser,
 	deleteUser,
+	deleteUserByUsername,
 	readUserById,
 	readUserByAuth0Id,
 	readUsers,
@@ -220,6 +221,8 @@ userRouter.get('/', checkRole('admin'), readUsers);
  *         description: Internal server error
  */
 userRouter.put('/:id', checkOwnership('users'), updateUser);
+
+userRouter.delete('/username/:username', checkOwnership('users'), deleteUserByUsername);
 
 /**
  * @swagger

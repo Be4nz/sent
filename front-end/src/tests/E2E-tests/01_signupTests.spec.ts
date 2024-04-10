@@ -1,5 +1,7 @@
 import { test, expect, Page } from '@playwright/test';
 import { SignupPage } from '../pages/signupPage';
+import { del } from '../../api/Api';
+import { validTester_unknown } from '../mock-data/user';
 
 const setupSignupPage = async (page: Page) => {
 	const signupPage = new SignupPage(page);
@@ -11,7 +13,6 @@ const setupSignupPage = async (page: Page) => {
 test('Main pages redirect to signup page when user is not in the system', async ({ page }) => {
 	const signupPage = new SignupPage(page);
 	await signupPage.gotoBase();
-	await signupPage.page.waitForURL('http://localhost:3000/');
 	await signupPage.page.waitForURL('http://localhost:3000/signup');
 	expect(await signupPage.page.url()).toBe('http://localhost:3000/signup');
 
@@ -108,4 +109,7 @@ test('Signup functionality works correctly with filled fields', async ({ page })
 
 	await signupPage.page.waitForURL('http://localhost:3000/');
 	expect(await signupPage.page.url()).toBe('http://localhost:3000/');
+
+	// Cleanup
+	await del(`/users/username/${validTester_unknown.username}`, await signupPage.getToken());
 });
