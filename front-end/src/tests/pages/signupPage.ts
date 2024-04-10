@@ -17,11 +17,12 @@ export class SignupPage extends BasePage {
 
 	async gotoSignup() {
 		await this.page.goto('http://localhost:3000/signup');
+		await this.waitForPageLoad();
 	}
 
 	async check() {
-		if (!this.nameField) fail('Input field "name" not found');
-		if (!this.descriptionField) fail('Input field "description" not found');
-		if (!this.submitButton) fail('Button "submit" not found');
+		if (!(await this.nameField.isVisible())) fail('Input field "name" not found');
+		if (!(await this.descriptionField.isVisible())) fail('Input field "description" not found');
+		if (!(await this.submitButton.isVisible())) fail('Button "submit" not found');
 	}
 }

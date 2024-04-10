@@ -15,13 +15,14 @@ export class PostPage extends BasePage {
 		this.noCommentIcon = this.page.locator('svg[data-testid="CancelScheduleSendIcon"]');
 	}
 
-	async check() {
-		if (!this.commentSendButton) fail('Comment button "Send" not found');
-		if (!this.commentTextField) fail('Input field "comment" not found');
+	async gotoPost(id: string) {
+		await this.page.goto(`http://localhost:3000/post/${id}`);
+		await this.waitForPageLoad();
 	}
 
-	async gotoPost(id: string) {
-		await this.page.goto('http://localhost:3000/post/' + id);
+	async check() {
+		if (!(await this.commentSendButton.isVisible())) fail('Comment button "Send" not found');
+		if (!(await this.commentTextField.isVisible())) fail('Input field "comment" not found');
 	}
 
 	async inputComment(content: string) {

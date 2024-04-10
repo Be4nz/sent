@@ -1,10 +1,7 @@
 import { test, expect, Page } from '@playwright/test';
 import { HomePage } from '../pages/homePage';
 import { validPostContent } from '../mock-data/post';
-import {
-	deletePostRepositoryByContent
-} from '../../../../back-end/src/APIs/repositories/postRepository';
-
+import { deletePostRepositoryByContent } from '../../../../back-end/src/APIs/repositories/postRepository'; // TODO this shouldn't be here
 
 const setupHomePage = async (page: Page) => {
 	const homePage = new HomePage(page);
@@ -22,5 +19,6 @@ test('Create post functionality works correctly with valid data', async ({ page 
 
 	await expect(await post).toBeVisible();
 
-	deletePostRepositoryByContent(validPostContent);	
+	// TODO call api to delete the post, don't use repository from back-end. Reference: 01_signupTests.spec.ts -> line 114
+	deletePostRepositoryByContent(validPostContent);
 });
