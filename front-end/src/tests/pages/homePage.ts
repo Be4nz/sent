@@ -16,9 +16,7 @@ export class HomePage extends BasePage {
 	}
 
 	async check() {
-		if (!this.postCreationInitializeButton) fail('Button "postCreationInitialize" not found');
-		if (!this.postTextField) fail('Input field "post" not found');
-		if (!this.postButton) fail('Button "post" not found');
+		if (!(await this.postCreationInitializeButton.isVisible())) fail('Button "postCreationInitialize" not found');
 	}
 
 	async createPost(content: string, shouldClick = true) {

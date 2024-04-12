@@ -1,4 +1,4 @@
-import { Grid, LinearProgress } from '@mui/material';
+import { Container, Grid, LinearProgress } from '@mui/material';
 import { LogoTextSvg } from '../svg/LogoTextSvg';
 
 interface Props {
@@ -21,7 +21,9 @@ const LoadingDisplay: React.FC<Props> = (props) => {
 			my={props.margin || '20vh'}
 		>
 			<Grid item style={{ alignItems: 'center', display: 'flex', justifyContent: 'center' }}>
-				<LogoTextSvg width='70%' />
+				<div id='loading-logo-icon' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+					<LogoTextSvg width='70%' />
+				</div>
 			</Grid>
 			<Grid item width='100%'>
 				<LinearProgress />

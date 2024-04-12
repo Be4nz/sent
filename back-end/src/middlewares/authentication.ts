@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { auth } from 'express-oauth2-jwt-bearer';
-import { readUserByIdRepository } from '../APIs/repositories';
+import { readUserByIdRepository, readUserByUsernameRepository } from '../APIs/repositories';
 import { FollowModel, LikeModel, PostModel, CommentModel } from '../models';
 import { readPostRepository } from '../APIs/repositories/postRepository';
 import { readCommentRepository } from '../APIs/repositories/commentRepository';
@@ -38,9 +38,13 @@ export const checkOwnership = (resourceType: string) => {
 			switch (resourceType) {
 				case 'users':
 					const auth0_id = req.params.auth0_id;
+					const username = req.params.username;
 
 					if (auth0_id) {
 						isOwner = auth0_id === authPayload?.sub;
+					} else if (username) {
+						const user = await readUserByUsernameRepository(username);
+						isOwner = user.auth0_id === authPayload?.sub;
 					} else if (id) {
 						const user = await readUserByIdRepository(id);
 						isOwner = user.auth0_id === authPayload?.sub;

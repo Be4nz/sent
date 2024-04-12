@@ -72,7 +72,7 @@ const ScrollableUserDisplay: React.FC<Props> = (props) => {
 							</Typography>
 						</Grid>
 						<Grid item xs={4.25} textAlign='right'>
-							<IconButton onClick={props.handleClose}>
+							<IconButton onClick={props.handleClose} id='close-modal-button'>
 								<CloseIcon />
 							</IconButton>
 						</Grid>

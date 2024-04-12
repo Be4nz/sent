@@ -133,6 +133,7 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 						<Grid container direction='row'>
 							<Grid item xs={4}>
 								<Button
+									id='followers-button'
 									onClick={() => setIsFollowersOpen(true)}
 									disableRipple
 									sx={{
@@ -163,6 +164,7 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 							</Grid>
 							<Grid item xs={4}>
 								<Button
+									id='following-button'
 									onClick={() => setIsFollowingOpen(true)}
 									disableRipple
 									sx={{

@@ -109,7 +109,7 @@ export const Post: React.FC<Props> = () => {
 						</TitleBar>
 					</Hidden>
 					<ContentContainer>
-						<PostDisplay post={post} />
+						<PostDisplay postData={post} />
 					</ContentContainer>
 					<Grid
 						my='4vh'

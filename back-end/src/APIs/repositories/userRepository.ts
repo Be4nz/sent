@@ -61,6 +61,10 @@ export const deleteUserRepository = async (id: string) => {
 	await knexConnection('users').where('id', id).del();
 };
 
+export const deleteUserByUsernameRepository = async (username: string) => {
+	await knexConnection('users').where('username', username).del();
+};
+
 export const incrementFollowersRepository = async (id: string) => {
 	await knexConnection('users').where('id', id).increment('followers', 1);
 };

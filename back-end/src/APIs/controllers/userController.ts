@@ -3,6 +3,7 @@ import { UserModel } from '../../models';
 import {
 	createUserRepository,
 	deleteUserRepository,
+	deleteUserByUsernameRepository,
 	readUserByIdRepository,
 	readUserByAuth0IdRepository,
 	readUsersRepository,
@@ -205,6 +206,23 @@ export const deleteUser = async (req: Request, res: Response) => {
 		}
 
 		await deleteUserRepository(id);
+		res.status(200).json(response);
+	} catch (error) {
+		console.log(error);
+		res.status(500).send('Internal Server Error');
+	}
+};
+
+export const deleteUserByUsername = async (req: Request, res: Response) => {
+	const username = req.params.username;
+	try {
+		const response = await readUserByUsernameRepository(username);
+		if (!response) {
+			res.status(404).send('User not found');
+			return;
+		}
+
+		await deleteUserByUsernameRepository(username);
 		res.status(200).json(response);
 	} catch (error) {
 		console.log(error);

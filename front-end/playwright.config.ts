@@ -42,16 +42,32 @@ export default defineConfig({
 
 	/* Configure projects for major browsers */
 	projects: [
-		// Setup project
-		{ name: 'setup', testMatch: /.*\.setup\.ts/ },
+		// Setup project for unregistered user
+		{ name: 'unregistered-setup', testMatch: /setup\/unregisteredTester\.setup\.ts/ },
 
+		// Setup project for registered user
+		{ name: 'registered-setup', testMatch: /setup\/registeredTester\.setup\.ts/ },
+
+		// Chromium project for running tests with unregistered user setup
 		{
-			name: 'chromium',
+			name: 'chromium-unregistered',
 			use: {
 				...devices['Desktop Chrome'],
-				storageState: 'playwright/.auth/user.json',
+				storageState: 'playwright/.auth/unregistered.json',
 			},
-			dependencies: ['setup'],
+			dependencies: ['unregistered-setup'],
+			testMatch: /01_signupTests\.spec\.ts/,
+		},
+
+		// Chromium project for running tests with registered user setup
+		{
+			name: 'chromium-registered',
+			use: {
+				...devices['Desktop Chrome'],
+				storageState: 'playwright/.auth/registered.json',
+			},
+			dependencies: ['registered-setup'],
+			testMatch: /^(?!.*signupTests).*\.spec\.ts$/,
 		},
 
 		/* Test against mobile viewports. */
