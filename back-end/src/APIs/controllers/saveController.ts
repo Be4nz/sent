@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import {
 	createSaveRepository,
 	readSaveRepository,
-	readSavedByRepository,
 	readUserSavesRepository,
 	deleteSaveRepository,
 } from '../repositories/saveRepository';
@@ -44,27 +43,6 @@ export const readSave = async (req: Request, res: Response) => {
 
 		if (!response) {
 			res.status(404).send('Save not found');
-			return;
-		}
-
-		res.status(200).json(response);
-	} catch (error) {
-		console.log(error);
-		res.status(500).send('Internal Server Error');
-	}
-};
-
-export const readSavedBy = async (req: Request, res: Response) => {
-	const post_id = req.query.post_id as string;
-
-	try {
-		let response;
-		if (post_id) {
-			response = await readSavedByRepository(post_id);
-		}
-
-		if (!response) {
-			res.status(404).send('Saves not found');
 			return;
 		}
 

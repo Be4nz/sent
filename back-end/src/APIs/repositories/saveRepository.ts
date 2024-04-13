@@ -14,11 +14,6 @@ export const readSaveRepository = async (user_id: string, post_id: string) => {
 	return response[0] as SaveModel;
 };
 
-export const readSavedByRepository = async (post_id: string) => {
-	const response = await knexConnection('saves').select().where('post_id', post_id);
-	return response as SaveModel[];
-};
-
 export const readUserSavesRepository = async (user_id: string) => {
 	const response = await knexConnection('saves').select().where('user_id', user_id);
 	return response as SaveModel[];
