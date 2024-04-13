@@ -6,12 +6,15 @@ import {
 	readPosts,
 	updatePost,
 	readPostsFollowing,
+	readPostsSaved,
 } from '../APIs/controllers/postController';
 import { checkOwnership } from '../middlewares/authentication';
 
 export const postRouter = Router();
 
 postRouter.get('/following/', readPostsFollowing);
+
+postRouter.get('/saved/', readPostsSaved);
 
 postRouter.post('/', checkOwnership('posts'), createPost);
 

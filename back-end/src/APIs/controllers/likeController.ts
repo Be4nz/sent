@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
-import { FollowModel } from '../../models';
-import { decrementLikesRepository, incrementLikesRepository, readFollowRepository } from '../repositories';
+import { decrementLikesRepository, incrementLikesRepository } from '../repositories';
 import {
 	createLikeRepository,
 	deleteLikeRepository,
@@ -14,13 +13,13 @@ export const createLike = async (req: Request, res: Response) => {
 	const like = req.body as LikeModel;
 	try {
 		if (like.post_id && like.user_id) {
-			let response = await readFollowRepository(like.user_id, like.post_id);
+			let response = await readLikeRepository(like.user_id, like.post_id);
 			if (response) {
 				res.status(409).send('Like already exists');
 				return;
 			}
 			await createLikeRepository(like);
-			response = await readFollowRepository(like.user_id, like.post_id);
+			response = await readLikeRepository(like.user_id, like.post_id);
 			await incrementLikesRepository(like.post_id);
 			res.status(201).json(response);
 		} else {

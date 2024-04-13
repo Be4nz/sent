@@ -4,6 +4,7 @@ import { readUserByIdRepository, readUserByUsernameRepository } from '../APIs/re
 import { FollowModel, LikeModel, PostModel, CommentModel } from '../models';
 import { readPostRepository } from '../APIs/repositories/postRepository';
 import { readCommentRepository } from '../APIs/repositories/commentRepository';
+import { SaveModel } from '../models/saveModel';
 require('dotenv').config();
 
 export const verifyJwt = auth({
@@ -83,6 +84,7 @@ export const checkOwnership = (resourceType: string) => {
 						isOwner = user.auth0_id === authPayload?.sub;
 					} else if (like) {
 						const user = await readUserByIdRepository(like.user_id);
+						isOwner = user.auth0_id === authPayload?.sub;
 					}
 					break;
 				case 'comments':
@@ -94,6 +96,18 @@ export const checkOwnership = (resourceType: string) => {
 					} else if (id) {
 						const comment = await readCommentRepository(id);
 						const user = await readUserByIdRepository(comment.user_id);
+						isOwner = user.auth0_id === authPayload?.sub;
+					}
+					break;
+				case 'saves':
+					const save = req.body as SaveModel;
+					const save_user_id = req.query.user_id as string;
+
+					if (save_user_id) {
+						const user = await readUserByIdRepository(save_user_id);
+						isOwner = user.auth0_id === authPayload?.sub;
+					} else if (save) {
+						const user = await readUserByIdRepository(save.user_id);
 						isOwner = user.auth0_id === authPayload?.sub;
 					}
 					break;
