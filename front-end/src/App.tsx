@@ -11,6 +11,7 @@ import { useUserContext } from './context/UserContext';
 import { Post } from './page/Post';
 import Following from './page/Following';
 import './App.css';
+import Saved from './page/Saved';
 
 const App = () => {
 	const User = useUserContext();
@@ -56,6 +57,7 @@ const App = () => {
 							<Route path={AppRoute.POST} element={<Post />} />
 							<Route path={`${AppRoute.PROFILE}/:username`} element={<Profile />} />
 							<Route path={AppRoute.FOLLOWING} element={<Following />} />
+							<Route path={AppRoute.SAVED} element={<Saved />} />
 						</>
 					)}
 

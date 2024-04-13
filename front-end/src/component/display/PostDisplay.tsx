@@ -15,6 +15,7 @@ import PostSkeletonDisplay from './PostSkeletonDisplay';
 import { useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../type/AppRoute';
 import { convertToLocalTime } from '../../function/ConvertToLocalTime';
+import { SaveModel } from '../../model/SaveModel';
 
 const PostDisplay: React.FC<{
 	postData: PostModel;
@@ -64,7 +65,6 @@ const PostDisplay: React.FC<{
 		try {
 			let response;
 			if (isLiked) {
-				console.log('del');
 				response = await del<LikeModel>(`/likes/?user_id=${User.id}&post_id=${postData.id}`, User.token);
 			} else {
 				response = await post<LikeModel>('/likes', newLike, User.token);
@@ -91,8 +91,28 @@ const PostDisplay: React.FC<{
 	};
 
 	//TODO connect saving to database
-	const handleSaveClick = () => {
-		setIsSaved(!isSaved);
+	const handleSaveClick = async () => {
+		const newSave: SaveModel = {
+			user_id: User.id,
+			post_id: postData.id,
+		};
+
+		try {
+			let response;
+			if (isSaved) {
+				response = await del<SaveModel>(`/saves/?user_id=${User.id}&post_id=${postData.id}`, User.token);
+			} else {
+				response = await post<SaveModel>('/saves', newSave, User.token);
+			}
+
+			if (response.status === 201 || response.status === 200) {
+				setIsSaved(!isSaved);
+			}
+		} catch (error) {
+			console.error(error);
+		}
+
+		updatePost();
 	};
 
 	const handleProfileClick = () => {
@@ -111,8 +131,17 @@ const PostDisplay: React.FC<{
 			console.error(error);
 		}
 	};
-	//TODO recieve save status from database if current user is already liked
-	const getSaveStatus = async () => {};
+
+	const getSaveStatus = async () => {
+		try {
+			const response = await get<SaveModel>(`/saves/?user_id=${User.id}&post_id=${postData.id}`, User.token);
+			if (response) {
+				setIsSaved(true);
+			}
+		} catch (error) {
+			// Do nothing, because it usually just means the user hasn't saved the post
+		}
+	};
 
 	const getCreatorData = async () => {
 		setIsLoading(true);
@@ -130,7 +159,7 @@ const PostDisplay: React.FC<{
 			setIsCommentSelected(true);
 		}
 		getLikeStatus();
-
+		getSaveStatus();
 		getCreatorData();
 	}, [User.token, postData.user_id]);
 

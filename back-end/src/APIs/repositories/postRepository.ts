@@ -1,5 +1,6 @@
 import knexConnection from '../../database/knex';
 import { FollowModel, PostModel } from '../../models';
+import { SaveModel } from '../../models/saveModel';
 
 export const createPostRepository = async (post: PostModel) => {
 	const response = await knexConnection('posts').insert(post);
@@ -22,6 +23,17 @@ export const readPostsFollowingRepository = async (following: FollowModel[]) => 
 		.whereIn(
 			'user_id',
 			following.map((entry) => entry.user_id)
+		)
+		.orderBy('created_at', 'desc');
+	return response as PostModel[];
+};
+
+export const readPostsSavedRepository = async (saved: SaveModel[]) => {
+	const response = await knexConnection('posts')
+		.select()
+		.whereIn(
+			'id',
+			saved.map((entry) => entry.post_id)
 		)
 		.orderBy('created_at', 'desc');
 	return response as PostModel[];
@@ -58,4 +70,12 @@ export const incrementCommentsRepository = async (id: string) => {
 
 export const decrementCommentsRepository = async (id: string) => {
 	await knexConnection('posts').where('id', id).decrement('comment_count', 1);
+};
+
+export const incrementSavesRepository = async (id: string) => {
+	await knexConnection('posts').where('id', id).increment('save_count', 1);
+};
+
+export const decrementSavesRepository = async (id: string) => {
+	await knexConnection('posts').where('id', id).decrement('save_count', 1);
 };
