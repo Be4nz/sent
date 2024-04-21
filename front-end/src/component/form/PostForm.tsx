@@ -176,7 +176,7 @@ const PostForm: React.FC<Props> = (props) => {
 													},
 												}}
 											>
-												<Typography color='white'>Sent</Typography>
+												<Typography color='white'>Send</Typography>
 											</Button>
 										</Grid>
 										<Grid item my={'auto'}>

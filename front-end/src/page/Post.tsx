@@ -61,7 +61,7 @@ export const Post: React.FC<Props> = () => {
 	const Theme = useTheme();
 
 	const handleBacking = () => {
-		navigate(AppRoute.HOME);
+		navigate(-1);
 	};
 
 	const fetchPost = async () => {
