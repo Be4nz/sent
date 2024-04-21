@@ -230,7 +230,7 @@ const PostDisplay: React.FC<{
 									<Grid item>
 										<IconButton onClick={handleCommentClick}>
 											{!isCommentSelected && <ModeCommentOutlinedIcon sx={{ color: Theme.palette.text.secondary }} />}
-											{isCommentSelected && <ModeCommentIcon />}
+											{isCommentSelected && <ModeCommentIcon sx={{ color: Theme.palette.primary.main }} />}
 										</IconButton>
 									</Grid>
 									<Grid item sx={{ my: 'auto' }}>
