@@ -65,6 +65,7 @@ const FollowingModal: React.FC<Props> = (props) => {
 			maxHeight='500px'
 			mx='auto'
 			title='Following'
+			modalType='following'
 			users={users}
 			isLoading={isLoading}
 			disabled={disabled}
