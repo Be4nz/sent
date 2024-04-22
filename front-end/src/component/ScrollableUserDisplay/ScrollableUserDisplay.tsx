@@ -2,7 +2,7 @@ import { Avatar, Box, CircularProgress, Grid, IconButton, Modal, Typography, use
 import CloseIcon from '@mui/icons-material/Close';
 import React, { useRef } from 'react';
 import { UserModel } from '../../model';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AppRoute } from '../../type/AppRoute';
 
 interface Props {
@@ -17,6 +17,7 @@ interface Props {
 	open: boolean;
 	isLoading: boolean;
 	disabled: boolean;
+	modalType: string;
 	handleClose: () => void;
 	handleScroll: () => void;
 }
@@ -24,6 +25,8 @@ interface Props {
 const ScrollableUserDisplay: React.FC<Props> = (props) => {
 	const Theme = useTheme();
 	const Navigate = useNavigate();
+
+	const { username } = useParams<'username'>();
 
 	const modalContentRef = useRef<HTMLDivElement>(null);
 
@@ -93,7 +96,10 @@ const ScrollableUserDisplay: React.FC<Props> = (props) => {
 				>
 					<Grid container direction={'column'} alignItems={'center'}>
 						{props.disabled && props.users.length === 0 && (
-							<Typography sx={{ textAlign: 'center' }}>No Users</Typography>
+							<Typography sx={{ textAlign: 'center', color: Theme.palette.text.secondary, paddingTop: '1em' }}>
+								{props.modalType === 'followers' && `@${username} does not have any followers.`}
+								{props.modalType === 'following' && `@${username} isn't following anyone yet.`}
+							</Typography>
 						)}
 						{props.users.map((user) => (
 							<Grid

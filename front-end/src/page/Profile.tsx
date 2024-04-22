@@ -1,7 +1,7 @@
 import ProfileDisplay from '../component/display/ProfileDisplay';
 import { PostModel, UserModel } from '../model';
 import { useEffect, useState } from 'react';
-import { Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
 import { get } from '../api/Api';
 import { useUserContext } from '../context/UserContext';
 import LoadingDisplay from '../component/display/LoadingDisplay';
@@ -9,10 +9,12 @@ import { usePostContext } from '../context/PostContext';
 import PostListDisplay from '../component/display/PostListDisplay';
 import { useParams } from 'react-router-dom';
 import ProfileSkeletonDisplay from '../component/display/ProfileSkeletonDisplay';
+import PersonOffIcon from '@mui/icons-material/PersonOff';
 
 interface Props {}
 
 const Profile: React.FC<Props> = (props) => {
+	const Theme = useTheme();
 	const { username } = useParams<'username'>();
 
 	const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -68,7 +70,19 @@ const Profile: React.FC<Props> = (props) => {
 
 	if (isLoading) return <LoadingDisplay />;
 
-	if (!profile) return <Typography>This user does not exist</Typography>;
+	if (!profile)
+		return (
+			<div style={{ paddingTop: '5%' }}>
+				<PersonOffIcon className='page-icon' />
+				<Typography className='profile-typography-name' style={{ fontWeight: 'bold' }}>
+					This user does not exist
+				</Typography>
+				<Typography style={{ color: Theme.palette.text.secondary }}>
+					User @{username} was not found. <br />
+					Try searching for another?
+				</Typography>
+			</div>
+		);
 
 	return (
 		<div style={{ width: '100%' }}>

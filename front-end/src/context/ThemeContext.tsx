@@ -175,6 +175,16 @@ export const ThemeContextProvider: React.FC<Props> = ({ children }) => {
 									// sm
 									fontSize: '1em',
 								},
+								'&.page-icon': {
+									'@media (min-width: 0px)': {
+										// xs
+										fontSize: '40px',
+									},
+									'@media (min-width: 600px)': {
+										// sm
+										fontSize: '60px',
+									},
+								},
 							},
 						},
 					},
