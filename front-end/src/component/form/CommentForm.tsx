@@ -112,7 +112,7 @@ const CommentForm: React.FC<Props> = (props) => {
 										resize: 'none',
 										whiteSpace: 'pre-wrap',
 										overflowWrap: 'break-word',
-										overflowY: 'scroll',
+										overflowY: 'auto',
 										maxWidth: '100%',
 										'& .MuiInputBase-input': {
 											fontFamily: 'Poppins',
