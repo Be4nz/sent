@@ -109,10 +109,11 @@ const CommentForm: React.FC<Props> = (props) => {
 									disableUnderline
 									fullWidth
 									sx={{
-										resize: 'vertical',
+										resize: 'none',
 										whiteSpace: 'pre-wrap',
 										overflowWrap: 'break-word',
-										overflowY: 'auto',
+										overflowY: 'scroll',
+										maxWidth: '100%',
 										'& .MuiInputBase-input': {
 											fontFamily: 'Poppins',
 											textAlign: 'justify',
