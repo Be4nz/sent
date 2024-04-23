@@ -105,12 +105,14 @@ const CommentForm: React.FC<Props> = (props) => {
 									error={errors.content ? true : false}
 									multiline
 									minRows={1}
+									maxRows={5}
 									disableUnderline
 									fullWidth
 									sx={{
 										resize: 'vertical',
 										whiteSpace: 'pre-wrap',
 										overflowWrap: 'break-word',
+										overflowY: 'auto',
 										'& .MuiInputBase-input': {
 											fontFamily: 'Poppins',
 											textAlign: 'justify',
