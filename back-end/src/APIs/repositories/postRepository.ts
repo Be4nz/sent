@@ -1,5 +1,5 @@
 import knexConnection from '../../database/knex';
-import { FollowModel, PostModel } from '../../models';
+import { FollowModel, PaginatedModel, PostModel } from '../../models';
 import { SaveModel } from '../../models/saveModel';
 
 export const createPostRepository = async (post: PostModel) => {
@@ -15,6 +15,14 @@ export const readPostRepository = async (id: string) => {
 export const readPostsRepository = async () => {
 	const response = await knexConnection('posts').select().orderBy('created_at', 'desc');
 	return response as PostModel[];
+};
+
+export const readPostsPaginatedRepository = async (page: number, limit: number) => {
+	const response = await knexConnection('posts')
+		.select()
+		.orderBy('created_at', 'desc')
+		.paginate({ perPage: limit, currentPage: page, isLengthAware: true });
+	return response as PaginatedModel<PostModel>;
 };
 
 export const readPostsFollowingRepository = async (following: FollowModel[]) => {
