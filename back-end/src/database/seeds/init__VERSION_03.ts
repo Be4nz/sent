@@ -52,17 +52,17 @@ export async function seed(knex: Knex): Promise<void> {
 		{
 			created_at: '2024-03-25 21:27:40',
 			content: 'Once more I fooled Tom!',
-			like_count: 1001,
-			comment_count: 543,
-			save_count: 1236652,
+			like_count: 0,
+			comment_count: 0,
+			save_count: 0,
 			user_id: 'l99fd3ed-e93f-11ee-9af8-0242ac120002',
 		},
 		{
 			created_at: '2024-03-28 21:27:40',
 			content: 'Unopropiated bahavior is not allowed! Please be respectful! #respect #love #peace',
-			like_count: 124583,
-			comment_count: 23848,
-			save_count: 1462,
+			like_count: 13,
+			comment_count: 13,
+			save_count: 13,
 			user_id: '2b2ac63c-e93f-11ee-9af8-0242ac120002',
 		},
 	]);
