@@ -26,3 +26,12 @@ export const del = async <T>(endpoint: string, token: string): Promise<AxiosResp
 	});
 	return response;
 };
+
+export const put = async <T>(endpoint: string, data: T, token: string): Promise<AxiosResponse<T, any>> => {
+	const response = await axios.put<T>(`http://localhost:3001/api/v1${endpoint}`, data, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+	return response;
+};
