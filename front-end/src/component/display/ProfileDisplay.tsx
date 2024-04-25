@@ -7,6 +7,7 @@ import { del, get, post } from '../../api/Api';
 import ProfileSkeletonDisplay from './ProfileSkeletonDisplay';
 import FollowersModal from '../follow/FollowersModal';
 import FollowingModal from '../follow/FollowingModal';
+import ProfileEditModal from './ProfileEditModal';
 
 interface Props {
 	user: UserModel;
@@ -30,6 +31,11 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 	// TODO connect edit button to edit profile form
 	const handleEditClick = () => {
 		setIsEditing(!isEditing);
+	};
+
+	const handleProfileEdit = async () => {
+		User.update();
+		setIsEditing(false);
 	};
 
 	const handleFollowClick = async () => {
@@ -67,7 +73,7 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 		};
 
 		fetchFollowing();
-	}, [User.id, props.user.id, User.token]);
+	}, [User.id, props.user.id, User.token, props.user]);
 
 	if (isLoading) return <ProfileSkeletonDisplay my='4vh' />;
 
@@ -80,28 +86,31 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 				<Grid container direction='column'>
 					<Grid container direction='row'>
 						<Grid item xs={8.4}>
-							<Typography className='profile-typography-name'>{props.user.name}</Typography>
+							<Typography className='profile-typography-name'>{isProfile ? User.name : props.user.name}</Typography>
 						</Grid>
 						<Grid item xs={3.6} textAlign='right' my='auto'>
 							{isProfile ? (
-								<Button
-									id='edit-profile-button'
-									onClick={handleEditClick}
-									sx={{
-										border: `2px solid ${Theme.palette.text.secondary}`,
-										backgroundColor: isEditing ? Theme.palette.text.secondary : 'none',
-										':hover': {
-											backgroundColor: Theme.palette.text.secondary,
-										},
-										'.MuiTouchRipple-child': {
-											color: Theme.palette.secondary.main,
-										},
-									}}
-								>
-									<Typography sx={{ px: '0.8vw' }} color={Theme.palette.secondary.main}>
-										Edit Profile
-									</Typography>
-								</Button>
+								<>
+									<Button
+										id='edit-profile-button'
+										onClick={handleEditClick}
+										sx={{
+											border: `2px solid ${Theme.palette.text.secondary}`,
+											backgroundColor: isEditing ? Theme.palette.text.secondary : 'none',
+											':hover': {
+												backgroundColor: Theme.palette.text.secondary,
+											},
+											'.MuiTouchRipple-child': {
+												color: Theme.palette.secondary.main,
+											},
+										}}
+									>
+										<Typography sx={{ px: '0.8vw' }} color={Theme.palette.secondary.main}>
+											Edit Profile
+										</Typography>
+									</Button>
+									{isEditing && <ProfileEditModal open={isEditing} handleClose={handleProfileEdit} />}
+								</>
 							) : (
 								<Button
 									id='follow-button'
@@ -128,7 +137,9 @@ const ProfileDisplay: React.FC<Props> = (props) => {
 							<Typography>@{props.user.username}</Typography>
 						</Grid>
 						<Grid item>
-							<Typography sx={{ wordBreak: 'break-word' }}>{props.user.description}</Typography>
+							<Typography sx={{ wordBreak: 'break-word' }}>
+								{isProfile ? User.description : props.user.description}
+							</Typography>
 						</Grid>
 						<Grid container direction='row'>
 							<Grid item xs={4}>
