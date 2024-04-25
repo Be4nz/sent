@@ -12,8 +12,8 @@ export async function seed(knex: Knex): Promise<void> {
 			role: 'admin',
 			picture: 'https://i1.wp.com/www.bulletproofaction.com/wp-content/uploads/2015/09/john-wick.jpg',
 			created_at: knex.raw('DEFAULT'),
-			followers: 0,
-			following: 0,
+			followers: 12,
+			following: 12,
 		},
 		{
 			id: '2b2ad3ed-e93f-11ee-9af8-0242ac120002',
@@ -25,8 +25,8 @@ export async function seed(knex: Knex): Promise<void> {
 			role: knex.raw('DEFAULT'),
 			picture: 'https://i.pinimg.com/originals/20/7c/c5/207cc534790d3048c340d12cce52d4a2.jpg',
 			created_at: knex.raw('DEFAULT'),
-			followers: 0,
-			following: 0,
+			followers: 1,
+			following: 1,
 		},
 		{
 			id: '3sd3c63c-e93f-11ee-9af8-0242ac120002',
@@ -38,8 +38,8 @@ export async function seed(knex: Knex): Promise<void> {
 			role: knex.raw('DEFAULT'),
 			picture: 'https://clipground.com/images/tom-cat-clipart.jpg',
 			created_at: knex.raw('DEFAULT'),
-			followers: 0,
-			following: 0,
+			followers: 1,
+			following: 1,
 		},
 		{
 			id: 'l99fd3ed-e93f-11ee-9af8-0242ac120002',
@@ -53,8 +53,8 @@ export async function seed(knex: Knex): Promise<void> {
 			picture:
 				'https://purepng.com/public/uploads/large/purepng.com-jerry-tom-and-jerrytom-and-jerrytomjerryanimated-seriesin-1940characters-17015286595464y8nc.png',
 			created_at: knex.raw('DEFAULT'),
-			followers: 0,
-			following: 0,
+			followers: 1,
+			following: 1,
 		},
 		{
 			id: '4k0fd3m6-e93f-11ee-9af8-0242ac120002',
@@ -66,8 +66,8 @@ export async function seed(knex: Knex): Promise<void> {
 			role: knex.raw('DEFAULT'),
 			picture: 'https://wallpaperset.com/w/full/b/f/5/230343.jpg',
 			created_at: knex.raw('DEFAULT'),
-			followers: 0,
-			following: 0,
+			followers: 1,
+			following: 1,
 		},
 		{
 			id: '404fd3m6-e93f-11ee-9af8-0242ac120002',
@@ -79,8 +79,8 @@ export async function seed(knex: Knex): Promise<void> {
 			role: knex.raw('DEFAULT'),
 			picture: 'http://hdqwalls.com/wallpapers/wonder-woman-4k-2018-l9.jpg',
 			created_at: knex.raw('DEFAULT'),
-			followers: 0,
-			following: 0,
+			followers: 1,
+			following: 1,
 		},
 		{
 			id: '4k0fd056-e93f-11ee-9af8-0242ac120002',
@@ -92,8 +92,8 @@ export async function seed(knex: Knex): Promise<void> {
 			role: knex.raw('DEFAULT'),
 			picture: 'https://i.pinimg.com/originals/5e/54/23/5e54232806b67c2f576b540b0e7f37da.jpg',
 			created_at: knex.raw('DEFAULT'),
-			followers: 0,
-			following: 0,
+			followers: 1,
+			following: 1,
 		},
 		{
 			id: '4k06d3m6-e93f-11ee-9af8-0242ac120002',
@@ -106,8 +106,8 @@ export async function seed(knex: Knex): Promise<void> {
 			picture:
 				'https://images4.fanpop.com/image/photos/24400000/Hermione-Granger-Wallpaper-hermione-granger-24488212-1024-768.jpg',
 			created_at: knex.raw('DEFAULT'),
-			followers: 0,
-			following: 0,
+			followers: 1,
+			following: 1,
 		},
 		{
 			id: '4k0073m6-e93f-11ee-9af8-0242ac120002',
@@ -119,8 +119,8 @@ export async function seed(knex: Knex): Promise<void> {
 			role: knex.raw('DEFAULT'),
 			picture: 'http://reggiestake.files.wordpress.com/2012/06/darth-vader-3.jpeg',
 			created_at: knex.raw('DEFAULT'),
-			followers: 0,
-			following: 0,
+			followers: 1,
+			following: 1,
 		},
 		{
 			id: '4k0f08m6-e93f-11ee-9af8-0242ac120002',
@@ -133,8 +133,8 @@ export async function seed(knex: Knex): Promise<void> {
 			picture:
 				'https://imgix.bustle.com/inverse/8d/2e/cc/37/6ca2/41c7/81cc/8c9a28f2dfbc/cumberbatch-holmesjpg.jpeg?w=1200&h=630&fit=crop&crop=faces&fm=jpg',
 			created_at: knex.raw('DEFAULT'),
-			followers: 0,
-			following: 0,
+			followers: 1,
+			following: 1,
 		},
 		{
 			id: '4k0f09m6-e93f-11ee-9af8-0242ac120002',
@@ -147,8 +147,8 @@ export async function seed(knex: Knex): Promise<void> {
 			picture:
 				'http://images6.fanpop.com/image/photos/39000000/Katniss-Everdeen-the-hunger-games-39076855-2048-2048.jpg',
 			created_at: knex.raw('DEFAULT'),
-			followers: 0,
-			following: 0,
+			followers: 1,
+			following: 1,
 		},
 		{
 			id: '4k0f10m6-e93f-11ee-9af8-0242ac120002',
@@ -160,8 +160,8 @@ export async function seed(knex: Knex): Promise<void> {
 			role: knex.raw('DEFAULT'),
 			picture: 'http://eskipaper.com/images/harry-potter-3.jpg',
 			created_at: knex.raw('DEFAULT'),
-			followers: 0,
-			following: 0,
+			followers: 1,
+			following: 1,
 		},
 		{
 			id: '4k0ffgr2-e93f-11ee-9af8-0242ac120002',
@@ -174,8 +174,8 @@ export async function seed(knex: Knex): Promise<void> {
 			picture:
 				'https://png.pngtree.com/png-vector/20190629/ourlarge/pngtree-business-people-avatar-icon-user-profile-free-vector-png-image_1527664.jpg',
 			created_at: knex.raw('DEFAULT'),
-			followers: 0,
-			following: 0,
+			followers: 1,
+			following: 1,
 		},
 	]);
 }
