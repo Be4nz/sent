@@ -102,6 +102,7 @@ export const UserContextProvider: React.FC<Props> = ({ children }) => {
 					if (data.name) setName(data.name);
 					if (data.email) setEmail(data.email);
 					if (data.description) setDescription(data.description);
+					else setDescription('');
 					if (data.role) setRole(data.role);
 					if (data.picture) setPicture(data.picture);
 					if (data.created_at) setCreated_at(data.created_at);

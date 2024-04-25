@@ -45,7 +45,7 @@ const ProfileEditForm: React.FC<Props> = (props) => {
 			username: User.username,
 			name: data.name,
 			email: User.email,
-			description: data.description !== '' ? data.description : undefined,
+			description: data.description !== '' ? data.description : '',
 			picture: data.picture !== undefined ? data.picture : User.picture,
 		};
 
