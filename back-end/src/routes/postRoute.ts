@@ -16,12 +16,14 @@ postRouter.get('/following/', readPostsFollowing);
 
 postRouter.get('/saved/', readPostsSaved);
 
-postRouter.post('/', checkOwnership('posts'), createPost);
-
 postRouter.get('/:id', readPost);
 
-postRouter.get('/', readPosts);
+postRouter.post('/', checkOwnership('posts'), createPost);
 
 postRouter.put('/:id', checkOwnership('posts'), updatePost);
 
 postRouter.delete('/:id', checkOwnership('posts'), deletePost);
+
+postRouter.get('/:page/:limit/', readPosts);
+
+postRouter.get('/', readPosts);

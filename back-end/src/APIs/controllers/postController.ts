@@ -3,7 +3,7 @@ import { PostModel } from '../../models';
 import {
 	createPostRepository,
 	readPostRepository,
-	readPostsRepository,
+	readPostsPaginatedRepository,
 	readPostsByUserRepository,
 	deletePostRepository,
 	updatePostRepository,
@@ -43,6 +43,8 @@ export const readPost = async (req: Request, res: Response) => {
 };
 
 export const readPosts = async (req: Request, res: Response) => {
+	const page = parseInt(req.params.page as string);
+	const limit = parseInt(req.params.limit as string);
 	try {
 		let response;
 		const user_id = req.query.user_id as string;
@@ -50,7 +52,7 @@ export const readPosts = async (req: Request, res: Response) => {
 		if (user_id) {
 			response = await readPostsByUserRepository(user_id);
 		} else {
-			response = await readPostsRepository();
+			response = await readPostsPaginatedRepository(page, limit);
 		}
 
 		if (!response) {
