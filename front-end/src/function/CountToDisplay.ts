@@ -1,18 +1,13 @@
 import { round } from './Round';
 
 export function countToDisplay(count: number) {
-	let interval = round(count / 1000000000, 1);
-
-	if (interval >= 1) {
-		return interval + 'B';
+	if (count < 1000) {
+		return count;
+	} else if (count >= 1000000000) {
+		return (count / 1000000000).toFixed(1) + 'B';
+	} else if (count >= 1000000) {
+		return (count / 1000000).toFixed(1) + 'M';
+	} else {
+		return (count / 1000).toFixed(1) + 'K';
 	}
-	interval = round(count / 1000000, 1);
-	if (interval >= 1) {
-		return interval + 'M';
-	}
-	interval = round(count / 1000, 1);
-	if (interval >= 1) {
-		return interval + 'K';
-	}
-	return count;
 }
