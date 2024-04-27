@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { auth } from 'express-oauth2-jwt-bearer';
 import { readUserByIdRepository, readUserByUsernameRepository } from '../APIs/repositories';
-import { FollowModel, LikeModel, PostModel, CommentModel } from '../models';
+import { FollowModel, LikeModel, PostModel, CommentModel, CommentLikeModel } from '../models';
 import { readPostRepository } from '../APIs/repositories/postRepository';
 import { readCommentRepository } from '../APIs/repositories/commentRepository';
 import { SaveModel } from '../models/saveModel';
@@ -84,6 +84,18 @@ export const checkOwnership = (resourceType: string) => {
 						isOwner = user.auth0_id === authPayload?.sub;
 					} else if (like) {
 						const user = await readUserByIdRepository(like.user_id);
+						isOwner = user.auth0_id === authPayload?.sub;
+					}
+					break;
+				case 'comment_likes':
+					const commentLike = req.body as CommentLikeModel;
+					const commenter_id = req.query.user_id as string;
+
+					if (commenter_id) {
+						const user = await readUserByIdRepository(commenter_id);
+						isOwner = user.auth0_id === authPayload?.sub;
+					} else if (commentLike) {
+						const user = await readUserByIdRepository(commentLike.user_id);
 						isOwner = user.auth0_id === authPayload?.sub;
 					}
 					break;
