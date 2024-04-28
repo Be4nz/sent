@@ -12,6 +12,7 @@ import {
 	readUserFollowerProfilesPaginatedRepository,
 	readUserFollowingProfilesPaginatedRepository,
 	readUsersBySearchRepository,
+	readAllSearchUsersRepository,
 } from '../repositories';
 
 export const createUser = async (req: Request, res: Response) => {
@@ -235,14 +236,16 @@ export const readUserSearch = async (req: Request, res: Response) => {
 	const search = req.params.search;
 	try {
 		const response = await readUsersBySearchRepository(search);
-		// if (response.length === 0) {
-		// 	res.status(404).send('No users found.');
-		// 	return;
-		// }
-		console.log('------RESPONSE------');
-		console.log(response);
-		console.log('------RESPONSE------');
+		res.status(200).json(response);
+	} catch (error) {
+		console.log(error);
+		res.status(500).send('Internal Server Error');
+	}
+};
 
+export const readAllUserSearch = async (req: Request, res: Response) => {
+	try {
+		const response = await readAllSearchUsersRepository();
 		res.status(200).json(response);
 	} catch (error) {
 		console.log(error);

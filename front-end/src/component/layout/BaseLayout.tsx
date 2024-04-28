@@ -21,6 +21,11 @@ const BaseLayout: React.FC<Props> = ({ children }) => {
 			<Hidden lgUp>
 				<BottomNavMenu />
 			</Hidden>
+			<Hidden lgDown>
+				<Box style={{ paddingTop: '200px', position: 'fixed', right: 30 }}>
+					<SearchBar />
+				</Box>
+			</Hidden>
 
 			<Box
 				style={{
@@ -28,7 +33,6 @@ const BaseLayout: React.FC<Props> = ({ children }) => {
 					paddingBottom: '125px',
 				}}
 			>
-				<SearchBar />
 				<Container maxWidth='lg' style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
 					{children}
 				</Container>

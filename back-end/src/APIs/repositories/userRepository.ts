@@ -53,6 +53,17 @@ export const readUsersRepository = async () => {
 	return response as UserModel[];
 };
 
+// To use in the future for returning only based on search input
+export const readUsersBySearchRepository = async (search: string) => {
+	const response = await knexConnection('users').where('username', 'like', `${search}%`);
+	return response as UserModel[];
+};
+
+export const readAllSearchUsersRepository = async () => {
+	const response = await knexConnection('users').select();
+	return response as UserModel[];
+};
+
 export const updateUserRepository = async (id: string, user: UserModel) => {
 	await knexConnection('users').update(user).where('id', id);
 };
@@ -79,8 +90,4 @@ export const incrementFollowingRepository = async (id: string) => {
 
 export const decrementFollowingRepository = async (id: string) => {
 	await knexConnection('users').where('id', id).decrement('following', 1);
-};
-
-export const readUsersBySearchRepository = async (search: string) => {
-	await knexConnection('users').where('username', 'like', `%${search}%`);
 };
