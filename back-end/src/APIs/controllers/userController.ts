@@ -232,11 +232,20 @@ export const deleteUserByUsername = async (req: Request, res: Response) => {
 	}
 };
 
+// To use in the future for returning only based on search input
 export const readUserSearch = async (req: Request, res: Response) => {
 	const search = req.params.search;
 	try {
 		const response = await readUsersBySearchRepository(search);
-		res.status(200).json(response);
+
+		const modifiedResponse = response.map((user) => ({
+			...user,
+			auth0_id: 'hidden',
+			email: 'hidden',
+			role: 'hidden',
+		}));
+
+		res.status(200).json(modifiedResponse);
 	} catch (error) {
 		console.log(error);
 		res.status(500).send('Internal Server Error');
@@ -246,7 +255,15 @@ export const readUserSearch = async (req: Request, res: Response) => {
 export const readAllUserSearch = async (req: Request, res: Response) => {
 	try {
 		const response = await readAllSearchUsersRepository();
-		res.status(200).json(response);
+
+		const modifiedResponse = response.map((user) => ({
+			...user,
+			auth0_id: 'hidden',
+			email: 'hidden',
+			role: 'hidden',
+		}));
+
+		res.status(200).json(modifiedResponse);
 	} catch (error) {
 		console.log(error);
 		res.status(500).send('Internal Server Error');
