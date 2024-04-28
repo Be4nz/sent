@@ -11,6 +11,7 @@ import {
 	readUserByUsernameRepository,
 	readUserFollowerProfilesPaginatedRepository,
 	readUserFollowingProfilesPaginatedRepository,
+	readUsersBySearchRepository,
 } from '../repositories';
 
 export const createUser = async (req: Request, res: Response) => {
@@ -223,6 +224,25 @@ export const deleteUserByUsername = async (req: Request, res: Response) => {
 		}
 
 		await deleteUserByUsernameRepository(username);
+		res.status(200).json(response);
+	} catch (error) {
+		console.log(error);
+		res.status(500).send('Internal Server Error');
+	}
+};
+
+export const readUserSearch = async (req: Request, res: Response) => {
+	const search = req.params.search;
+	try {
+		const response = await readUsersBySearchRepository(search);
+		// if (response.length === 0) {
+		// 	res.status(404).send('No users found.');
+		// 	return;
+		// }
+		console.log('------RESPONSE------');
+		console.log(response);
+		console.log('------RESPONSE------');
+
 		res.status(200).json(response);
 	} catch (error) {
 		console.log(error);

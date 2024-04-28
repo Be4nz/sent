@@ -80,3 +80,7 @@ export const incrementFollowingRepository = async (id: string) => {
 export const decrementFollowingRepository = async (id: string) => {
 	await knexConnection('users').where('id', id).decrement('following', 1);
 };
+
+export const readUsersBySearchRepository = async (search: string) => {
+	await knexConnection('users').where('username', 'like', `%${search}%`);
+};

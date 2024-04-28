@@ -10,6 +10,7 @@ import {
 	readUserProfile,
 	readUserByUsername,
 	readUserFollowProfilesPaginated,
+	readUserSearch,
 } from '../APIs/controllers';
 import { checkOwnership, checkRole } from '../middlewares/authentication';
 
@@ -254,3 +255,5 @@ userRouter.delete('/username/:username', checkOwnership('users'), deleteUserByUs
  *         description: Internal server error
  */
 userRouter.delete('/:id', checkOwnership('users'), deleteUser);
+
+userRouter.get('/search/:search', readUserSearch);
