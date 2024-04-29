@@ -5,7 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import { LogoSvg } from '../svg/LogoSvg';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import { useUserContext } from '../../context/UserContext';
-import { Avatar, Hidden, useTheme } from '@mui/material';
+import { Avatar, Hidden, Icon, useTheme } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../type/AppRoute';
 import { IconButton } from '@mui/material';
@@ -53,9 +53,13 @@ export default function PageHeader() {
 			<AppBar position='fixed'>
 				<Toolbar>
 					<Hidden lgUp>
-						{shouldRenderBackButton && (
+						{shouldRenderBackButton ? (
 							<IconButton id='basic-button' onClick={handleBacking} edge='start'>
 								<ArrowBackIcon style={{ color: Theme.palette.text.secondary }} />
+							</IconButton>
+						) : (
+							<IconButton edge='start' disabled>
+								<Icon />
 							</IconButton>
 						)}
 					</Hidden>
