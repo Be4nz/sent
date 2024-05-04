@@ -51,6 +51,7 @@ const PostForm: React.FC<Props> = (props) => {
 		register,
 		formState: { errors },
 		reset,
+		setValue,
 	} = useForm<FormData>({ resolver: zodResolver(schema) });
 
 	const submit = async () => {
@@ -75,9 +76,10 @@ const PostForm: React.FC<Props> = (props) => {
 		props.onSubmit && props.onSubmit();
 	};
 
-	// TODO implement picture and tag functionality
-	const handlePicture = () => {};
-	const handleTag = () => {};
+	const handleTag = () => {
+		setContent((prevContent) => prevContent + '#');
+		setValue('content', content + '#');
+	};
 
 	useEffect(() => {
 		if (content.length > 255) setSentUnavailable(true);
@@ -148,14 +150,6 @@ const PostForm: React.FC<Props> = (props) => {
 							<Grid container direction={'row'}>
 								<Grid item xs={4} my={'auto'}>
 									<Grid container direction={'row'}>
-										<Grid item>
-											<IconButton onClick={handlePicture} disabled={props.disabled}>
-												<CropOriginalIcon
-													fontSize='large'
-													style={{ fontSize: '1.5rem', color: Theme.palette.primary.main }}
-												/>
-											</IconButton>
-										</Grid>
 										<Grid item>
 											<IconButton onClick={handleTag} disabled={props.disabled}>
 												<TagIcon fontSize='large' style={{ fontSize: '1.5rem', color: Theme.palette.primary.main }} />
