@@ -269,13 +269,14 @@ const PostDisplay: React.FC<{
 									</Grid>
 								</Grid>
 							</Grid>
-							{postPattern.test(window.location.pathname) && (
-								<Grid container item xs={4} justifyContent='flex-end'>
-									<IconButton onClick={handleDeleteClick}>
-										<DeleteOutlineIcon sx={{ color: Theme.palette.text.secondary }} />
-									</IconButton>
-								</Grid>
-							)}
+							{postPattern.test(window.location.pathname) &&
+								(User.id === postData.user_id || User.role === 'admin') && (
+									<Grid container item xs={4} justifyContent='flex-end'>
+										<IconButton onClick={handleDeleteClick}>
+											<DeleteOutlineIcon sx={{ color: Theme.palette.text.secondary }} />
+										</IconButton>
+									</Grid>
+								)}
 						</Grid>
 					</Grid>
 				</Grid>
