@@ -53,11 +53,11 @@ export const readPostsByUserRepository = async (user_id: string) => {
 };
 
 export const updatePostRepository = async (id: string, post: PostModel) => {
-	await knexConnection('users').update(post).where('id', id);
+	await knexConnection('posts').update(post).where('id', id);
 };
 
 export const deletePostRepository = async (id: string) => {
-	await knexConnection('users').where('id', id).del();
+	await knexConnection('posts').where('id', id).del();
 };
 
 export const incrementLikesRepository = async (id: string) => {
