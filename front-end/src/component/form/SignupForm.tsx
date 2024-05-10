@@ -84,6 +84,7 @@ const SignupForm: React.FC<Props> = (props) => {
 					minWidth={props.minWidth}
 					maxWidth={props.maxWidth}
 					py={props.py}
+					my={'100px'}
 				>
 					<Grid width={'300px'}>
 						<LogoTextSvg width={'100%'} />
