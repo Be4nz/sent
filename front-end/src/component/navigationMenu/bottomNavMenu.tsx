@@ -2,7 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import { Home, Person, Favorite, Bookmark, EditNote } from '@mui/icons-material';
+import { Home, Person, Favorite, Bookmark, EditNote, Search } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../type/AppRoute';
 import PostModal from '../display/PostModal';
@@ -46,10 +46,15 @@ export default function BottomNavMenu() {
 					icon={<Home style={iconStyles} />}
 					onClick={() => navigate(AppRoute.HOME)}
 				/>
-				<BottomNavigationAction
+				{/* <BottomNavigationAction
 					value={`${AppRoute.PROFILE}/${User.username}`}
 					icon={<Person style={iconStyles} />}
 					onClick={() => navigate(`${AppRoute.PROFILE}/${User.username}`)}
+				/> */}
+				<BottomNavigationAction
+					value={AppRoute.SEARCH}
+					icon={<Search style={iconStyles} />}
+					onClick={() => navigate(AppRoute.SEARCH)}
 				/>
 				<BottomNavigationAction onClick={handleModalOpen} icon={<EditNote style={{ fontSize: 40 }} />} />
 				<PostModal open={modalOpen} handleClose={handleModalClose} />

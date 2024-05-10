@@ -4,7 +4,7 @@ import { AppRoute } from '../type/AppRoute';
 import { useEffect, useRef, useState } from 'react';
 import { PaginatedModel, PostModel } from '../model';
 import LoadingDisplay from '../component/display/LoadingDisplay';
-import { Grid, useTheme } from '@mui/material';
+import { Box, Grid, useTheme } from '@mui/material';
 import PostForm from '../component/form/PostForm';
 import { usePostContext } from '../context/PostContext';
 import PostModal from '../component/display/PostModal';
@@ -87,20 +87,41 @@ const Home: React.FC<Props> = (props) => {
 	if (User.isLoading || User.isNewUser) return <LoadingDisplay />;
 
 	return (
-		<div style={{ width: '100%', height: '100vh', overflow: 'auto' }} onScroll={handlePageChange} ref={feedContentRef}>
+		<div style={{ width: '100vw', height: '100vh', overflow: 'auto' }} onScroll={handlePageChange} ref={feedContentRef}>
 			<Grid item minWidth='360px' maxWidth='752px' mx='auto'>
 				<Grid
 					onClick={handleModalOpen}
 					my='4vh'
 					sx={{
 						borderRadius: '15px',
-						':hover': {
-							cursor: 'pointer',
-							backgroundColor: Theme.palette.background.paper,
-						},
+						marginTop: '125px',
+						pointerEvents: 'auto',
+						overflow: 'hidden',
 					}}
 				>
-					<PostForm disabled={true} />
+					<Box
+						sx={{
+							position: 'relative',
+							zIndex: 0,
+						}}
+					>
+						<PostForm disabled={false} />
+						<Box
+							sx={{
+								position: 'absolute',
+								top: 0,
+								left: 0,
+								width: '100%',
+								height: '100%',
+								zIndex: 1,
+								':hover': {
+									cursor: 'pointer',
+									backgroundColor:
+										Theme.palette.mode === 'light' ? 'rgba(50, 50, 50, 0.1)' : 'rgba(255, 255, 255, 0.1)',
+								},
+							}}
+						/>
+					</Box>
 				</Grid>
 
 				<PostModal open={modalOpen} handleClose={handleModalClose} />

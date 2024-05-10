@@ -1,9 +1,10 @@
 import React from 'react';
 import { Drawer, List, ListItemButton, ListItemIcon, ListItemText, Box, useTheme, Typography } from '@mui/material';
-import { Home, Person, Favorite, Bookmark } from '@mui/icons-material';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Home, Person, Favorite, Bookmark, Search } from '@mui/icons-material';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../type/AppRoute';
 import { useUserContext } from '../../context/UserContext';
+import Link from '@mui/material/Link';
 
 const NavMenu: React.FC = () => {
 	const location = useLocation();
@@ -15,8 +16,11 @@ const NavMenu: React.FC = () => {
 
 	const linkStyles = {
 		color: Theme.palette.text.secondary,
-		fontSize: '0.8em',
+		fontSize: '0.8em !important',
 		textDecoration: 'none',
+		':hover': {
+			textDecoration: 'underline',
+		},
 	};
 
 	const renderListItemButton = (route: string, icon: React.ReactNode, text: string) => (
@@ -38,14 +42,15 @@ const NavMenu: React.FC = () => {
 				{renderListItemButton(`${AppRoute.PROFILE}/${User.username}`, <Person />, 'Profile')}
 				{renderListItemButton(AppRoute.FOLLOWING, <Favorite />, 'Following')}
 				{renderListItemButton(AppRoute.SAVED, <Bookmark />, 'Saved')}
+				{renderListItemButton(AppRoute.SEARCH, <Search />, 'Search')}
 			</List>
 			<Box sx={{ position: 'fixed', bottom: '2vh', color: Theme.palette.text.secondary }}>
 				<Typography style={{ fontSize: '0.8em' }}>© {new Date().getFullYear()} sent by Sourcerers</Typography>
-				<Link style={linkStyles} to='https://github.com/Be4nz/sent'>
+				<Link sx={linkStyles} href='https://github.com/Be4nz/sent'>
 					Github
 				</Link>
 				{' | '}
-				<Link style={linkStyles} to='https://github.com/Be4nz/sent/blob/main/LICENSE'>
+				<Link sx={linkStyles} href='https://github.com/Be4nz/sent/blob/main/LICENSE'>
 					License
 				</Link>
 			</Box>

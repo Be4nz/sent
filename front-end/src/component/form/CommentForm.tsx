@@ -92,6 +92,7 @@ const CommentForm: React.FC<Props> = (props) => {
 						borderRadius: '15px',
 						padding: '2%',
 						backgroundColor: !props.disabled ? Theme.palette.background.default : 'none',
+						cursor: 'default',
 					}}
 				>
 					<Grid item xs={1.5} mx={'auto'}>
@@ -155,8 +156,9 @@ const CommentForm: React.FC<Props> = (props) => {
 										<Grid item my={'auto'}>
 											<FormHelperText sx={{ m: '0px' }}>
 												<Typography>
-													{sentUnavailable ? 'Message too long ' : ''}
-													{255 - content.length}/255
+													{content.length > 100 && (
+														<Typography style={{ fontSize: '0.9rem' }}>{255 - content.length}/255</Typography>
+													)}
 												</Typography>
 											</FormHelperText>
 										</Grid>

@@ -97,7 +97,7 @@ export const Post: React.FC<Props> = () => {
 	return isLoading ? (
 		<LoadingDisplay />
 	) : post ? (
-		<div style={{ width: '100%' }}>
+		<div style={{ width: '100%', paddingTop: '125px' }}>
 			<Grid item minWidth='360px' maxWidth='752px' mx='auto'>
 				<Container>
 					<Hidden lgDown>

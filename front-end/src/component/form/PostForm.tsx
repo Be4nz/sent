@@ -142,7 +142,7 @@ const PostForm: React.FC<Props> = (props) => {
 											},
 										},
 									}}
-									placeholder={'Send your message to the world...'}
+									placeholder={'What will be sent today..?'}
 									onChange={(event) => setContent(event.target.value)}
 									disabled={props.disabled}
 								></Input>
@@ -151,7 +151,7 @@ const PostForm: React.FC<Props> = (props) => {
 								<Grid item xs={4} my={'auto'}>
 									<Grid container direction={'row'}>
 										<Grid item>
-											<IconButton onClick={handleTag} disabled={props.disabled}>
+											<IconButton onClick={handleTag} disabled={props.disabled} style={{ marginLeft: '-0.7rem' }}>
 												<TagIcon fontSize='large' style={{ fontSize: '1.5rem', color: Theme.palette.primary.main }} />
 											</IconButton>
 										</Grid>
@@ -178,10 +178,9 @@ const PostForm: React.FC<Props> = (props) => {
 										</Grid>
 										<Grid item my={'auto'}>
 											<FormHelperText sx={{ m: '0px' }}>
-												<Typography>
-													{sentUnavailable ? 'Message too long ' : ''}
-													{255 - content.length}/255
-												</Typography>
+												{content.length > 100 && (
+													<Typography style={{ fontSize: '0.9rem' }}>{255 - content.length}/255</Typography>
+												)}
 											</FormHelperText>
 										</Grid>
 									</Grid>

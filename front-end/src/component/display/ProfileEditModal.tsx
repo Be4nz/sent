@@ -27,7 +27,13 @@ const ProfileEditModal: React.FC<Props> = (props) => {
 				}}
 			>
 				<Grid>
-					<ProfileEditForm minWidth='360px' maxWidth='400px' py='auto' onSubmit={props.handleClose} />
+					<ProfileEditForm
+						minWidth='360px'
+						maxWidth='400px'
+						py='auto'
+						onSubmit={props.handleClose}
+						onClose={props.handleClose}
+					/>
 				</Grid>
 			</Modal>
 		</React.Fragment>
