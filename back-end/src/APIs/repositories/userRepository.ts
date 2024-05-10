@@ -53,9 +53,11 @@ export const readUsersRepository = async () => {
 	return response as UserModel[];
 };
 
-// To use in the future for returning only based on search input
 export const readUsersBySearchRepository = async (search: string) => {
-	const response = await knexConnection('users').where('username', 'like', `${search}%`);
+	const response = await knexConnection('users')
+		.where('username', 'like', `${search}%`)
+		.orWhere('name', 'like', `${search}%`)
+		.limit(10);
 	return response as UserModel[];
 };
 

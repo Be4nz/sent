@@ -12,6 +12,7 @@ interface Props {
 	maxWidth: string;
 	py: string;
 	onSubmit: () => void;
+	onClose: () => void;
 }
 
 const ProfileEditForm: React.FC<Props> = (props) => {
@@ -83,13 +84,15 @@ const ProfileEditForm: React.FC<Props> = (props) => {
 					maxWidth={props.maxWidth}
 					py={props.py}
 					sx={{
+						border: `1px solid ${Theme.palette.text.secondary}`,
+						borderRadius: '30px',
+						padding: '4%',
 						backgroundColor: Theme.palette.background.default,
-						borderRadius: '20px',
 					}}
 				>
 					<Grid item width={'300px'}>
-						<Typography textAlign={'center'} my={'0.5rem'} className='signup-typography'>
-							You are editing your profile.
+						<Typography textAlign={'center'} my={'0.5rem'} style={{ fontSize: '1.4rem', fontWeight: 500 }}>
+							Profile edit
 						</Typography>
 					</Grid>
 					<Grid item>
@@ -140,9 +143,9 @@ const ProfileEditForm: React.FC<Props> = (props) => {
 							helperText={errors.name?.message}
 						/>
 					</Grid>
-					<Grid width={'300px'}>
+					{/* <Grid width={'300px'}>
 						<Typography className='signup-typography'>Came up with a new description?</Typography>
-					</Grid>
+					</Grid> */}
 					<Grid item width={'300px'}>
 						<TextField
 							fullWidth
@@ -151,6 +154,8 @@ const ProfileEditForm: React.FC<Props> = (props) => {
 							{...register('description')}
 							error={errors.description ? true : false}
 							helperText={errors.description?.message}
+							multiline
+							maxRows={5}
 						/>
 					</Grid>
 					<Grid item width={'300px'}>
@@ -159,7 +164,9 @@ const ProfileEditForm: React.FC<Props> = (props) => {
 							type='submit'
 							sx={{
 								backgroundColor: Theme.palette.primary.main,
-								marginBottom: '20px',
+								marginBottom: '5px',
+								marginTop: '12px',
+								height: '40px',
 								':hover': {
 									backgroundColor: Theme.palette.primary.light,
 								},
@@ -170,6 +177,29 @@ const ProfileEditForm: React.FC<Props> = (props) => {
 						>
 							<Typography color='white' className='signup-typography'>
 								Save
+							</Typography>
+						</Button>
+					</Grid>
+					<Grid item width={'300px'}>
+						<Button
+							fullWidth
+							onClick={props.onClose}
+							sx={{
+								border: `2px solid ${Theme.palette.text.secondary}`,
+								backgroundColor: Theme.palette.text.secondary,
+								height: '40px',
+								marginBottom: '5px',
+								':hover': {
+									backgroundColor: '#b2b2b2',
+									border: `2px solid #b2b2b2`,
+								},
+								'.MuiTouchRipple-child': {
+									color: Theme.palette.secondary.main,
+								},
+							}}
+						>
+							<Typography color='white' className='signup-typography'>
+								Cancel
 							</Typography>
 						</Button>
 					</Grid>

@@ -171,11 +171,11 @@ const CommentDisplay: React.FC<{
 							</Grid>
 						</Grid>
 						<Grid item>
-							<Typography sx={{ wordBreak: 'break-word' }}>{displayedComment.content}</Typography>
+							<Typography sx={{ wordBreak: 'break-word', marginTop: '6px' }}>{displayedComment.content}</Typography>
 						</Grid>
 						<Grid container direction='row'>
 							<Grid item xs={2.5}>
-								<Grid container direction='row'>
+								<Grid container direction='row' style={{ marginLeft: '-10px', marginTop: '8px' }}>
 									<Grid item>
 										<IconButton onClick={handleLikeClick}>
 											{!isLiked && <FavoriteBorderIcon sx={{ color: Theme.palette.text.secondary }} />}

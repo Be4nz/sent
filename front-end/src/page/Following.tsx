@@ -37,7 +37,7 @@ const Home: React.FC<Props> = (props) => {
 
 	if (posts.length === 0)
 		return (
-			<div style={{ paddingTop: '5%' }}>
+			<div style={{ paddingTop: '150px' }}>
 				<HeartBrokenIcon className='page-icon' />
 				<Typography className='profile-typography-name' style={{ fontWeight: 'bold' }}>
 					Following Feed is Empty
@@ -50,7 +50,7 @@ const Home: React.FC<Props> = (props) => {
 		);
 
 	return (
-		<div style={{ width: '100%' }}>
+		<div style={{ width: '100%', paddingTop: '125px' }}>
 			<Grid item minWidth='360px' maxWidth='752px' mx='auto'>
 				<PostListDisplay posts={posts} />
 			</Grid>

@@ -184,7 +184,7 @@ const PostDisplay: React.FC<{
 				<Grid item xs={10.5}>
 					<Grid container direction='column'>
 						<Grid container direction='row'>
-							<Grid item xs={7}>
+							<Grid item xs={7} style={{ marginBottom: '6px' }}>
 								<Typography fontWeight='bold'>
 									<Link
 										color='none'
@@ -209,7 +209,7 @@ const PostDisplay: React.FC<{
 						<Grid item>
 							<Typography sx={{ wordBreak: 'break-word' }}>{displayedPost.content}</Typography>
 						</Grid>
-						<Grid container direction='row'>
+						<Grid container direction='row' style={{ marginLeft: '-10px', marginTop: '8px' }}>
 							<Grid item xs={2.5}>
 								<Grid container direction='row'>
 									<Grid item>

@@ -72,7 +72,7 @@ const Profile: React.FC<Props> = (props) => {
 
 	if (!profile)
 		return (
-			<div style={{ paddingTop: '5%' }}>
+			<div style={{ paddingTop: '150px' }}>
 				<PersonOffIcon className='page-icon' />
 				<Typography className='profile-typography-name' style={{ fontWeight: 'bold' }}>
 					This user does not exist
@@ -85,7 +85,7 @@ const Profile: React.FC<Props> = (props) => {
 		);
 
 	return (
-		<div style={{ width: '100%' }}>
+		<div style={{ width: '100%', paddingTop: '125px' }}>
 			<Grid item minWidth='360px' maxWidth='752px' mx='auto'>
 				<ProfileDisplay user={profile} my='4vh' />
 				<PostListDisplay posts={posts} />
