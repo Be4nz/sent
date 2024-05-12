@@ -4,7 +4,7 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import { Avatar, Grid, IconButton, Link, ListItem, Typography, useTheme } from '@mui/material';
+import { Avatar, Box, Grid, IconButton, Link, ListItem, Typography, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { get, post, del } from '../../api/Api';
 import { useUserContext } from '../../context/UserContext';
@@ -17,7 +17,7 @@ import { AppRoute } from '../../type/AppRoute';
 import { convertToLocalTime } from '../../function/ConvertToLocalTime';
 import { SaveModel } from '../../model/SaveModel';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { reverse } from 'dns';
+import DeleteModal from './DeleteModal';
 
 const PostDisplay: React.FC<{
 	postData: PostModel;
@@ -36,6 +36,16 @@ const PostDisplay: React.FC<{
 	const Theme = useTheme();
 	const User = useUserContext();
 	const navigate = useNavigate();
+
+	const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+
+	const handleDeleteModalClose = () => {
+		setDeleteModalOpen(false);
+	};
+
+	const handleDeleteModalOpen = () => {
+		setDeleteModalOpen(true);
+	};
 
 	// Regular expression pattern to match '/post/:id'
 	const postPattern = /^\/post\/\d+$/;
@@ -89,18 +99,6 @@ const PostDisplay: React.FC<{
 			setIsCommentSelected(!isCommentSelected);
 
 			navigate('/post/' + postData.id);
-		}
-	};
-
-	const handleDeleteClick = async () => {
-		try {
-			let response = await del<PostModel>(`/posts/` + postData.id, User.token);
-
-			if (response.status === 201 || response.status === 200) {
-				navigate(AppRoute.HOME);
-			}
-		} catch (error) {
-			console.error(error);
 		}
 	};
 
@@ -180,108 +178,113 @@ const PostDisplay: React.FC<{
 	if (isLoading) return <PostSkeletonDisplay minWidth={minWidth} maxWidth={maxWidth} my={my} mx={mx} />;
 
 	return (
-		<ListItem divider>
-			<Grid container direction='row' minWidth={minWidth} maxWidth={maxWidth} my={my} mx={mx} width={'100%'}>
-				<Grid item xs={1.5}>
-					<Avatar
-						onClick={handleProfileClick}
-						src={creator?.picture}
-						sx={{
-							transition: 'filter 0.3s',
-							':hover': {
-								filter: 'brightness(70%)',
-								cursor: 'pointer',
-							},
-						}}
-					/>
-				</Grid>
-				<Grid item xs={10.5}>
-					<Grid container direction='column'>
-						<Grid container direction='row'>
-							<Grid item xs={7} style={{ marginBottom: '6px' }}>
-								<Typography fontWeight='bold'>
-									<Link
-										color='none'
-										underline='hover'
-										onClick={handleProfileClick}
-										sx={{
-											':hover': {
-												cursor: 'pointer',
-											},
-										}}
-									>
-										@{creator?.username}
-									</Link>
-								</Typography>
-							</Grid>
-							<Grid item xs={5}>
-								<Typography textAlign='right' color={Theme.palette.text.secondary}>
-									{timeSince(convertToLocalTime(displayedPost.created_at))}
-								</Typography>
-							</Grid>
-						</Grid>
-						<Grid item>
-							<Typography sx={{ wordBreak: 'break-word' }}>{displayedPost.content}</Typography>
-						</Grid>
-						<Grid container direction='row' style={{ marginLeft: '-10px', marginTop: '8px' }}>
-							<Grid item xs={2.5}>
-								<Grid container direction='row'>
-									<Grid item>
-										<IconButton onClick={handleLikeClick}>
-											{!isLiked && <FavoriteBorderIcon sx={{ color: Theme.palette.text.secondary }} />}
-											{isLiked && <FavoriteIcon sx={{ color: Theme.palette.primary.main }} />}
-										</IconButton>
-									</Grid>
-									<Grid item sx={{ my: 'auto' }}>
-										<Typography color={Theme.palette.text.secondary}>
-											{countToDisplay(displayedPost.like_count)}
-										</Typography>
-									</Grid>
+		<Box>
+			<DeleteModal open={isDeleteModalOpen} postData={postData} handleClose={handleDeleteModalClose} />
+			<ListItem divider>
+				<Grid container direction='row' minWidth={minWidth} maxWidth={maxWidth} my={my} mx={mx} width={'100%'}>
+					<Grid item xs={1.5}>
+						<Avatar
+							onClick={handleProfileClick}
+							src={creator?.picture}
+							sx={{
+								transition: 'filter 0.3s',
+								':hover': {
+									filter: 'brightness(70%)',
+									cursor: 'pointer',
+								},
+							}}
+						/>
+					</Grid>
+					<Grid item xs={10.5}>
+						<Grid container direction='column'>
+							<Grid container direction='row'>
+								<Grid item xs={7} style={{ marginBottom: '6px' }}>
+									<Typography fontWeight='bold'>
+										<Link
+											color='none'
+											underline='hover'
+											onClick={handleProfileClick}
+											sx={{
+												':hover': {
+													cursor: 'pointer',
+												},
+											}}
+										>
+											@{creator?.username}
+										</Link>
+									</Typography>
+								</Grid>
+								<Grid item xs={5}>
+									<Typography textAlign='right' color={Theme.palette.text.secondary}>
+										{timeSince(convertToLocalTime(displayedPost.created_at))}
+									</Typography>
 								</Grid>
 							</Grid>
-							<Grid item xs={2.5}>
-								<Grid container direction='row'>
-									<Grid item>
-										<IconButton onClick={handleCommentClick}>
-											{!isCommentSelected && <ModeCommentOutlinedIcon sx={{ color: Theme.palette.text.secondary }} />}
-											{isCommentSelected && <ModeCommentIcon sx={{ color: Theme.palette.primary.main }} />}
-										</IconButton>
-									</Grid>
-									<Grid item sx={{ my: 'auto' }}>
-										<Typography color={Theme.palette.text.secondary}>
-											{countToDisplay(displayedPost.comment_count)}
-										</Typography>
+							<Grid item>
+								<Typography sx={{ wordBreak: 'break-word' }}>{displayedPost.content}</Typography>
+							</Grid>
+							<Grid container direction='row' style={{ marginLeft: '-10px', marginTop: '8px' }}>
+								<Grid item xs={2.5}>
+									<Grid container direction='row'>
+										<Grid item>
+											<IconButton onClick={handleLikeClick}>
+												{!isLiked && <FavoriteBorderIcon sx={{ color: Theme.palette.text.secondary }} />}
+												{isLiked && <FavoriteIcon sx={{ color: Theme.palette.primary.main }} />}
+											</IconButton>
+										</Grid>
+										<Grid item sx={{ my: 'auto' }}>
+											<Typography color={Theme.palette.text.secondary}>
+												{countToDisplay(displayedPost.like_count)}
+											</Typography>
+										</Grid>
 									</Grid>
 								</Grid>
-							</Grid>
-							<Grid item xs={2.5}>
-								<Grid container direction='row'>
-									<Grid item>
-										<IconButton onClick={handleSaveClick}>
-											{!isSaved && <BookmarkBorderIcon sx={{ color: Theme.palette.text.secondary }} />}
-											{isSaved && <BookmarkIcon sx={{ color: Theme.palette.primary.main }} />}
-										</IconButton>
-									</Grid>
-									<Grid item sx={{ my: 'auto' }}>
-										<Typography color={Theme.palette.text.secondary}>
-											{countToDisplay(displayedPost.save_count)}
-										</Typography>
+								<Grid item xs={2.5}>
+									<Grid container direction='row'>
+										<Grid item>
+											<IconButton onClick={handleCommentClick}>
+												{!isCommentSelected && <ModeCommentOutlinedIcon sx={{ color: Theme.palette.text.secondary }} />}
+												{isCommentSelected && <ModeCommentIcon sx={{ color: Theme.palette.primary.main }} />}
+											</IconButton>
+										</Grid>
+										<Grid item sx={{ my: 'auto' }}>
+											<Typography color={Theme.palette.text.secondary}>
+												{countToDisplay(displayedPost.comment_count)}
+											</Typography>
+										</Grid>
 									</Grid>
 								</Grid>
-							</Grid>
-							{postPattern.test(window.location.pathname) &&
-								(User.id === postData.user_id || User.role === 'admin') && (
-									<Grid container item xs={4} justifyContent='flex-end'>
-										<IconButton onClick={handleDeleteClick}>
-											<DeleteOutlineIcon sx={{ color: Theme.palette.text.secondary }} />
-										</IconButton>
+								<Grid item xs={2.5}>
+									<Grid container direction='row'>
+										<Grid item>
+											<IconButton onClick={handleSaveClick}>
+												{!isSaved && <BookmarkBorderIcon sx={{ color: Theme.palette.text.secondary }} />}
+												{isSaved && <BookmarkIcon sx={{ color: Theme.palette.primary.main }} />}
+											</IconButton>
+										</Grid>
+										<Grid item sx={{ my: 'auto' }}>
+											<Typography color={Theme.palette.text.secondary}>
+												{countToDisplay(displayedPost.save_count)}
+											</Typography>
+										</Grid>
 									</Grid>
-								)}
+								</Grid>
+								{postPattern.test(window.location.pathname) &&
+									(User.id === postData.user_id || User.role === 'admin') && (
+										<Grid container item xs={4} justifyContent='flex-end'>
+											<Box style={{ marginRight: '-23%' }}>
+												<IconButton onClick={handleDeleteModalOpen}>
+													<DeleteOutlineIcon sx={{ color: Theme.palette.text.secondary }} />
+												</IconButton>
+											</Box>
+										</Grid>
+									)}
+							</Grid>
 						</Grid>
 					</Grid>
 				</Grid>
-			</Grid>
-		</ListItem>
+			</ListItem>
+		</Box>
 	);
 };
 
