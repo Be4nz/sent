@@ -16,6 +16,8 @@ import { useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../type/AppRoute';
 import { convertToLocalTime } from '../../function/ConvertToLocalTime';
 import { SaveModel } from '../../model/SaveModel';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { reverse } from 'dns';
 
 const PostDisplay: React.FC<{
 	postData: PostModel;
@@ -87,6 +89,18 @@ const PostDisplay: React.FC<{
 			setIsCommentSelected(!isCommentSelected);
 
 			navigate('/post/' + postData.id);
+		}
+	};
+
+	const handleDeleteClick = async () => {
+		try {
+			let response = await del<PostModel>(`/posts/` + postData.id, User.token);
+
+			if (response.status === 201 || response.status === 200) {
+				navigate(AppRoute.HOME);
+			}
+		} catch (error) {
+			console.error(error);
 		}
 	};
 
@@ -255,6 +269,14 @@ const PostDisplay: React.FC<{
 									</Grid>
 								</Grid>
 							</Grid>
+							{postPattern.test(window.location.pathname) &&
+								(User.id === postData.user_id || User.role === 'admin') && (
+									<Grid container item xs={4} justifyContent='flex-end'>
+										<IconButton onClick={handleDeleteClick}>
+											<DeleteOutlineIcon sx={{ color: Theme.palette.text.secondary }} />
+										</IconButton>
+									</Grid>
+								)}
 						</Grid>
 					</Grid>
 				</Grid>

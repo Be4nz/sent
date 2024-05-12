@@ -22,7 +22,7 @@ postRouter.post('/', checkOwnership('posts'), createPost);
 
 postRouter.put('/:id', checkOwnership('posts'), updatePost);
 
-postRouter.delete('/:id', checkOwnership('posts'), deletePost);
+postRouter.delete('/:id', deletePost);
 
 postRouter.get('/:page/:limit/', readPosts);
 
