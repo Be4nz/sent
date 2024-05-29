@@ -9,7 +9,7 @@ Welcome to **sent**, a social platform where you can share your thoughts and con
 
 ## Development Information
 
-The project is actively being developed by the **sourcerers** team as a module task in **Kaunas University of Technology**. <br>
+The project was developed by the **sourcerers** team as a module task in **Kaunas University of Technology**. <br>
 The team members are:
 
 - Benas Andriuščenka // [@Be4nz](https://github.com/Be4nz)
@@ -33,7 +33,7 @@ The team members are:
 [![Swagger](https://img.shields.io/badge/Swagger-%23173647?style=for-the-badge&logo=swagger)](https://swagger.io/)
 [![Zod](https://img.shields.io/badge/Zod-142641?style=for-the-badge&logo=zod&logoColor=4290ff)](https://zod.dev/)
 [![Auth0](https://img.shields.io/badge/Auth0-%23000000?style=for-the-badge&logo=auth0&logoColor=%23FFFFFF)](https://auth0.com/)
-<br>and many more!
+<br>and more!
 
 ## License
 
